@@ -1,0 +1,277 @@
+{
+    "cv": [
+        {
+            "order": 0,
+            "id": "novo-course",
+            "category": "education",
+            "startYear": 2026,
+            "endYear": 2026,
+            "title": "Empowering Creative Pedagogies with AI",
+            "place": "Syddansk Universitet (SDU)",
+            "description": "Bevilliget af Novo Nordisk Fonden. 4-dages kursus om AI og kreativ pædagogik.",
+            "detail": "This professional development course supports high school teachers in integrating AI-supported creative pedagogies - such as Problem-Based Learning (PBL) - to foster students’ creative problem-solving skills. Participants will explore how AI tools can enhance student engagement, inquiry, collaboration, and creativity."
+        },
+        {
+            "order": 2,
+            "id": "ttf-board",
+            "category": "board",
+            "startYear": 2025,
+            "endYear": "nu",
+            "title": "Bestyrelsesmedlem",
+            "place": "TTF (Teknologi- og teknikfagslærerforeningen)",
+            "description": "Faglig og politisk udvikling af teknologifagene",
+            "detail": "Foreningen arbejder for at udvikle og styrke didaktikken i teknologi og teknikfaget gennem kurser og workshops. Vi arbejder samtidig for at give fagene en stærkere placering og tydeligere stemme i det uddannelsespolitiske landskab.",
+            "link": {
+                "url": "https://ttf.nu",
+                "text": "Foreningens hjemmeside"
+            }
+        },
+        {
+            "order": 3,
+            "id": "ici-coach",
+            "category": "education",
+            "startYear": 2024,
+            "endYear": 2024,
+            "title": "ICI Coachuddannelse (Del 1)",
+            "place": "EmpowerMind",
+            "description": "Evidensbaseret coachingteori og praksis",
+            "detail": "Uddannelsen giver professionelle kompetencer til at agere coachende med individer og organisationer. Jeg har gennemført 15 personlige coachingforløb med både elever og voksne i mit netværk."
+        },
+        {
+            "order": 1,
+            "id": "next",
+            "category": "job",
+            "startYear": 2020,
+            "endYear": "nu",
+            "title": "Lektor",
+            "place": "KMG/Next HTX",
+            "description": "Digitalt Design og Udvikling, Programmering. Faggruppeleder for teknikfagene.",
+            "detail": "Min undervisning er bygget op omkring en legende og eksperimenterende tilgang til medier og teknologi. Altid med udgangspunkt i elevernes egen lyst til at skabe noget nyt og originalt. <br/></br>Som faggruppeleder har jeg for nylig oprettet skolens AI udvalg, og arbejder aktivt med at debattere og inteegrere teknologien i undervisningenen og den faglige udvikling."
+        },
+        {
+            "order": 4,
+            "id": "kristiania",
+            "category": "job",
+            "startYear": 2019,
+            "endYear": 2020,
+            "title": "Senior Lecturer",
+            "place": "Kristiania Høgskole Oslo",
+            "description": "Underviste på Interaktionsdesign i frontend-udvikling og moderne frameworks (React, Svelte). Fokus på kreativ problemløsning i praksisnære projekter."
+        },
+        {
+            "order": 5,
+            "id": "pædagogikum",
+            "category": "education",
+            "startYear": 2018,
+            "endYear": 2018,
+            "title": "Pædagogikum (Teknikfag + Programmering)",
+            "place": "SDU",
+            "description": "Pædagogikum med fokus på Computational Thinking i praksis.",
+            "detail": "I min Pædagogikum undersøgte jeg praktisk og teoretisk åerspektiv, hvordan man didaktisk kan arbejde med teknologiens dobbeltside – både som skabende værktøj og som genstand for kritisk refleksion.",
+            "link": {
+                "url": "assets/teopæd.simonmoe.pdf",
+                "text": "Læs opgaven (PDF)"
+            }
+        },
+        {
+            "order": 6,
+            "id": "slotshaven",
+            "category": "job",
+            "startYear": 2015,
+            "endYear": 2019,
+            "title": "Gymnasielærer",
+            "place": "Slotshaven Gymnasium (HTX)",
+            "description": "Kommunikation og It A, Informatik C/B, Programmering B, DDU"
+        },
+        {
+            "order": 6.5,
+            "id": "coding-pirates",
+            "category": "board",
+            "startYear": 2014,
+            "endYear": 2016,
+            "title": "Frivillig / Organisator",
+            "place": "Coding Pirates",
+            "description": "Undervisning af børn i programmering og teknologiforståelse samt organisering af lokale aktiviteter."
+        },
+        {
+            "order": 7,
+            "category": "education",
+            "startYear": 2013,
+            "endYear": 2015,
+            "title": "MPG (Master of Public Governance)",
+            "place": "CBS / Hertie School of Governance",
+            "description": "Mastermoduler i offentlig ledelse og styring.",
+            "detail": "Gennemførte moduler:<br/>- Reform og forandring (CBS)<br/>- Ledelsesfagligt grundforløb (CBS)<br/>- Personligt Udviklingsforløb (CBS)<br/>- Economics for Non-Economists (Hertie School of Governance)<br/>- Performance Management (Hertie School of Governance)"
+        },
+        {
+            "order": 8,
+            "category": "education",
+            "startYear": 2013,
+            "endYear": 2013,
+            "title": "Certified ScrumMaster",
+            "place": "Mountain Goat Software, LLC",
+            "description": "Fundamental principles and practices of Scrum.",
+            "detail": "Taught by Mike Cohn. Covers defined and empirical processes, product backlog, sprint planning, reviews, retrospectives, and scalability of Scrum.",
+            "link": {
+                "url": "assets/certified.scrum.pdf",
+                "text": "Se bevis (PDF)"
+            }
+        },
+        {
+            "order": 11,
+            "category": "education",
+            "startYear": 2009,
+            "endYear": 2009,
+            "title": "Diplom i Ledelse: Projektledelse",
+            "place": "University College Sjælland",
+            "description": "Modul fra Diplomuddannelsen i Ledelse (9 ECTS)."
+        },
+        {
+            "order": 9,
+            "category": "education",
+            "startYear": 2012,
+            "endYear": 2012,
+            "title": "Analyse af økonomisk statistik",
+            "place": "Teknologisk Institut"
+        },
+        {
+            "order": 10,
+            "category": "education",
+            "startYear": 2010,
+            "endYear": 2010,
+            "title": "Forhandlingsteknik",
+            "place": "DJØF",
+            "description": "Kursus i forhandlingsteknik.",
+            "link": {
+                "url": "assets/Forhandling.png",
+                "text": "Se bevis (PNG)"
+            }
+        },
+        {
+            "order": 10,
+            "category": "job",
+            "startYear": 2010,
+            "endYear": 2015,
+            "id": "nota-ledelse",
+            "title": "Leder af viden og udvikling",
+            "context": "Nota – Nationalbibliotek for mennesker med læsevanskeligheder",
+            "focus": [
+                "strategisk analyse",
+                "brugerinddragelse",
+                "vidensbaseret serviceudvikling",
+                "ledelse"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Etablerede og ledede analyseenhed for brugerinddragelse og serviceudvikling. Medlem af lederkollegiet med ansvar for strategi, samt budgetansvar for PR og projektportefølje."
+        },
+        {
+            "order": 10.5,
+            "id": "samuelsen-netvaerk",
+            "category": "board",
+            "startYear": 2011,
+            "endYear": 2015,
+            "title": "Uddannelsespolitisk Netværk",
+            "place": "Samuelsen",
+            "description": "Repræsentant for Nota i Samuelsens uddannelsespolitiske netværk.",
+            "detail": "Netværket tager fat i de vigtigste dagsordener på uddannelsesområdet - fra pædagogik og didaktik til politik og reformer. Netværket samler aktører, som beskæftiger sig med uddannelsespolitik fra forskellige vinkler, og udfordrer medlemmer og oplægsholder til at finde løsninger i fællesskab."
+        },
+        {
+            "order": 12,
+            "id": "selvstaendig",
+            "category": "job",
+            "startYear": 2004,
+            "endYear": 2008,
+            "title": "Selvstændig it-konsulent",
+            "place": "Selvstændig",
+            "description": "Programmør, kursusholder, konsulent for bl.a. UVM, Københavns Kommune, WHO, TRYG m.fl."
+        },
+        {
+            "order": 13,
+            "id": "coinco-konsulent",
+            "category": "job",
+            "startYear": 2005,
+            "endYear": 2006,
+            "title": "Kommunikationskonsulent (COINCO)",
+            "place": "Københavns Kommune / EU",
+            "description": "Informationsmedarbejder på EU-projektet COINCO.",
+            "detail": "Ansvar for hjemmeside, nyhedsbrev (layout og indhold) samt organisering af begivenheder for politikere og embedsmænd.",
+            "cvRefs": [
+                "coinco-anbefaling"
+            ]
+        },
+        {
+            "order": 14,
+            "category": "education",
+            "startYear": 2006,
+            "endYear": 2006,
+            "title": "Cand.Comm i Datalogi og Kommunikation",
+            "place": "Roskilde Universitet"
+        },
+        {
+            "order": 15,
+            "id": "art-tech",
+            "category": "education",
+            "startYear": 2003,
+            "endYear": 2003,
+            "title": "Art & Technology",
+            "place": "Chalmers Tekniska Universitet"
+        },
+        {
+            "order": 15.5,
+            "id": "ruc-student",
+            "category": "board",
+            "startYear": 1998,
+            "endYear": 2004,
+            "title": "Studenternævnet",
+            "place": "Roskilde Universitet",
+            "description": "Faglig og politisk interessevaretagelse for de studerende."
+        },
+        {
+            "order": 16,
+            "id": "uvm-konsulent",
+            "category": "job",
+            "startYear": 2001,
+            "endYear": 2002,
+            "title": "It-konsulent (Undervisningsministeriet)",
+            "place": "Undervisningsministeriet (UVM)",
+            "description": "Udvikling af videndelingsplatforme og it-strategi.",
+            "detail": "Hovedansvar for teknisk og konceptuel udvikling af ministeriets it-strategiplan og videndelingsplatforme. Arbejdet blev vurderet som banebrydende på europæisk plan ift. it som pædagogisk værktøj.",
+            "cvRefs": [
+                "uvm-anbefaling"
+            ]
+        },
+        {
+            "order": 11.5,
+            "id": "scenekunstskolen",
+            "category": "job",
+            "startYear": 2007,
+            "endYear": 2007,
+            "title": "Konsulent og underviser",
+            "place": "Den Danske Scenekunstskole",
+            "description": "Kurser for instruktører og scenografer om digitale medier i scenekunst."
+        },
+        {
+            "order": 17,
+            "id": "netvokat",
+            "category": "job",
+            "startYear": 2000,
+            "endYear": 2001,
+            "title": "Teamleder & Systemudvikler",
+            "place": "Netvokat.dk",
+            "description": "Digital platform for juridiske ydelser.",
+            "detail": "Udvikling af komplet platform fra bunden i .ASP .NET og XML. Samarbejde med Jacob Carstens og Ole Kristensen."
+        },
+        {
+            "order": 18,
+            "id": "rag-student",
+            "category": "board",
+            "startYear": 1992,
+            "endYear": 1994,
+            "title": "Studenterrådet",
+            "place": "Roskilde Amtsgymnasium",
+            "description": "Elevrådsarbejde og repræsentation i skolebestyrelsen."
+        }
+    ]
+}

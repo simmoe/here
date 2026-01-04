@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <div class="menu-wrapper">
+        <div class="burger-icon">≡</div>
+        <div class="sidebar">
+        </div>
+    </div>
+    <main>
+        <div class="page" id="page1" data-title="Forside">
+            <h1>Forside</h1>
+        </div>
+        <div class="page" id="page2" data-title="CV">
+            <div id="cv-filter"></div>
+            <div id="cv"></div>
+        </div>
+        <div class="page" id="page3" data-title="Projekter">
+            <div id="project-filter"></div>
+            <div id="projects"></div>
+        </div>
+        <div class="page" id="page-application" data-title="Ansøgning" data-hidden="true">
+            <div id="application-container"></div>
+        </div>
+    </main>
+
+    <template id="cv-template">
+        <div class="cv-wrapper">
+            <div class="cv-entry">
+                <p class="cv-years"></p>
+                <div class="cv-title-wrapper">
+                    <h3 class="cv-title"></h3>
+                    <svg class="cv-arrow" width="12" height="12" viewBox="0 0 12 12">
+                        <path d="M3 4 L6 8 L9 4 Z" fill="black" />
+                    </svg>
+                </div>
+                <p class="cv-place"></p>
+                <p class="cv-read-more">Læs mere</p>
+                <div class="cv-details">
+                    <img class="cv-image">
+                    <p class="cv-description"></p>
+                    <p class="cv-detail-text"></p>
+                </div>
+            </div>
+            <div class="cv-connector">
+                <hr>
+                <img src="./assets/circle.svg" class="cv-circle">
+            </div>
+        </div>
+    </template>
+
+    <template id="project-template">
+        <article class="project-card">
+            <div class="project-media-container"></div>
+            <div class="project-content">
+                <p class="project-year"></p>
+                <h3 class="project-title"></h3>
+                <p class="project-category"></p>
+                <p class="project-context"></p>
+                <p class="project-description"></p>
+            </div>
+            <div class="scroll-indicator">
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                    <path d="M3 4 L6 8 L9 4 Z" fill="white" />
+                </svg>
+            </div>
+        </article>
+    </template>
+
+    <template id="application-controls-template">
+        <div class="application-controls no-print">
+            <select class="app-selector">
+                <option value="">Vælg ansøgning...</option>
+            </select>
+            <button class="print-btn" disabled>🖨 Print (Nyt vindue)</button>
+        </div>
+    </template>
+
+    <template id="application-template">
+        <article class="application-document">
+            <header class="doc-header">
+                <div class="sender-info">
+                    <h3 class="sender-name"></h3>
+                    <p class="sender-address"></p>
+                    <p class="sender-zip"></p>
+                    <p class="sender-phone"></p>
+                    <p class="sender-email"></p>
+                </div>
+                <div class="recipient-info">
+                    <p class="recipient-company"></p>
+                    <p class="recipient-attn"></p>
+                    <p class="recipient-address"></p>
+                    <p class="recipient-zip"></p>
+                </div>
+            </header>
+            <main class="letter-content">
+                <p class="letter-meta date"></p>
+                <h1 class="letter-title"></h1>
+                <div class="letter-body"></div>
+            </main>
+            <section class="cv-section" style="display:none;">
+                <hr style="margin-bottom: 4rem; border-top: 1px solid black;">
+                <h1 class="letter-title">CV Simon Moe | 050775</h1>
+                <div class="app-cv-container"></div>
+            </section>
+        </article>
+    </template>
+
+    <footer>
+        <!-- 
+        <video autoplay loop muted src="./assets/man.mp4"></video>
+        -->
+    </footer>
+    <script src="./index.js"></script>
+</body>
+
+</html>

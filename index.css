@@ -1,0 +1,1119 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap');
+
+
+body,
+* {
+    font-family: "open sans";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.menu-wrapper {
+    position: fixed;
+    width: fit-content;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.burger-icon {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    font-size: 4rem;
+    color: black;
+    z-index: 3;
+    transition: color 0.3s ease-in-out;
+
+}
+
+.menu-wrapper:has(.sidebar:hover) .burger-icon,
+.burger-icon:hover {
+    color: white;
+}
+
+.sidebar {
+    position: relative;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 15rem;
+    background-color: black;
+    color: white;
+    padding: 6rem 1rem 0 1rem;
+    box-sizing: border-box;
+    transition: left 0.3s ease-in-out;
+
+}
+
+.burger-icon:hover+.sidebar,
+.sidebar:hover {
+    left: 0;
+    box-shadow: 0, 0, 10px 1px black;
+}
+
+.sidebar a {
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: block;
+    text-decoration: none;
+    color: white;
+    margin: 1rem 0;
+    opacity: 0.5;
+    transition: opacity 0.15s ease-in-out,
+        transform 0.15s ease-in-out;
+
+}
+
+.sidebar a:hover {
+    filter: drop-shadow(0, 0, 10px white);
+    opacity: 1;
+}
+
+.sidebar a.active {
+    opacity: 1;
+}
+
+
+.page {
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+    /* grid layout */
+    display: grid;
+    place-items: center;
+    /* vises først med klasen "show" */
+    position: fixed;
+    left: -100vw;
+    transition: all .6s ease-in-out;
+    padding: 6rem 2rem 0 2rem;
+}
+
+.show {
+    left: 0;
+}
+
+footer {
+    border-bottom: 8px solid black;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    display: grid;
+    justify-content: end;
+}
+
+footer video {
+    height: 12rem;
+}
+
+/*all div's inside pages are here*/
+.page>div {
+    width: 100%;
+}
+
+h1 {
+    font-weight: 300;
+    font-size: 3rem;
+
+}
+
+@media (min-width: 900px) {
+    .burger-icon {
+        display: none;
+    }
+
+    .menu-wrapper {
+        width: 100%;
+        height: auto;
+    }
+
+    .sidebar {
+        left: 0;
+        width: 100%;
+        padding: 1rem 20vw;
+        height: auto;
+        min-width: auto;
+        display: grid;
+        grid-auto-flow: column;
+        place-items: center;
+    }
+
+    .sidebar a {
+        margin: 0 1rem;
+    }
+
+    .page {
+        padding: 6rem 20vw 0 20vw;
+    }
+}
+
+/* CV Page Specifics */
+#page2 {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    overflow: hidden;
+    place-items: unset;
+    row-gap: 0;
+}
+
+#cv {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#cv,
+.app-cv-container {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    padding-bottom: 100px;
+    /* Reset generic .page div styles */
+    height: auto;
+}
+
+.vertical-line {
+    grid-column: 2;
+    border-left: 1px solid black;
+    width: 0;
+    height: 100%;
+    /* Reset generic .page div styles */
+    display: block;
+}
+
+.cv-wrapper {
+    display: grid;
+    align-items: start;
+    width: 100%;
+    height: 100%;
+}
+
+.cv-wrapper.left {
+    grid-column: 1;
+    grid-template-columns: 4fr 1fr;
+    text-align: right;
+}
+
+.cv-wrapper.left .cv-entry {
+    order: 1;
+}
+
+.cv-wrapper.left .cv-connector {
+    order: 2;
+}
+
+.cv-wrapper.right {
+    grid-column: 3;
+    grid-template-columns: 1fr 4fr;
+    text-align: left;
+}
+
+.cv-wrapper.right .cv-connector {
+    order: 1;
+}
+
+.cv-wrapper.right .cv-entry {
+    order: 2;
+}
+
+.cv-connector {
+    width: 100%;
+    display: grid;
+    place-items: center;
+    position: relative;
+    margin-top: 2.2rem;
+    height: 1px;
+    /* Fix height to prevent layout shifts */
+    align-self: start;
+    /* Lock to top */
+}
+
+.cv-connector hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid black;
+    margin: 0;
+}
+
+.cv-circle {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+.cv-wrapper.show-details .cv-circle {
+    background-color: black;
+}
+
+.cv-wrapper.left .cv-circle {
+    right: -4.5px;
+}
+
+.cv-wrapper.right .cv-circle {
+    left: -4.5px;
+}
+
+.cv-title-wrapper {
+    position: relative;
+}
+
+.cv-arrow {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    top: 0.5rem;
+    /* Topstillet i forhold til første linje */
+    transition: transform 0.3s ease;
+}
+
+/* Left side: Arrow on right. Collapsed: Point Left (90deg). Expanded: Point Down (0deg) */
+.cv-wrapper.left .cv-arrow {
+    right: -1.5rem;
+    transform: rotate(90deg);
+}
+
+/* Right side: Arrow on left. Collapsed: Point Right (-90deg). Expanded: Point Down (0deg) */
+.cv-wrapper.right .cv-arrow {
+    left: -1.5rem;
+    transform: rotate(-90deg);
+}
+
+.cv-wrapper.show-details .cv-arrow {
+    transform: rotate(0deg);
+}
+
+.cv-entry {
+    padding: 1rem 2rem 5rem 2rem;
+    /* Extra bottom padding to increase hit area */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+    overflow: visible;
+    /* Allow arrows to be seen outside padding box */
+}
+
+.cv-entry h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.cv-entry p {
+    margin: 0;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.cv-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: all .5s ease-in-out;
+    opacity: 0;
+}
+
+.cv-wrapper.show-details .cv-details {
+    max-height: 3000px;
+    /* Nok til at vise indholdet */
+    opacity: 1;
+    margin-top: 1rem;
+    transition: all .5s ease-in-out;
+}
+
+.cv-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.cv-description {
+    font-weight: 600;
+    margin-bottom: 0.5rem !important;
+}
+
+.cv-detail-text {
+    font-size: 0.9rem !important;
+    font-style: normal !important;
+    line-height: 1.4;
+}
+
+.cv-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.cv-link:hover {
+    color: #5dade2;
+}
+
+.cv-link-arrow {
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+/* Meta Section (Links, References etc) */
+.cv-meta-section {
+    margin-top: 1rem;
+    border-top: 1px solid #eee;
+    padding-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.cv-wrapper.left .cv-meta-section {
+    align-items: flex-end;
+    text-align: right;
+}
+
+/* Recommendation Styles */
+.cv-recommendation {
+    margin: 0;
+    padding: 0;
+}
+
+.cv-rec-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #666;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.cv-rec-toggle:hover {
+    color: #5dade2;
+}
+
+.cv-rec-arrow {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+    display: block;
+    /* Default: Pointing Right (since path points down, -90deg makes it point right) */
+    transform: rotate(-90deg);
+}
+
+.cv-rec-arrow path {
+    fill: currentColor;
+}
+
+/* When open, point down */
+.cv-recommendation.open .cv-rec-arrow {
+    transform: rotate(0deg);
+}
+
+.cv-rec-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.cv-recommendation.open .cv-rec-content {
+    max-height: 400px;
+    opacity: 1;
+    margin-top: 0.5rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    /* Space for scrollbar */
+}
+
+.cv-rec-quote {
+    font-style: italic !important;
+    font-size: 0.9rem !important;
+    color: #444;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.5;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-left: 3px solid #ccc;
+    text-align: left;
+    /* Always left align quote for readability? Or follow wrapper? */
+}
+
+.cv-wrapper.left .cv-rec-quote {
+    text-align: right;
+    border-left: none;
+    border-right: 3px solid #ccc;
+}
+
+.cv-rec-author {
+    font-size: 0.8rem !important;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0.5rem;
+}
+
+
+/* Projects Page Specifics */
+#page3 {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100vh;
+    overflow: hidden;
+    place-items: unset;
+    row-gap: 0;
+}
+
+
+/* Project Links */
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-top: 1rem;
+    transition: color 0.2s;
+}
+
+.project-link:hover {
+    color: #5dade2;
+}
+
+.project-link-arrow {
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+/* Project Filter */
+#project-filter,
+#cv-filter {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: fit-content;
+    background: #fff;
+    z-index: 10;
+    border-bottom: 1px solid #ccc;
+    margin: 0.5rem auto;
+    padding-bottom: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.filter-btn {
+    font-size: 1rem;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-bottom: 0.2rem;
+    border-bottom: 2px solid transparent;
+}
+
+.filter-btn:hover {
+    color: #000;
+}
+
+.filter-btn.active {
+    color: #000;
+    font-weight: 600;
+    border-bottom: 2px solid #000;
+}
+
+
+#projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.project-card {
+    min-height: 300px;
+    height: 300px;
+    background: #fff;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: .4rem;
+    overflow: hidden;
+}
+
+.project-media-container {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3/4;
+    background: #000;
+    overflow: hidden;
+    border-bottom: 1px solid #000;
+    position: relative;
+    display: block;
+}
+
+/* Grayscale and dim effect by default */
+.media-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: height 0.5s ease;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.project-media-container img,
+.project-media-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: filter 0.5s ease, transform 1.5s ease-out;
+    will-change: transform;
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1);
+}
+
+/* Color and bright on hover */
+.project-card:hover .media-wrapper {
+    height: 36%;
+}
+
+.project-card:hover .project-media-container img,
+.project-card:hover .project-media-container video {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1);
+    object-position: center center;
+}
+
+
+.project-media-container img.slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: filter 0.5s ease, height 0.5s ease, opacity 1s ease-in-out, transform 0.5s ease-out;
+    will-change: transform;
+}
+
+.project-media-container img.slide-image.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.project-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64%;
+    /* Fixed height: half of the card */
+    padding: 1.4rem 1.4rem 4rem 1.4rem;
+    /* Increased bottom padding to 4rem */
+    background: #000;
+    color: white;
+    z-index: 10;
+    transition: background 0.3s ease, transform 0.5s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+    /* Push down so only the top part (Title, Year, Category) is visible */
+    transform: translateY(calc(100% - 9.5rem));
+}
+
+.project-card:hover .project-content {
+    background: #000;
+    transform: translateY(0);
+    /* Slide up to fill the bottom half */
+    overflow-y: auto;
+    /* Allow scrolling for entire content including links */
+}
+
+.project-description {
+    margin: 1rem 0;
+    /* Reduced from 3rem */
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #eee;
+    /* No internal animation, just revealed by the box sliding up */
+}
+
+.project-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+}
+
+.project-category {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.project-context {
+    font-style: italic;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-top: 10rem;
+    /* Push down to hide initially */
+    transition: margin-top 0.5s ease;
+}
+
+.project-card:hover .project-context {
+    margin-top: 0;
+    /* Slide up on hover */
+}
+
+/* Removed duplicate .project-description rule */
+
+.cv-years {
+    font-weight: 700;
+    color: #888;
+    font-size: 0.9rem !important;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem !important;
+    font-style: normal !important;
+}
+
+.cv-read-more {
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    display: none;
+}
+
+.cv-wrapper.show-details .cv-read-more {
+    display: none;
+}
+
+.project-year {
+    font-weight: 700;
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Filter Text */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    padding: 0 2rem;
+}
+
+.filter-text {
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    transition: color .3s ease-in-out;
+}
+
+.filter-text:hover {
+    color: #000;
+}
+
+.filter-text.active {
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+}
+
+.cv-year {
+    position: absolute;
+    top: -1.3rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 0.95rem;
+    color: #aaa;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.cv-wrapper.left .cv-year {
+    right: 0;
+    left: auto;
+    text-align: right;
+}
+
+.cv-wrapper.right .cv-year {
+    left: 0;
+    right: auto;
+    text-align: left;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    /* Match the bottom padding */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, transparent, #000 80%);
+    /* Gradient from transparent to black */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+    /* Ensure it's on top of everything */
+}
+
+.scroll-indicator svg {
+    pointer-events: auto;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+}
+
+.project-card:hover .scroll-indicator.visible {
+    opacity: 1;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-5px);
+    }
+
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+
+/* Application Styles */
+#page-application {
+    display: block;
+    overflow-y: auto;
+    padding-top: 100px;
+}
+
+.application-document {
+    padding: 2rem;
+    background: white;
+}
+
+.doc-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #000;
+    padding-bottom: 1rem;
+}
+
+.sender-info p,
+.recipient-info p,
+.letter-meta {
+    margin: 0;
+    line-height: 1.4;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.letter-meta {
+    margin-bottom: 2rem;
+    text-align: right;
+    font-style: italic;
+}
+
+.sender-info h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.recipient-info {
+    grid-column: 3;
+    text-align: right;
+    margin-top: 2rem;
+}
+
+.letter-title {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+.letter-body p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+    font-size: 1.2rem;
+}
+
+.signature-img {
+    position: absolute;
+    height: 12rem;
+    margin-top: -4rem;
+    margin-bottom: -1rem;
+    margin-left:-3rem;
+}
+
+.cv-section {
+    margin-top: 4rem;
+    page-break-before: always;
+}
+
+/* Compact CV for Application */
+.app-cv-container .cv-entry {
+    padding: 0.25rem 2rem 0.25rem 2rem;
+}
+
+.app-cv-container .cv-entry h3 {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.app-cv-container .cv-connector {
+    margin-top: 0.8rem;
+}
+
+/* Print Specifics */
+@media print {
+    body {
+        background: white;
+        margin: 0;
+    }
+
+    .menu-wrapper,
+    .burger-icon,
+    footer,
+    #project-filter,
+    #cv-filter,
+    .application-controls {
+        display: none !important;
+    }
+
+    #page-application {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        position: static;
+        overflow: visible;
+    }
+
+    .page {
+        padding: 0;
+        display: block;
+    }
+
+    .page>div {
+        max-width: none;
+    }
+
+    .application-document {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    @page {
+        margin: 22mm 24mm;
+        size: A4;
+    }
+
+    .doc-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .recipient-info {
+        margin-top: 0;
+    }
+
+    .letter-title {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    /* Ensure CV looks good on print */
+    .cv-wrapper {
+        break-inside: avoid;
+    }
+
+    .page-break {
+        break-after: page;
+        height: 0;
+        display: block;
+        content: "";
+    }
+
+    /* Force expand details on print if needed, though JS handles it */
+    .cv-wrapper.show-details .cv-details {
+        max-height: none !important;
+    }
+}
+
+
+.no-print {
+    display: block;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+
+
+/* References Section (Application) */
+.references-section {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid #eee;
+}
+
+.references-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.references-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.reference-item {
+    background: #f9f9f9;
+    padding: 2rem;
+    border-left: 4px solid #333;
+    page-break-inside: avoid;
+}
+
+.reference-quote {
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+.reference-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.reference-author {
+    font-weight: bold;
+    color: #333;
+}
+
+@media print {
+    .references-section {
+        page-break-before: always;
+        margin-top: 0;
+        padding-top: 2rem;
+        border-top: none;
+    }
+
+    .reference-item {
+        border: 1px solid #eee;
+        border-left: 4px solid #000;
+        /* Ensure visibility */
+        background: transparent;
+    }
+}
+
+
+.app-cv-container .cv-arrow {
+    top: 0.15rem;
+}
+
+
+.app-cv-container .cv-arrow {
+    top: 0rem;
+}
+
+.app-cv-container .cv-connector {
+    margin-top: 1rem;
+}
+
+
+.cv-category-header {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 2rem 0 1rem 0;
+    background-color: white;
+    z-index: 1;
+    padding: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.page-divider {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+.filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: fit-content;
+    justify-self: center;
+    margin-top: 2rem;
+}

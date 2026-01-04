@@ -1,0 +1,686 @@
+{
+    "projects": [
+        {
+            "id": "ttf-website",
+            "title": "TTF Hjemmeside",
+            "year": 2025,
+            "context": "Frivilligt arbejde / Sideprojekt",
+            "images": [
+                "assets/ttf1.png",
+                "assets/ttf2.png"
+            ],
+            "focus": [
+                "Webdesign",
+                "Wordpress",
+                "Visuel Identitet"
+            ],
+            "cvRefs": [
+                "ttf-board"
+            ],
+            "description": "Redesign og implementering af ny hjemmeside for Teknologi- og Teknikfagslærerforeningen. Fokus på en mere moderne visuel identitet og bedre formidling af foreningens aktiviteter.",
+            "categories": [
+                "software"
+            ]
+        },
+        {
+            "id": "ddu-media-ai",
+            "title": "Media & AI (DDU)",
+            "year": 2025,
+            "images": [
+                "assets/antigravity.png"
+            ],
+            "context": "Gymnasial undervisning - Digitalt Design og Udvikling",
+            "focus": [
+                "Generativ AI",
+                "interaktionsdesign",
+                "kreativ teknologiforståelse"
+            ],
+            "cvRefs": [
+                "next"
+            ],
+            "description": "Praksisnært DDU-forløb, hvor elever arbejder eksperimenterende med generativ AI som kreativt medie med fokus på forståelse, refleksion og ansvarlig anvendelse.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "infc-ml-genai",
+            "title": "Machine Learning & Generativ AI",
+            "year": 2025,
+            "context": "Gymnasial undervisning - Informatik C",
+            "images": [
+                "assets/genai.jpg"
+            ],
+            "focus": [
+                "machine learning",
+                "neurale netværk",
+                "LLM’er",
+                "kritisk teknologiforståelse"
+            ],
+            "cvRefs": [
+                "next"
+            ],
+            "description": "Undervisningsforløb der introducerer grundprincipper i machine learning og generativ AI gennem hands-on eksperimenter og faglig refleksion.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "digital-buttons",
+            "year": 2025,
+            "title": "Digital Buttons",
+            "video": "assets/digital_button.mp4",
+            "context": "Minikursus",
+            "focus": [
+                "Interaktionsdesign",
+                "Fysisk computing"
+            ],
+            "cvRefs": [],
+            "description": "Den digitale knap er det fundamentale princip i ethvert interaktionsdesign. Hvert år undervises alle skolens elever i den grundlæggende forståelse af det digitale sprog.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "loefteevne-kmg",
+            "title": "Faglig løfteevne",
+            "year": 2024,
+            "categories": [
+                "undervisning",
+                "ledelse"
+            ],
+            "context": "Københavns Mediegymnasium",
+            "images": [
+                "assets/fagligt.png",
+                "assets/positiv_loefteevne.png"
+            ],
+            "focus": [
+                "Evaluering",
+                "Socioøkonomisk reference",
+                "Kvalitetsudvikling"
+            ],
+            "cvRefs": [
+                "next"
+            ],
+            "description": "Analyse af eksamensresultater i Digitalt Design og Udvikling (2021-2024). Tallene viser en positiv løfteevne, hvor elevernes karakterer ligger over det forventede niveau ift. socioøkonomisk baggrund.",
+            "links": [
+                "assets/gymsocref.pdf"
+            ]
+        },
+        {
+            "id": "scenekunst-kurser",
+            "title": "Digitale medier i scenekunst",
+            "year": 2007,
+            "categories": [
+                "undervisning",
+                "kunst"
+            ],
+            "context": "Den Danske Scenekunstskole",
+            "images": [
+                "assets/scenekunst.jpg"
+            ],
+            "focus": [
+                "Scenekunst",
+                "Digitale medier",
+                "Undervisning"
+            ],
+            "cvRefs": [
+                "scenekunstskolen"
+            ],
+            "description": "Kurser for instruktører og scenografer med fokus på integration af digitale medier i scenekunstneriske produktioner."
+        },
+        {
+            "id": "rammen",
+            "title": "Rammen",
+            "year": 2004,
+            "categories": [
+                "kunst"
+            ],
+            "context": "Teaterlaboratorie",
+            "images": [
+                "assets/rammen.JPG",
+                "assets/rammen2.JPG",
+                "assets/rammen3.JPG",
+                "assets/rammen4.JPG"
+            ],
+            "focus": [
+                "Teater",
+                "Digital scenekunst",
+                "Eksperiment"
+            ],
+            "cvRefs": [],
+            "description": "Et teaterlaboratorie der undersøgte rammen som et digitalt og analogt afgrænsningsfelt."
+        },
+        {
+            "id": "regntid",
+            "year": 2004,
+            "title": "Regntid",
+            "context": "Digital installation, Roskilde Festival 2004",
+            "images": [
+                "assets/regntid.jpg",
+                "assets/regntid2.jpg",
+                "assets/regntid3.jpg"
+            ],
+            "focus": [
+                "Interaktiv installation",
+                "Fysisk computing",
+                "Digital kunst"
+            ],
+            "cvRefs": [],
+            "description": "Udviklet sammen med Ole Kristensen. 100 elektromagnetiske dyser med sprinklere, halogenspots og et interaktivt gulv skabte et 'Rum, hvor det regner, men ikke på dig'.",
+            "categories": [
+                "kunst"
+            ]
+        },
+        {
+            "id": "chindogu",
+            "title": "Chindogu",
+            "year": 2025,
+            "video": "assets/chindogu.mp4",
+            "context": "Gymnasial undervisning",
+            "focus": [
+                "Idegenerering",
+                "Prototyping",
+                "Designproces"
+            ],
+            "cvRefs": [],
+            "description": "Et årligt tilbagevendende projekt hvor eleverne laver en hverdags-gadget. Det japanske koncept dækker over opfindelser som på papiret kan se gode nok ud - men som i praksis ville være pinlige eller ubrugelige.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "react-kristiania",
+            "title": "React.js Forløb",
+            "year": 2020,
+            "context": "Kristiania Højskole",
+            "images": [
+                "assets/react.png"
+            ],
+            "focus": [
+                "React.js",
+                "Webudvikling",
+                "Frameworks"
+            ],
+            "cvRefs": [
+                "kristiania"
+            ],
+            "description": "Undervisningsforløb i moderne webteknologi (React.js), med fokus på at introducere studerende til professionelle udviklingsmetoder og framework-baseret arkitektur.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "svelte-kristiania",
+            "title": "Svelte.js Forløb",
+            "year": 2020,
+            "context": "Kristiania Højskole",
+            "images": [
+                "assets/svelte.jpg"
+            ],
+            "focus": [
+                "Svelte.js",
+                "Webudvikling",
+                "Reaktivitet"
+            ],
+            "cvRefs": [
+                "kristiania"
+            ],
+            "description": "Tilrettelæggelse og gennemførsel af undervisning i Svelte.js, med vægt på reaktiv programmering og effektiv komponentstruktur som introduktion til moderne frontend-udvikling.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "systime-datadrevet-kommunikation",
+            "title": "Systime: Datadrevet Kommunikation",
+            "year": 2021,
+            "context": "Systime - Kommunikation/IT A",
+            "images": [
+                "assets/syss.png"
+            ],
+            "focus": [
+                "Undervisningsmateriale",
+                "Big Data",
+                "Kommunikationsteori"
+            ],
+            "cvRefs": [],
+            "description": "Forfatter til kapitel om Datadrevet Kommunikation i grundbogen til Kommunikation og IT A. Kapitlet behandler samspillet mellem dataanalyse og strategisk kommunikation i en digital kontekst.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "vr-lab-slotshaven",
+            "title": "VR Lab",
+            "year": 2017,
+            "context": "Slotshaven Gymnasium",
+            "images": [
+                "assets/VR0.jpg",
+                "assets/VR2.png",
+                "assets/VR1.png"
+            ],
+            "focus": [
+                "Virtual Reality",
+                "Produktion",
+                "Undervisning"
+            ],
+            "cvRefs": [
+                "slotshaven"
+            ],
+            "description": "Et rum hvor lærere og elever kunne gå i dybden med at opleve og producere indhold til de mange nye platforme der dukkede op dengang.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "lan-party-slotshaven",
+            "title": "Digitale fællesskaber",
+            "year": 2017,
+            "context": "Slotshaven Gymnasium",
+            "images": [
+                "assets/lan.jpg"
+            ],
+            "focus": [
+                "Socialt samvær",
+                "Gaming",
+                "Fællesskab"
+            ],
+            "cvRefs": [
+                "slotshaven"
+            ],
+            "description": "LAN fester er en ting på mange HTX gymnasier. På Slotshaven afprøvede vi et format med tryk på 'fest', som blev til en tradition på skolen.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "teopaed-opgave",
+            "title": "Teknologiforståelse som dannelsesideal",
+            "year": 2018,
+            "context": "Teoretisk Pædagogikum - Afsluttende opgave",
+            "images": [
+                "assets/p5.jpg"
+            ],
+            "focus": [
+                "Teknologiforståelse",
+                "Dannelse",
+                "Didaktik",
+                "Kritisk refleksion"
+            ],
+            "cvRefs": [
+                "pædagogikum"
+            ],
+            "description": "Opgaven argumenterer for en dannelsestilgang, hvor eleverne myndiggøres gennem både skabende praksis og kritisk analyse af teknologiens rolle i samfundet.",
+            "links": [
+                "assets/teopæd.simonmoe.pdf"
+            ],
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "nota-viden-udvikling",
+            "title": "Etablering af Viden- og Udviklingsfunktion",
+            "year": 2009,
+            "images": [
+                "assets/nota.png"
+            ],
+            "context": "Nota – Nationalbibliotek for mennesker med læsevanskeligheder",
+            "focus": [
+                "strategisk analyse",
+                "brugerinddragelse",
+                "vidensbaseret serviceudvikling",
+                "ledelse"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Etablering og opbygning af en selvstændig viden- og udviklingsfunktion med ansvar for analyser, brugerundersøgelser og evidens for Notas services. Funktionen blev over en årrække integreret som strategisk beslutningsgrundlag og en del af institutionens samlede ledelsesarbejde.",
+            "categories": [
+                "ledelse"
+            ]
+        },
+        {
+            "id": "nota-materialebasen",
+            "title": "Overtagelse af Materialebasen og etablering af Skole- og Studieservice",
+            "year": 2014,
+            "images": [
+                "assets/skole2.png",
+                "assets/skole.png",
+                "assets/skole3.png"
+            ],
+            "context": "Nota – Nationalbibliotek for mennesker med læsevanskeligheder",
+            "focus": [
+                "strategisk ledelse",
+                "serviceudvikling",
+                "politisk betjening",
+                "inklusion"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Ledelse af processen hvor Nota overtog Materialebasen, landets største samling af tilgængelige lærebøger. Efterfølgende etablering af Skole- og Studieservice, der sikrede at alle elever med læsevanskeligheder i det danske uddannelsessystem fik lovkrav på produktion af studiematerialer i tilgængelige formater.",
+            "categories": [
+                "ledelse"
+            ]
+        },
+        {
+            "id": "nota-e17-direkte",
+            "title": "E17 Direkte – webbaseret lydbogsafspiller med ord-for-ord-synkronisering",
+            "year": 2013,
+            "images": [
+                "assets/e17.png"
+            ],
+            "context": "Digitale læremidler og tilgængelighed",
+            "focus": [
+                "tilgængelighed",
+                "ordblindhed",
+                "multimodal læring",
+                "digital læsetræning"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Initiering og strategisk udvikling af Notas webbaserede lydbogsafspiller med ord-for-ord-synkronisering mellem tekst og menneskelig oplæsning. Løsningen gjorde det muligt at tilbyde tusindvis af eksisterende titler med fuld multimodal understøttelse og byggede på dokumenteret effekt for ordblindes læseudvikling.",
+            "categories": [
+                "ledelse"
+            ]
+        },
+        {
+            "id": "nota-landsdaekkende-brugerundersoegelse",
+            "title": "Accessibility in multimodal digital learning materials. Springer 2011",
+            "year": 2011,
+            "images": [
+                "assets/access.png",
+                "assets/pub.png"
+            ],
+            "context": "Uddannelse, trivsel og social deltagelse",
+            "focus": [
+                "læsevanskeligheder",
+                "socioøkonomiske forhold",
+                "evidensbaseret politikudvikling",
+                "brugerdata"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Landsdækkende undersøgelse i samarbejde med Epinion, som for første gang afdækkede sammenhænge mellem læsevanskeligheder, uddannelse, trivsel og sociale vilkår blandt børn og unge. ",
+            "links": [
+                "assets/accessibility.pdf"
+            ],
+            "categories": [
+                "kommunikation"
+            ]
+        },
+        {
+            "id": "nota-forundersoegelse",
+            "title": "Hjælpemidler og adgang til læring",
+            "year": 2011,
+            "categories": [
+                "kommunikation"
+            ],
+            "context": "Nota / Epinion",
+            "images": [
+                "assets/nota.png"
+            ],
+            "focus": [
+                "Forundersøgelse",
+                "Ordblindhed",
+                "Læring"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Landsdækkende undersøgelse af børn og unge med læsevanskeligheder. For Nota i samarbejde med Epinion i 2011.",
+            "links": [
+                "https://nota.dk/bibliotek/bog/hj%C3%A6lpemidler-og-adgang-til-l%C3%A6ring-blandt-b%C3%B8rn-og-unge-med-ordblindhedsv%C3%A6re#audio"
+            ]
+        },
+        {
+            "id": "nota-forskning-netvaerk",
+            "title": "Etablering af forsknings- og praksisnetværk (SPS, PhD og videregående uddannelser)",
+            "year": 2012,
+            "images": [
+                "assets/nota3.png"
+            ],
+            "context": "Videnmiljøer og forskningssamarbejde",
+            "focus": [
+                "vidensnetværk",
+                "SPS-indsats",
+                "forskningssamarbejde",
+                "kapacitetsopbygning"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Etablering af nationale samarbejder mellem Nota, SPS-ansvarlige, læsevejledere og videregående uddannelser. Initiativet omfattede opbygning af netværk, studiemiljøer for specialestuderende samt vejledning af ErhvervsPhD-projekt om tekstsimplificering og læsevanskeligheder.",
+            "categories": [
+                "ledelse"
+            ]
+        },
+        {
+            "id": "understrom",
+            "title": "Understrøm",
+            "year": 2002,
+            "categories": [
+                "kunst"
+            ],
+            "context": "Bunker på Østerbro",
+            "images": [
+                "assets/understrøm.jpg",
+                "assets/undertrøm2.jpg",
+                "assets/undertrøm3.jpg"
+            ],
+            "focus": [
+                "Installation",
+                "Interaktivitet",
+                "Lys og vand"
+            ],
+            "cvRefs": [],
+            "description": "I seks uger i sommeren 2002 blev en bunker på Østerbro omdannet til en digital installation. Et vandspejl på 20m2 skabte et infinity mirror af interaktive lyskæder. Installationen var åben for publikum."
+        },
+        {
+            "id": "robots-chalmers",
+            "title": "Robots",
+            "year": 2002,
+            "categories": [
+                "kunst",
+                "undervisning"
+            ],
+            "context": "Chalmers Art & Technology master",
+            "images": [
+                "assets/robots.jpg",
+                "assets/robots2.jpg"
+            ],
+            "focus": [
+                "Physical Computing",
+                "Sound Art",
+                "Robotics"
+            ],
+            "cvRefs": [],
+            "description": "Udvikling af selvspillende instrumenter baseret på vintage synthesizere. Projektet udforskede krydsfeltet mellem mekanik, lyd og digital styring."
+        },
+        {
+            "id": "netvokat",
+            "title": "Netvokat.dk",
+            "year": 2000,
+            "categories": [
+                "software",
+                "ledelse"
+            ],
+            "context": "Startup",
+            "images": [
+                "assets/windows.png"
+            ],
+            "focus": [
+                "ASP.NET",
+                "XML",
+                "Platformarkitektur",
+                "Full Stack"
+            ],
+            "cvRefs": [
+                "netvokat"
+            ],
+            "description": "Digital platform for juridiske ydelser til virksomheder og private. Projektet omfattede opbygning af systemet fra bunden i .ASP .NET med et skræddersyet XML-baseret frontend framework. Udført i samarbejde med Jacob Carstens og Ole Kristensen."
+        },
+        {
+            "id": "ruc-manerum-poesi",
+            "title": "Månerum - interaktivt læringsrum for poesi",
+            "year": 1999,
+            "context": "Roskilde Universitet - Kommunikation",
+            "images": [
+                "assets/mane2.jpg",
+                "assets/mane1.jpg",
+                "assets/mane3.jpg",
+                "assets/mane4.jpg"
+            ],
+            "focus": [
+                "interaktive læringsrum",
+                "poesi",
+                "digital æstetik",
+                "pædagogik"
+            ],
+            "cvRefs": [
+                "ruc"
+            ],
+            "description": "Interaktivt læringsrum, hvor elever møder poesi gennem rumlige og digitale installationer. Projektet undersøger, hvordan teknologisk iscenesættelse kan understøtte æstetisk oplevelse og læring. Bedømt med karakteren 13.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "ruc-glasperlespillet",
+            "title": "Glasperlespillet - et fælles udtryk",
+            "images": [
+                "assets/glas1.png",
+                "assets/ediie-i-glasperlespillet.jpg",
+                "assets/glasperlespillet.jpg"
+            ],
+            "context": "Roskilde Universitet - Datalogi/Kommunikation",
+            "focus": [
+                "kollektiv interaktion",
+                "digitalt udtryk",
+                "systemdesign",
+                "æstetik"
+            ],
+            "cvRefs": [
+                "ruc"
+            ],
+            "description": "Projekt om fælles digitalt udtryk og kollektiv meningsskabelse, hvor tekniske systemer anvendes som ramme for æstetisk og kommunikativ interaktion. Bedømt med karakteren 13.",
+            "categories": [
+                "software"
+            ]
+        },
+        {
+            "id": "ruc-it-i-folkeskolen",
+            "title": "IT i Folkeskolen - multimedier i undervisningen",
+            "context": "Roskilde Universitet - Datalogi/Kommunikation",
+            "images": [
+                "./assets/skole.jpg"
+            ],
+            "focus": [
+                "multimedier",
+                "didaktik",
+                "feltstudier",
+                "interaktive redskaber"
+            ],
+            "cvRefs": [
+                "ruc"
+            ],
+            "description": "Feltbaseret projekt gennemført i samarbejde med Gentofte Kommune (SKUB), hvor interaktive redskaber og pædagogiske strategier blev udviklet og afprøvet i folkeskolens undervisning. Bedømt med karakteren 11.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "ruc-speciale-scenografisk-paedagogik",
+            "title": "Forstudie til en scenografisk pædagogik",
+            "context": "Roskilde Universitet - Speciale",
+            "images": [
+                "./assets/sceno.jpg",
+                "./assets/sceno2.jpg",
+                "./assets/sceno3.jpg"
+            ],
+            "focus": [
+                "læring og teknologi",
+                "pædagogisk teori",
+                "iscenesættelse",
+                "didaktik"
+            ],
+            "cvRefs": [
+                "ruc"
+            ],
+            "description": "Teoretisk speciale om sammenhænge mellem læring, teknologi og scenografisk iscenesættelse. Projektet samler og perspektiverer erfaringer fra tidligere praksisprojekter i en analytisk ramme. Bedømt med karakteren 9.",
+            "categories": [
+                "undervisning"
+            ]
+        },
+        {
+            "id": "coinco-projekt",
+            "year": 2005,
+            "title": "COINCO - Corridor of Innovation and Cooperation",
+            "images": [
+                "assets/coinco_cropped.png"
+            ],
+            "context": "EU / Københavns Kommune",
+            "focus": [
+                "Kommunikation",
+                "Webdesign",
+                "Eventplanlægning",
+                "Nyhedsbreve"
+            ],
+            "cvRefs": [
+                "coinco-konsulent"
+            ],
+            "description": "Informationsmedarbejder på EU-projektet COINCO. Ansvarlig for udvikling og drift af projektets hjemmeside, layout og indhold til nyhedsbreve samt organisering af begivenheder for politikere og embedsmænd.",
+            "categories": [
+                "kommunikation"
+            ]
+        },
+        {
+            "id": "ruc-koroutiner-java",
+            "year": 1999,
+            "title": "Koroutiner og procesorienteret simulering i Java",
+            "images": [
+                "./assets/java.jpeg"
+            ],
+            "context": "Roskilde Universitet - Datalogi",
+            "focus": [
+                "samtidighed",
+                "algoritmer",
+                "procesorienteret simulering",
+                "Java"
+            ],
+            "cvRefs": [
+                "ruc"
+            ],
+            "description": "Studieprojekt med fokus på samtidighed og procesorienteret simulering i Java. Projektet resulterede i udviklingen af en effektiv algoritme, der overgik eksisterende referenceimplementeringer. Projektet blev bedømt med karakteren 13 og markerede et tidligt fagligt gennembrud inden for algoritmisk tænkning og systemisk modellering.",
+            "categories": [
+                "software"
+            ]
+        },
+        {
+            "id": "uvm-videndeling",
+            "year": 2002,
+            "title": "Videndelingsplatforme & It-strategi",
+            "images": [
+                "assets/uvm.png"
+            ],
+            "context": "Undervisningsministeriet",
+            "focus": [
+                "Videndeling",
+                "It-strategi",
+                "Webudvikling",
+                "Pædagogisk it"
+            ],
+            "cvRefs": [
+                "uvm-konsulent"
+            ],
+            "description": "Udvikling og implementering af ministeriets it-strategiplan og videndelingsplatforme. Projektet indebar teknisk og konceptuelt ansvar for dynamiske, database-baserede løsninger, der blev vurderet som banebrydende på europæisk plan for brug af it som pædagogisk værktøj.",
+            "categories": [
+                "software"
+            ]
+        }
+    ]
+}
