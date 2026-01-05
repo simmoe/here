@@ -884,7 +884,7 @@ h1 {
 
 .letter-title {
     font-size: 2rem;
-    font-weight: 400;
+    font-weight: 300;
     margin-bottom: 1.5rem;
 }
 
@@ -898,14 +898,107 @@ h1 {
 .signature-img {
     position: absolute;
     height: 12rem;
-    margin-top: -4rem;
-    margin-bottom: -1rem;
-    margin-left:-3rem;
+    margin-top:-4rem;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    margin-top: 3rem;
+}
+
+.app-recommendations-container {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.recommendation-item {
+    border-left: 2px solid #ddd;
+    padding-left: 1.5rem;
+    transition: border-color 0.3s ease;
+}
+
+.recommendation-item:hover {
+    border-left-color: #888;
+}
+
+.recommendation-quote {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 0.75rem;
+}
+
+.recommendation-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.recommendation-author {
+    font-weight: 600;
+    color: #333;
+}
+
+.recommendation-role,
+.recommendation-source {
+    font-size: 0.8rem;
+    color: #888;
 }
 
 .cv-section {
     margin-top: 4rem;
     page-break-before: always;
+}
+
+/* Understreg CV- og anbefalingstitler med minimal afstand */
+.cv-section .letter-title,
+.recommendations-section .letter-title {
+    border-bottom: 1px solid #000;
+    padding-bottom: 1rem;
+    margin-bottom: 5rem;
+}
+
+/* Split CV into separate print pages */
+.cv-page:not(:last-child) {
+    page-break-after: always;
+}
+
+.cv-pages-wrapper {
+    display: block;
+}
+
+.cv-pages-wrapper .app-cv-container {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0;
+    padding-bottom: 100px;
+    height: auto;
+}
+
+/* Static continuation arrow for printed CV (when more pages) */
+.cv-page-indicator {
+    display: none;
+    text-align: center;
+    margin: 1rem 0 0 0;
+    grid-column: 2;
+    justify-self: center;
+    align-self: end;
+}
+
+.cv-page-indicator svg {
+    width: 16px;
+    height: 16px;
+    fill: #000;
+}
+
+@media print {
+    .cv-page-indicator {
+        display: block;
+    }
 }
 
 /* Compact CV for Application */
@@ -922,11 +1015,36 @@ h1 {
     margin-top: 0.8rem;
 }
 
+.application-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.app-selector {
+    padding: 0.5rem;
+    font-size: 1rem;
+    min-width: 300px;
+    margin-bottom: 0; /* Override skeleton if needed */
+}
+
+.print-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
 /* Print Specifics */
 @media print {
     body {
         background: white;
         margin: 0;
+    }
+
+    /* Disable hover/interaction in print preview to prevent auto-expansion */
+    .cv-entry {
+        pointer-events: none;
     }
 
     .menu-wrapper,

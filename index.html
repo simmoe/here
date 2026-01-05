@@ -85,7 +85,11 @@
             <select class="app-selector">
                 <option value="">Vælg ansøgning...</option>
             </select>
-            <button class="print-btn" disabled>🖨 Print (Nyt vindue)</button>
+            <div class="print-buttons">
+                <button class="print-full" disabled title="Print hele dokumentet">🖨 Alt</button>
+                <button class="print-letter" disabled title="Print kun ansøgning">📄 Ansøgning</button>
+                <button class="print-cv" disabled title="Print kun CV og bilag">📋 CV</button>
+            </div>
         </div>
     </template>
 
@@ -112,11 +116,12 @@
                 <div class="letter-body"></div>
             </main>
             <section class="cv-section" style="display:none;">
-                <hr style="margin-bottom: 4rem; border-top: 1px solid black;">
                 <h1 class="letter-title">CV Simon Moe | 050775</h1>
                 <div class="app-cv-container"></div>
-            </section>
-        </article>
+            </section>            <section class="recommendations-section" style="display:none;">
+                <h1 class="letter-title">Anbefalinger</h1>
+                <div class="app-recommendations-container"></div>
+            </section>        </article>
     </template>
 
     <footer>

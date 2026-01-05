@@ -49,6 +49,17 @@
             "detail": "Min undervisning er bygget op omkring en legende og eksperimenterende tilgang til medier og teknologi. Altid med udgangspunkt i elevernes egen lyst til at skabe noget nyt og originalt. <br/></br>Som faggruppeleder har jeg for nylig oprettet skolens AI udvalg, og arbejder aktivt med at debattere og inteegrere teknologien i undervisningenen og den faglige udvikling."
         },
         {
+            "order": 1.5,
+            "id": "kmg-ai-netvaerk",
+            "category": "board",
+            "startYear": 2024,
+            "endYear": "nu",
+            "title": "Tværfagligt AI-netværk",
+            "place": "KMG Next",
+            "description": "Etableret tværfagligt netværk med fokus på digital udvikling og ansvarlig anvendelse af AI i en uddannelseskontekst.",
+            "detail": "Netværket samler undervisere på tværs af faggrupper til dialog og videndeling om, hvordan AI-teknologier kan anvendes meningsfuldt og ansvarligt i gymnasiet. Fokus på både pædagogisk integration og kritisk refleksion over teknologiens rolle i uddannelse."
+        },
+        {
             "order": 4,
             "id": "kristiania",
             "category": "job",
@@ -165,6 +176,17 @@
                 "nota"
             ],
             "description": "Etablerede og ledede analyseenhed for brugerinddragelse og serviceudvikling. Medlem af lederkollegiet med ansvar for strategi, samt budgetansvar for PR og projektportefølje."
+        },
+        {
+            "order": 10.3,
+            "id": "roal",
+            "category": "board",
+            "startYear": 2014,
+            "endYear": "nu",
+            "title": "Medstifter og koordinator - ROAL",
+            "place": "ROAL (Netværk for ordblindhed og læsevanskeligheder)",
+            "description": "Central i etableringen af tværfagligt netværk med fokus på samfundsmæssig forståelse af ordblindhed og andre læsevanskeligheder.",
+            "detail": "ROAL holder øje med den samfundsmæssige forståelse af ordblindhed og andre læsevanskeligheder med fokus på dem, der arbejder med denne målgruppe. Netværket formidler og vidensdeler i publikationer og på temadage, med fokus på såvel gode indsatser som forhold, der skaber barrierer. ROAL tilbyder en platform for ad hoc-gruppers arbejde."
         },
         {
             "order": 10.5,
