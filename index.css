@@ -195,6 +195,23 @@ h1 {
     height: 100%;
 }
 
+@keyframes cv-pearl {
+    from {
+        opacity: .6;
+        transform: translateY(18px);
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cv-wrapper.cv-animate {
+    opacity: 1;
+    transform: translateY(18px);
+}
+
 .cv-wrapper.left {
     grid-column: 1;
     grid-template-columns: 4fr 1fr;
@@ -269,6 +286,14 @@ h1 {
     position: relative;
 }
 
+.cv-title {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transform: translateY(0);
+}
+
 .cv-arrow {
     position: absolute;
     width: 12px;
@@ -322,16 +347,16 @@ h1 {
 .cv-details {
     max-height: 0;
     overflow: hidden;
-    transition: all .5s ease-in-out;
-    opacity: 0;
+    margin-top: 0;
+    transition: max-height 0.55s ease-in-out, ease-in-out, margin 0.55s ease-in-out;
+    will-change: max-height, opacity, margin;
 }
 
 .cv-wrapper.show-details .cv-details {
-    max-height: 3000px;
+    max-height: 300px;
     /* Nok til at vise indholdet */
-    opacity: 1;
     margin-top: 1rem;
-    transition: all .5s ease-in-out;
+    transition: max-height 0.55s ease-in-out, margin 0.3s ease-in-out;
 }
 
 .cv-image {
@@ -523,29 +548,57 @@ h1 {
     border-bottom: 1px solid #ccc;
     margin: 0.5rem auto;
     padding-bottom: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
 }
 
 .filter-btn {
     font-size: 1rem;
     cursor: pointer;
     color: #999;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease, font-weight 0.3s ease;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding-bottom: 0.2rem;
-    border-bottom: 2px solid transparent;
+    padding-bottom: 0.4rem;
+    position: relative;
 }
 
-.filter-btn:hover {
-    color: #000;
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ccc;
+    transition: width 0.25s ease, background 0.25s ease;
 }
 
-.filter-btn.active {
+.filter-btn:hover::before {
+    width: calc(100% - 7px - 0.45rem);
+    background: #ccc;
+}
+
+.filter-btn.active,
+.filter-btn.active-delayed {
     color: #000;
     font-weight: 600;
-    border-bottom: 2px solid #000;
+}
+
+.filter-btn.active::before {
+    width: calc(100% - 7px - 0.45rem);
+    background: #000;
+}
+
+.filter-btn.active-delayed::before {
+    width: 0;
+    background: #000;
+}
+
+/* Project filter has no dots, so full width */
+#project-filter .filter-btn:hover::before,
+#project-filter .filter-btn.active::before {
+    width: 100%;
 }
 
 
@@ -604,7 +657,7 @@ h1 {
     object-fit: cover;
     object-position: center center;
     display: block;
-    transition: filter 0.5s ease, transform 1.5s ease-out;
+    transition: filter 0.5s ease, transform 1.5s ease-in-out;
     will-change: transform;
     filter: grayscale(0%) brightness(1);
     transform: scale(1);
@@ -631,7 +684,7 @@ h1 {
     height: 100%;
     z-index: 1;
     opacity: 0;
-    transition: filter 0.5s ease, height 0.5s ease, opacity 1s ease-in-out, transform 0.5s ease-out;
+    transition: filter 0.5s ease, height 0.5s ease, opacity 1s ease-in-out, transform 0.5s ease-in-out;
     will-change: transform;
 }
 
@@ -766,11 +819,30 @@ h1 {
 .cv-year {
     position: absolute;
     top: -1.3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 0.95rem;
     color: #aaa;
     font-weight: 400;
     letter-spacing: 0.5px;
+    pointer-events: none;
+}
+
+.cv-year::before,
+.cv-year::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a0a0a0;
+    flex-shrink: 0;
+    display: block;
+}
+
+.cv-year::after {
+    display: none;
 }
 
 .cv-wrapper.left .cv-year {
@@ -779,10 +851,76 @@ h1 {
     text-align: right;
 }
 
+.cv-wrapper.right .cv-year::before {
+    display: none;
+}
+
+.cv-wrapper.right .cv-year::after {
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cv-wrapper.cv-animate {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
 .cv-wrapper.right .cv-year {
     left: 0;
     right: auto;
     text-align: left;
+}
+
+.cv-wrapper.cat-job .cv-year::before,
+.cv-wrapper.cat-job .cv-year::after {
+    background: #4a6fa5;
+}
+
+.cv-wrapper.cat-education .cv-year::before,
+.cv-wrapper.cat-education .cv-year::after {
+    background: #4aa36c;
+}
+
+.cv-wrapper.cat-board .cv-year::before,
+.cv-wrapper.cat-board .cv-year::after {
+    background: #d1903f;
+}
+
+/* CV filter category markers (order: Alle, Job, Education, Board) */
+#cv-filter .filter-btn {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto auto;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 0.45rem;
+    position: relative;
+    line-height: 1.1;
+}
+
+#cv-filter .filter-btn::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a0a0a0;
+    display: block;
+    align-self: center;
+}
+
+#cv-filter .filter-btn:nth-child(2)::after { /* Job */
+    background: #4a6fa5;
+}
+
+#cv-filter .filter-btn:nth-child(3)::after { /* Education */
+    background: #4aa36c;
+}
+
+#cv-filter .filter-btn:nth-child(4)::after { /* Board */
+    background: #d1903f;
 }
 
 .scroll-indicator {

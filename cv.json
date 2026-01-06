@@ -52,7 +52,7 @@
             "order": 1.5,
             "id": "kmg-ai-netvaerk",
             "category": "board",
-            "startYear": 2024,
+            "startYear": 2025,
             "endYear": "nu",
             "title": "Tværfagligt AI-netværk",
             "place": "KMG Next",
@@ -95,7 +95,7 @@
             "description": "Kommunikation og It A, Informatik C/B, Programmering B, DDU"
         },
         {
-            "order": 6.5,
+            "order": 10.5,
             "id": "coding-pirates",
             "category": "board",
             "startYear": 2014,
@@ -159,7 +159,7 @@
             }
         },
         {
-            "order": 10,
+            "order": 6.1,
             "category": "job",
             "startYear": 2010,
             "endYear": 2015,
@@ -189,7 +189,7 @@
             "detail": "ROAL holder øje med den samfundsmæssige forståelse af ordblindhed og andre læsevanskeligheder med fokus på dem, der arbejder med denne målgruppe. Netværket formidler og vidensdeler i publikationer og på temadage, med fokus på såvel gode indsatser som forhold, der skaber barrierer. ROAL tilbyder en platform for ad hoc-gruppers arbejde."
         },
         {
-            "order": 10.5,
+            "order": 6.5,
             "id": "samuelsen-netvaerk",
             "category": "board",
             "startYear": 2011,
@@ -251,11 +251,11 @@
             "description": "Faglig og politisk interessevaretagelse for de studerende."
         },
         {
-            "order": 16,
+            "order": 14.5,
             "id": "uvm-konsulent",
             "category": "job",
             "startYear": 2001,
-            "endYear": 2002,
+            "endYear": 2004,
             "title": "It-konsulent (Undervisningsministeriet)",
             "place": "Undervisningsministeriet (UVM)",
             "description": "Udvikling af videndelingsplatforme og it-strategi.",

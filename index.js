@@ -1,4 +1,4 @@
-var currentPage = '#page-application'
+var currentPage = '#page1'
 var cvData;
 var projectsData;
 var recommendationsData;
@@ -53,7 +53,7 @@ function setup(){
         return; // Stop normal setup
     }
 
-    createCV('#cv');
+    // Don't render CV immediately - wait for first navigation
     createProjects();
     initApplicationPage(); // Initialize the application page UI
     
@@ -392,6 +392,16 @@ function renderApplicationContent(app, container, printType = 'full') {
 }
 
 function shiftPage(newPage){
+    // Clear CV when leaving CV page
+    if (currentPage === '#page2' && newPage !== '#page2') {
+        select('#cv').html('');
+        // Remove active filter states immediately
+        selectAll('#cv-filter .filter-btn').forEach(btn => {
+            btn.removeClass('active');
+            btn.removeClass('active-delayed');
+        });
+    }
+
     select(currentPage).removeClass('show')
     select(newPage).addClass('show')
     currentPage = newPage
@@ -402,11 +412,55 @@ function shiftPage(newPage){
     if(activeLink) {
         activeLink.addClass('active');
     }
+
+    // If navigating to CV page, wait for transition then render/animate
+    if (newPage === '#page2') {
+        var cvContainer = select('#cv');
+        // Render filter immediately so it's visible during page transition
+        var filterContainer = select('#cv-filter');
+        if (filterContainer) {
+            filterContainer.html('');
+            // Create filter buttons immediately with data attributes
+            const categories = [
+                { id: 'job', title: 'Erhvervserfaring' },
+                { id: 'education', title: 'Uddannelse' },
+                { id: 'board', title: 'Organisation' }
+            ];
+            var allBtn = createSpan('Alle');
+            allBtn.addClass('filter-btn active-delayed');
+            allBtn.attribute('data-filter', 'all');
+            allBtn.parent(filterContainer);
+            allBtn.mousePressed(() => createCV('#cv', { filterCategory: 'all', animate: false }));
+            categories.forEach(cat => {
+                var btn = createSpan(cat.title);
+                btn.addClass('filter-btn');
+                btn.attribute('data-filter', cat.id);
+                btn.parent(filterContainer);
+                btn.mousePressed(() => createCV('#cv', { filterCategory: cat.id, animate: false }));
+            });
+        }
+        setTimeout(() => {
+            // Always clear and re-render to trigger animations
+            cvContainer.html('');
+            createCV('#cv', { skipFilter: true }); // Don't recreate filter
+            
+            // Activate filter underline after CV items start animating
+            setTimeout(() => {
+                var delayedBtn = select('#cv-filter .active-delayed');
+                if (delayedBtn) {
+                    delayedBtn.removeClass('active-delayed');
+                    delayedBtn.addClass('active');
+                }
+            }, 500); // Activate during CV animation
+        }, 650); // Slightly longer than .page transition (600ms)
+    }
 }
 
 function createCV(containerId, config = {}){
     var cvContainer = select(containerId);
     cvContainer.html(''); // Clear existing content
+    
+    console.log('createCV called with config:', config);
 
     // Sorter data efter 'order' attributten
     var sortedCV = cvData.cv.slice().sort((a, b) => a.order - b.order);
@@ -430,27 +484,55 @@ function createCV(containerId, config = {}){
 
     // --- Filter Logic ---
     // Only render filter if we are in the main CV view (not print mode with specific config)
-    if (containerId === '#cv') {
+    if (containerId === '#cv' && !config.skipFilter) {
         var filterContainer = select('#cv-filter');
         if (filterContainer) {
-            filterContainer.html('');
-            
             const currentFilter = config.filterCategory || 'all';
+            
+            // Check if filter is already rendered
+            var existingButtons = selectAll('#cv-filter .filter-btn');
+            
+            if (existingButtons.length === 0) {
+                // First render - create all buttons
+                filterContainer.html('');
+                
+                // All button
+                var allBtn = createSpan('Alle');
+                allBtn.addClass('filter-btn');
+                allBtn.attribute('data-filter', 'all');
+                if(currentFilter === 'all') {
+                    allBtn.addClass('active');
+                }
+                allBtn.parent(filterContainer);
+                allBtn.mousePressed(() => createCV(containerId, { filterCategory: 'all' }));
 
-            // All button
-            var allBtn = createSpan('Alle');
-            allBtn.addClass('filter-btn');
-            if(currentFilter === 'all') allBtn.addClass('active');
-            allBtn.parent(filterContainer);
-            allBtn.mousePressed(() => createCV(containerId, { ...config, filterCategory: 'all' }));
-
-            categories.forEach(cat => {
-                var btn = createSpan(cat.title);
-                btn.addClass('filter-btn');
-                if(currentFilter === cat.id) btn.addClass('active');
-                btn.parent(filterContainer);
-                btn.mousePressed(() => createCV(containerId, { ...config, filterCategory: cat.id }));
-            });
+                categories.forEach(cat => {
+                    var btn = createSpan(cat.title);
+                    btn.addClass('filter-btn');
+                    btn.attribute('data-filter', cat.id);
+                    if(currentFilter === cat.id) {
+                        btn.addClass('active');
+                    }
+                    btn.parent(filterContainer);
+                    btn.mousePressed(() => createCV(containerId, { filterCategory: cat.id }));
+                });
+            } else {
+                // Filter exists - just update active states with transition
+                existingButtons.forEach(btn => {
+                    btn.removeClass('active');
+                    btn.removeClass('active-delayed');
+                });
+                
+                // Use small delay to allow browser to process the removal
+                setTimeout(() => {
+                    existingButtons.forEach(btn => {
+                        var filterType = btn.attribute('data-filter');
+                        if (filterType === currentFilter) {
+                            btn.addClass('active');
+                        }
+                    });
+                }, 10);
+            }
         }
     }
 
@@ -588,6 +670,11 @@ function createCV(containerId, config = {}){
         // Find wrapperen i klonen
         var wrapper = clone.querySelector('.cv-wrapper');
         var entry = clone.querySelector('.cv-entry');
+
+        // Category marker class for styling
+        if (job.category) {
+            wrapper.classList.add('cat-' + job.category);
+        }
         
         // Force expand if configured
         if (config.expanded) {
@@ -615,10 +702,32 @@ function createCV(containerId, config = {}){
         } else {
             wrapper.classList.add('right');
         }
+
+        // Staggered appear animation for main CV view
+        if (containerId === '#cv') {
+            wrapper.classList.add('cv-animate');
+            wrapper.style.animation = `cv-pearl 0.45s ease-out ${index * 50}ms both`;
+        }
         
         // Tilføj til containeren
         cvContainer.elt.appendChild(clone);
     });
+    console.log('Total items rendered:', displayItems.length, 'skipFilter:', config.skipFilter);
+    // After all items are added, calculate when animation completes and activate filter
+    // (Only runs when filter is recreated during category switching)
+    if (containerId === '#cv' && !config.skipFilter && displayItems.length > 0) {
+        var lastItemDelay = (displayItems.length - 1) * 50;
+        var animationDuration = 0;
+        var totalTime = lastItemDelay + animationDuration;
+        
+        setTimeout(() => {
+            var delayedBtn = select('#cv-filter .active-delayed');
+            if (delayedBtn) {
+                delayedBtn.removeClass('active-delayed');
+                delayedBtn.addClass('active');
+            }
+        }, totalTime);
+    }
 }
 
 function renderApplicationOverview() {
