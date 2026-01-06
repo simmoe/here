@@ -706,6 +706,9 @@ function createCV(containerId, config = {}){
         // Staggered appear animation for main CV view
         if (containerId === '#cv') {
             wrapper.classList.add('cv-animate');
+            // Gradvist øgende startafstand: 20px + 4px per perle
+            var startDistance = 20 + (index * 2);
+            wrapper.style.setProperty('--start-distance', startDistance + 'px');
             wrapper.style.animation = `cv-pearl 0.45s ease-out ${index * 50}ms both`;
         }
         

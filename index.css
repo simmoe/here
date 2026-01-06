@@ -198,7 +198,7 @@ h1 {
 @keyframes cv-pearl {
     from {
         opacity: .6;
-        transform: translateY(18px);
+        transform: translateY(var(--start-distance, 30px));
     }
 
     to {
@@ -209,7 +209,7 @@ h1 {
 
 .cv-wrapper.cv-animate {
     opacity: 1;
-    transform: translateY(18px);
+    transform: translateY(var(--start-distance, 30px));
 }
 
 .cv-wrapper.left {
