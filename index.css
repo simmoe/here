@@ -207,6 +207,15 @@ h1 {
     }
 }
 
+@keyframes project-appear {
+    from {
+        transform: translateY(var(--start-distance, 30px));
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
 .cv-wrapper.cv-animate {
     opacity: 1;
     transform: translateY(var(--start-distance, 30px));
@@ -1374,3 +1383,107 @@ h1 {
     justify-self: center;
     margin-top: 2rem;
 }
+.cv-year {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Frontpage Styling */
+#page1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    top: 0;
+    padding: 0;
+}
+
+#frontpage-content {
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 6rem 4rem;
+    pointer-events: auto; /* Allow interaction with text */
+    user-select: text;    /* Allow text selection */
+    mix-blend-mode: multiply;
+}
+
+[contenteditable]:focus {
+    outline: none;
+}
+
+#frontpage-content h1 {
+    font-size: 3rem;       /* Mindre end før (var 5rem) */
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+#frontpage-content .subtitle {
+    font-size: 1.8rem;     /* Lidt større for at bære titlen */
+    color: #333;           /* Mørkere for mere vægt */
+    font-weight: 300;
+    margin-bottom: 2rem;
+    font-style: italic;    /* Beatles reference stil */
+    text-transform: none;  /* Ikke længere uppercase */
+    letter-spacing: 0.05em;
+    font-family: "Times New Roman", serif; /* Måske en serif for mere "quote" følelse? Eller hold det i stilen */
+}
+
+/* Overwrite serif if keep consistency */
+#frontpage-content .subtitle {
+    font-family: inherit;
+}
+
+#frontpage-content .tagline {
+    /* Denne bruges nu til din rolletitel */
+    font-size: 1rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 2rem;
+    font-style: normal;
+}
+
+#frontpage-content .statement {
+    margin-top: 2.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #222;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 400;
+}
+
+#p5-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    #frontpage-content h1 {
+        font-size: 3rem;
+    }
+    
+    #frontpage-content {
+        padding: 2rem;
+        width: 100%;
+    }
+    
+    #frontpage-content .subtitle {
+        font-size: 1rem;
+    }
+}
+
+

@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>You are here</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
         integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="./assets/favicon.ico">
 
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
@@ -22,7 +23,17 @@
     </div>
     <main>
         <div class="page" id="page1" data-title="Forside">
-            <h1>Forside</h1>
+            <div id="frontpage-content" contenteditable="true">
+                <h1>Simon Moe</h1>
+                <p class="tagline">Undervisning • Software • Kommunikation</p>
+                
+                <div class="statement">
+                    <p>
+Vi lever i en verden, kun vi kan mærke. Ethvert spørgsmål og ethvert svar, angår den sanselige verden. 
+                    <br/>Alt sker i kontekst.                      </p>
+                </div>
+            </div>
+            <div id="p5-container"></div>
         </div>
         <div class="page" id="page2" data-title="CV">
             <div id="cv-filter"></div>

@@ -4,6 +4,7 @@ var projectsData;
 var recommendationsData;
 var contactData;
 var applicationsData;
+var particles = []; // Frontpage animation
 var projectCategories = [
     { id: 'undervisning', title: 'Undervisning' },
     { id: 'software', title: 'Software' },
@@ -23,6 +24,16 @@ function preload(){
 //P5 setup() bliver kaldt EN gang før siden vises 
 function setup(){
     console.log('Setup')
+
+    // Initialize Frontpage Animation
+    // Use window.innerWidth to ensure correct sizing regardless of p5's initial state
+    var canvas = createCanvas(window.innerWidth, window.innerHeight);
+    canvas.parent('p5-container');
+    
+    // Init particles which match CV pearl style
+    for(let i = 0; i < 50; i++) {
+        particles.push(new Particle());
+    }
     
     // Check for print URL param
     var urlParams = new URLSearchParams(window.location.search);
@@ -54,7 +65,7 @@ function setup(){
     }
 
     // Don't render CV immediately - wait for first navigation
-    createProjects();
+    // createProjects(); // Removed to ensure fresh animation on first visit
     initApplicationPage(); // Initialize the application page UI
     
     //Sæt menu op
@@ -402,6 +413,17 @@ function shiftPage(newPage){
         });
     }
 
+    // Clear Projects when leaving Projects page
+    if (currentPage === '#page3' && newPage !== '#page3') {
+        select('#projects').html('');
+        select('#project-filter').html('');
+    }
+
+    // Clear Frontpage Animation when leaving Frontpage
+    if (currentPage === '#page1' && newPage !== '#page1') {
+        clear();
+    }
+
     select(currentPage).removeClass('show')
     select(newPage).addClass('show')
     currentPage = newPage
@@ -453,6 +475,24 @@ function shiftPage(newPage){
                 }
             }, 500); // Activate during CV animation
         }, 650); // Slightly longer than .page transition (600ms)
+    }
+
+    // Projects page animation on enter
+    if (newPage === '#page3') {
+        createProjects({ onlyFilter: true }); // Render filter immediately
+        
+        setTimeout(() => {
+            createProjects({ onlyContent: true }); // Render content delayed
+
+             // Activate filter underline after items start animating
+             setTimeout(() => {
+                var delayedBtn = select('#project-filter .active-delayed');
+                if (delayedBtn) {
+                    delayedBtn.removeClass('active-delayed');
+                    delayedBtn.addClass('active');
+                }
+            }, 500);
+        }, 650);
     }
 }
 
@@ -742,48 +782,76 @@ function renderApplication(app) {
 }
 
 
-function createProjects(){
-    console.log('createProjects called');
+function createProjects(config = {}){
+    console.log('createProjects called', config);
     console.log('projectsData:', projectsData);
 
-    // Setup Filter
-    var filterContainer = select('#project-filter');
-    filterContainer.html('');
-    
+    const { onlyFilter, onlyContent } = config;
+
     // Helper to handle filtering
     const filterProjects = (category, activeBtn) => {
         // Update UI - Scope to project filter only
         var buttons = document.querySelectorAll('#project-filter .filter-btn');
         buttons.forEach(b => b.classList.remove('active'));
-        activeBtn.classList.add('active');
+        if(activeBtn) {
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('active-delayed');
+        }
 
         // Filter cards
         var cards = document.querySelectorAll('.project-card');
+        var visibleIndex = 0;
+
         cards.forEach(card => {
             var cardCategories = card.getAttribute('data-categories') ? card.getAttribute('data-categories').split(',') : [];
             if (category === 'all' || cardCategories.includes(category)) {
                 card.style.display = 'flex';
+                
+                // Animation reset and re-apply
+                card.style.animation = 'none';
+                card.offsetHeight; // force reflow
+                
+                var delay = visibleIndex * 50;
+                card.style.setProperty('--start-distance', '30px');
+                card.style.animation = `project-appear 0.6s ease-out ${delay}ms both`;
+
+                visibleIndex++;
             } else {
                 card.style.display = 'none';
             }
         });
     };
 
-    // "All" button
-    var allBtn = createSpan('Alle');
-    allBtn.addClass('filter-btn active');
-    allBtn.parent(filterContainer);
-    allBtn.mousePressed(function() { filterProjects('all', this.elt); });
+    if (!onlyContent) {
+        // Setup Filter
+        var filterContainer = select('#project-filter');
+        filterContainer.html('');
+        
+        // "All" button
+        var allBtn = createSpan('Alle');
+        // Initial state is active-delayed if redundant rendering is avoided, but otherwise handled by logic in shiftPage
+        // For consistent initial render, we use active-delayed if this is the initial load (which usually means onlyFilter is true)
+        if (onlyFilter) {
+            allBtn.addClass('filter-btn active-delayed');
+        } else {
+            allBtn.addClass('filter-btn active');
+        }
+        allBtn.parent(filterContainer);
+        allBtn.mousePressed(function() { filterProjects('all', this.elt); });
 
-    // Category buttons
-    projectCategories.forEach(cat => {
-        var btn = createSpan(cat.title);
-        btn.addClass('filter-btn');
-        btn.parent(filterContainer);
-        btn.mousePressed(function() { filterProjects(cat.id, this.elt); });
-    });
+        // Category buttons
+        projectCategories.forEach(cat => {
+            var btn = createSpan(cat.title);
+            btn.addClass('filter-btn');
+            btn.parent(filterContainer);
+            btn.mousePressed(function() { filterProjects(cat.id, this.elt); });
+        });
+    }
+
+    if (onlyFilter) return;
 
     var container = select('#projects');
+    container.html('');
     var template = select('#project-template');
 
     if (!projectsData || !projectsData.projects) {
@@ -791,12 +859,19 @@ function createProjects(){
         return;
     }
 
-    projectsData.projects.map(project => {
+    projectsData.projects.map((project, index) => {
         var clone = template.elt.content.cloneNode(true);
         
         // Add data-categories for filtering
         var card = clone.querySelector('.project-card');
-        if(card) card.setAttribute('data-categories', project.categories.join(','));
+        if(card) {
+            card.setAttribute('data-categories', project.categories.join(','));
+            
+            // Initial animation
+            var delay = index * 50;
+            card.style.setProperty('--start-distance', '30px');
+            card.style.animation = `project-appear 0.6s ease-out ${delay}ms both`;
+        }
 
         // Find category titles
         var catTitles = project.categories.map(catId => {
@@ -967,4 +1042,71 @@ function createProjects(){
 
         container.elt.appendChild(clone);
     });
+}
+// --- Frontpage Animation ---
+function draw() {
+    // Only animate on frontpage to save performance
+    if (currentPage !== '#page1') return;
+    
+    clear(); // Keeps background transparent
+    
+    particles.forEach(p => {
+        p.update();
+        p.display();
+        p.connect(particles);
+    });
+}
+
+function windowResized() {
+    resizeCanvas(window.innerWidth, window.innerHeight);
+}
+
+class Particle {
+    constructor() {
+        this.pos = createVector(random(width), random(height));
+        // Slow organic movement
+        this.vel = createVector(random(-0.5, 0.5), random(-0.5, 0.5));
+        this.size = random(4, 9); // Similar to CV circles
+    }
+    
+    update() {
+        this.pos.add(this.vel);
+        
+        // Slight mouse interaction - gentle repulsion
+        let d = dist(mouseX, mouseY, this.pos.x, this.pos.y);
+        if (d < 150) {
+            let repulsion = createVector(this.pos.x - mouseX, this.pos.y - mouseY);
+            repulsion.setMag(0.1);
+            this.vel.add(repulsion);
+            this.vel.limit(1.5);
+        } else {
+            // Return to calm speed
+            this.vel.limit(0.6);
+        }
+
+        // Wrap edges
+        if (this.pos.x < 0) this.pos.x = width;
+        if (this.pos.x > width) this.pos.x = 0;
+        if (this.pos.y < 0) this.pos.y = height;
+        if (this.pos.y > height) this.pos.y = 0;
+    }
+    
+    display() {
+        noStroke();
+        fill(0, 200); // Black like CV styling
+        ellipse(this.pos.x, this.pos.y, this.size);
+    }
+    
+    connect(others) {
+        others.forEach(other => {
+            let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+            // Connect close particles with thin lines like the CV styling
+            if (d < 120) {
+                let alpha = map(d, 0, 120, 100, 0); // Fade out
+                stroke(0, alpha);
+                strokeWeight(1);
+                line(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+            }
+        });
+    }
 }
