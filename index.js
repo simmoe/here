@@ -79,8 +79,24 @@ function setup(){
 
         //Lav et nyt <a> element 
         var menuItem = createElement('a')
-        //Sæt a taggets html til sidens titel
-        menuItem.html(page.attribute('data-title'))
+        
+        // Tjek om siden har et data-image
+        var imageUrl = page.attribute('data-image');
+        if (imageUrl) {
+            // Hvis der er et billede, indsæt img element + tekst
+            menuItem.addClass('home-logo');
+            var img = createElement('img');
+            img.attribute('src', imageUrl);
+            img.attribute('alt', page.attribute('data-title'));
+            menuItem.child(img);
+            // Tilføj tekst efter billedet
+            var textSpan = createElement('span');
+            textSpan.html(page.attribute('data-title'));
+            menuItem.child(textSpan);
+        } else {
+            // Ellers brug tekst som normalt
+            menuItem.html(page.attribute('data-title'))
+        }
         
         // Tilføj klasse og data-attribut til identifikation
         menuItem.addClass('menu-link');

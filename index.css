@@ -8,71 +8,44 @@ body,
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 
+/* === DESKTOP MENU (Standard) === */
 .menu-wrapper {
     position: fixed;
-    width: fit-content;
-    height: 100%;
-    left: 0;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
     z-index: 2;
+    background-color: black;
 }
 
 .burger-icon {
-    position: fixed;
-    left: 1rem;
-    top: 1rem;
-    cursor: pointer;
-    font-size: 4rem;
-    color: black;
-    z-index: 3;
-    transition: color 0.3s ease-in-out;
-
-}
-
-.menu-wrapper:has(.sidebar:hover) .burger-icon,
-.burger-icon:hover {
-    color: white;
+    display: none;
 }
 
 .sidebar {
-    position: relative;
-    left: -100%;
-    top: 0;
     width: 100%;
-    height: 100%;
-    min-width: 15rem;
+    padding: 1rem 20vw;
     background-color: black;
     color: white;
-    padding: 6rem 1rem 0 1rem;
-    box-sizing: border-box;
-    transition: left 0.3s ease-in-out;
-
-}
-
-.burger-icon:hover+.sidebar,
-.sidebar:hover {
-    left: 0;
-    box-shadow: 0, 0, 10px 1px black;
+    display: grid;
+    grid-auto-flow: column;
+    place-items: center;
+    gap: 2rem;
 }
 
 .sidebar a {
     cursor: pointer;
     font-size: 1.5rem;
-    display: block;
     text-decoration: none;
     color: white;
-    margin: 1rem 0;
     opacity: 0.5;
-    transition: opacity 0.15s ease-in-out,
-        transform 0.15s ease-in-out;
-
+    transition: opacity 0.15s ease-in-out;
 }
 
 .sidebar a:hover {
-    filter: drop-shadow(0, 0, 10px white);
     opacity: 1;
 }
 
@@ -80,19 +53,34 @@ body,
     opacity: 1;
 }
 
+.sidebar .home-logo {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar .home-logo img {
+    height: 2.25rem;
+    width: auto;
+    opacity: 1 !important;
+}
+
+.sidebar .home-logo span {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+}
 
 .page {
     width: 100vw;
     height: 100%;
     overflow: hidden;
-    /* grid layout */
     display: grid;
     place-items: center;
-    /* vises først med klasen "show" */
     position: fixed;
     left: -100vw;
     transition: all .6s ease-in-out;
-    padding: 6rem 2rem 0 2rem;
+    padding: 6rem 20vw 0 20vw;
 }
 
 .show {
@@ -113,7 +101,6 @@ footer video {
     height: 12rem;
 }
 
-/*all div's inside pages are here*/
 .page>div {
     width: 100%;
 }
@@ -121,36 +108,64 @@ footer video {
 h1 {
     font-weight: 300;
     font-size: 3rem;
-
 }
 
-@media (min-width: 900px) {
-    .burger-icon {
-        display: none;
+/* === MOBILE MENU === */
+@media (max-width: 899px) {
+    .menu-wrapper {
+        width: fit-content;
+        height: 100%;
+        background-color: transparent;
     }
 
-    .menu-wrapper {
-        width: 100%;
-        height: auto;
+    .burger-icon {
+        display: block;
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        cursor: pointer;
+        font-size: 4rem;
+        color: black;
+        z-index: 3;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .menu-wrapper:has(.sidebar:hover) .burger-icon,
+    .burger-icon:hover {
+        color: white;
     }
 
     .sidebar {
-        left: 0;
+        position: relative;
+        left: -100%;
         width: 100%;
-        padding: 1rem 20vw;
-        height: auto;
-        min-width: auto;
-        display: grid;
-        grid-auto-flow: column;
-        place-items: center;
+        min-width: 15rem;
+        height: 100%;
+        padding: 6rem 1rem 0 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .burger-icon:hover+.sidebar,
+    .sidebar:hover {
+        left: 0;
+        box-shadow: 0 0 10px 1px black;
     }
 
     .sidebar a {
-        margin: 0 1rem;
+        display: block;
+        margin: 1rem 0;
+    }
+
+    .sidebar .home-logo img {
+        height: 20px;
     }
 
     .page {
-        padding: 6rem 20vw 0 20vw;
+        padding: 6rem 2rem 0 2rem;
     }
 }
 
