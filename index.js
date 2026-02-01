@@ -5,6 +5,8 @@ var recommendationsData;
 var contactData;
 var applicationsData;
 var particles = []; // Frontpage animation
+var canvasOpacity = 0; // For fade-in animation
+var animationStartTime = 0; // Track when animation should start
 var projectCategories = [
     { id: 'undervisning', title: 'Undervisning' },
     { id: 'software', title: 'Software' },
@@ -30,9 +32,19 @@ function setup(){
     var canvas = createCanvas(window.innerWidth, window.innerHeight);
     canvas.parent('p5-container');
     
-    // Init particles which match CV pearl style
-    for(let i = 0; i < 50; i++) {
-        particles.push(new Particle());
+    // Init particles which match CV pearl style (only if not already created)
+    if (particles.length === 0) {
+        for(let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+    } else {
+        // Reset existing particles (same as menu navigation)
+        canvasOpacity = 0;
+        animationStartTime = 0;
+        particles.forEach(p => {
+            p.animationProgress = 0;
+            p.pos = createVector(width / 2, height / 2);
+        });
     }
     
     // Check for print URL param
@@ -438,6 +450,17 @@ function shiftPage(newPage){
     // Clear Frontpage Animation when leaving Frontpage
     if (currentPage === '#page1' && newPage !== '#page1') {
         clear();
+    }
+    
+    // Reset fade-in and zoom when entering Frontpage
+    if (newPage === '#page1') {
+        canvasOpacity = 0;
+        animationStartTime = millis();
+        // Reset particle animation
+        particles.forEach(p => {
+            p.animationProgress = 0;
+            p.pos = createVector(width / 2, height / 2);
+        });
     }
 
     select(currentPage).removeClass('show')
@@ -1064,7 +1087,19 @@ function draw() {
     // Only animate on frontpage to save performance
     if (currentPage !== '#page1') return;
     
-    clear(); // Keeps background transparent
+    // Check if animation delay has passed
+    var elapsed = millis() - animationStartTime;
+    var animationDelay = 500; // 0.5 seconds delay
+    
+    if (elapsed > animationDelay) {
+        // Quick fade in (1 second)
+        if (canvasOpacity < 255) {
+            canvasOpacity += 255 / 60; // 1 second at 60fps
+            canvasOpacity = min(canvasOpacity, 255);
+        }
+    }
+    
+    clear();
     
     particles.forEach(p => {
         p.update();
@@ -1079,48 +1114,66 @@ function windowResized() {
 
 class Particle {
     constructor() {
-        this.pos = createVector(random(width), random(height));
-        // Slow organic movement
+        // Final target position
+        this.targetPos = createVector(random(width), random(height));
+        // Start from center
+        this.pos = createVector(width / 2, height / 2);
+        // Slow organic movement after animation
         this.vel = createVector(random(-0.5, 0.5), random(-0.5, 0.5));
-        this.size = random(4, 9); // Similar to CV circles
+        this.size = random(4, 7);
+        this.animationProgress = 0;
     }
     
     update() {
-        this.pos.add(this.vel);
-        
-        // Slight mouse interaction - gentle repulsion
-        let d = dist(mouseX, mouseY, this.pos.x, this.pos.y);
-        if (d < 150) {
-            let repulsion = createVector(this.pos.x - mouseX, this.pos.y - mouseY);
-            repulsion.setMag(0.1);
-            this.vel.add(repulsion);
-            this.vel.limit(1.5);
+        // Quick radial expansion during intro
+        if (this.animationProgress < 1) {
+            this.animationProgress += 0.015; // Slower expansion
+            this.animationProgress = min(this.animationProgress, 1);
+            
+            // Ease-out interpolation
+            let eased = 1 - pow(1 - this.animationProgress, 3);
+            this.pos = p5.Vector.lerp(createVector(width / 2, height / 2), this.targetPos, eased);
         } else {
-            // Return to calm speed
-            this.vel.limit(0.6);
-        }
+            // Normal floating behavior after animation
+            this.pos.add(this.vel);
+            
+            // Slight mouse interaction
+            let d = dist(mouseX, mouseY, this.pos.x, this.pos.y);
+            if (d < 150) {
+                let repulsion = createVector(this.pos.x - mouseX, this.pos.y - mouseY);
+                repulsion.setMag(0.1);
+                this.vel.add(repulsion);
+                this.vel.limit(1.5);
+            } else {
+                this.vel.limit(0.6);
+            }
 
-        // Wrap edges
-        if (this.pos.x < 0) this.pos.x = width;
-        if (this.pos.x > width) this.pos.x = 0;
-        if (this.pos.y < 0) this.pos.y = height;
-        if (this.pos.y > height) this.pos.y = 0;
+            // Wrap edges
+            if (this.pos.x < 0) this.pos.x = width;
+            if (this.pos.x > width) this.pos.x = 0;
+            if (this.pos.y < 0) this.pos.y = height;
+            if (this.pos.y > height) this.pos.y = 0;
+        }
     }
     
     display() {
         noStroke();
-        fill(0, 200); // Black like CV styling
+        fill(0, canvasOpacity);
         ellipse(this.pos.x, this.pos.y, this.size);
     }
     
     connect(others) {
+        // Only show connections after animation and very subtle
+        if (this.animationProgress < .5) return;
+        
         others.forEach(other => {
+            if (other.animationProgress < .5) return;
+            
             let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
-            // Connect close particles with thin lines like the CV styling
-            if (d < 120) {
-                let alpha = map(d, 0, 120, 100, 0); // Fade out
+            if (d < 100) {
+                let alpha = map(d, 0, 100, canvasOpacity * 0.2, 0); // Very subtle
                 stroke(0, alpha);
-                strokeWeight(1);
+                strokeWeight(0.5);
                 line(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
             }
         });
