@@ -78,7 +78,7 @@
             "title": "Pædagogikum (Teknikfag + Programmering)",
             "place": "SDU",
             "description": "Pædagogikum med fokus på Computational Thinking i praksis.",
-            "detail": "I min Pædagogikum undersøgte jeg praktisk og teoretisk åerspektiv, hvordan man didaktisk kan arbejde med teknologiens dobbeltside – både som skabende værktøj og som genstand for kritisk refleksion.",
+            "detail": "I min Pædagogikum undersøgte jeg praktisk og teoretisk perspektiv, hvordan man didaktisk kan arbejde med teknologiens dobbeltside – både som skabende værktøj og som genstand for kritisk refleksion.",
             "link": {
                 "url": "assets/teopæd.simonmoe.pdf",
                 "text": "Læs opgaven (PDF)"
@@ -273,6 +273,16 @@
             "title": "Konsulent og underviser",
             "place": "Den Danske Scenekunstskole",
             "description": "Kurser for instruktører og scenografer om digitale medier i scenekunst."
+        },
+        {
+            "order": 11.6,
+            "id": "ruc-hum-tech",
+            "category": "job",
+            "startYear": 2007,
+            "endYear": 2007,
+            "title": "Strategisk konsulent (HUM-TECH)",
+            "place": "Roskilde Universitet (RUC)",
+            "description": "Bidrog til det strategiske arbejde med oprettelsen af HUM-TECH og udviklingen af curriculum for nye masteruddannelser, der kombinerede IT med humanistiske og socialfaglige fagområder."
         },
         {
             "order": 17,

@@ -1,5 +1,43 @@
 {
   "applications": [
+        {
+      "id": "stuk-chefkonsulent-epx-2026",
+      "recipient": {
+        "company": "Styrelsen for Undervisning og Kvalitet (STUK)",
+        "address": "Kalvebod Brygge 47",
+        "zip": "1560 København V",
+        "attn": "Att: Center for Ungdomsuddannelser / Ansættelsesudvalg"
+      },
+      "date": "10. februar 2026",
+      "title": "Ansøgning til stillingen som chefkonsulent i Center for Ungdomsuddannelser",
+      "useSignature": true,
+      "content": [
+        "De kommende års forandringer i de gymnasiale uddannelser, peger frem mod en uddannelsesmodel, hvor alle unge mennesker i Danmark kan blive mødt og sætte deres kompetencer i spil. Kompetencer som i forhold til de praktiske fag har været mindre synlige i en periode med et mere skriftbåret akademisk viden- og konkurencelandskab. Med en baggrund indenfor offentlig ledelse og policyudvikling samt i dag rollen som underviser på både HTX og STX, kan jeg bidrage til at skabe konstruktive beslutningsgrundlag for en helhedsorienteret implementering i den proces.",
+        "Et af reformens hovedanliggender er, at skabe flere kloge hænder på det danske arbejdsmarked. Begrebet om praksisfaglighed indrammer den ambition, men indebærer samtidig et grundlæggende behov for en semantik og niveaudeling af forholdet mellem teori og praksis på alle ungdomsuddannelsernes fagområder. Her har bl.a HTX og EUX med sine curricullum  retningsgivende fordele fordi der allerede eksisterer en projektorienteret og problemløsende tilgang til akademisk dannelse og overbygning. Blikket for læreplanernes særlige retoriske greb, som både udmynter den politisk-faglige kerneopgave med undervisningen, men også rummer det didaktiske spillerum som kendetegner uddannelse i Danmark, har jeg erfaring med fra bl.a formuleringen af RUC's HUM TEK uddannelse og som forfatter til Systimes i-bøger til gymnasiet.",
+        "Analytisk bliver der antageligt behov for kortlægning og undersøgelser der samler og segmenterer uddannelsernes kandidater, lærerkræfter, budgetter og læreplaner - styrker og udfordringer - med stor forståelse for både det nuværende og potentielle landskab. Der er både behov for indsamling af eksisterende viden, og ekspansiv indsamling både kvantitativt og kvalitativt, hvis beslutninger skal ske på det bedst mulige grundlag. Som leder af Viden & Udvikling i Nota trænede jeg disciplinen ved at kortlægge ordblindes uddanelsesforudsætninger, støttebehov og juridisk stilling i tæt samarbejde med departementet såvel som offentlige og kommercielle interessenter. I den kommende reform er der også en væsentlig opgave i at segmentere sproglige og kognitive risikogrupper, og sikre at disse er tænkt med fra begyndelsen. Opgaven er i høj grad forbundet med at skabe overblik over juriske aspekter på den ene side, og på den anden at skabe overblik over agenter og netværk samt at bidrage til konstruktiv dialog med disse. En faldgrube er, når arbejdet ikke forankres i dialog med de udøvende lærere og elever. Med et stærkt fagligt netværk inednfor uddannelse og læring, kan jeg bidrage til at skabe bro mellem interessenter og rammer for policy.",
+        "Reformen frembyder på mange måder en kompleks og mangefacetteret proces, og samtidig er ungdomsuddannelse per se et område hvis betydning for landets fremtidige arbejdsmarked - og mennesker - ikke kan undervurderes. Men disse udfordringer kan ses i lyset af, at reformen i sin grundstruktur er så godt tænkt og på så mange planer imødegår ",
+        "",
+        "",
+        "Jeg ser frem til at høre fra jer.",
+        "Med venlig hilsen",
+        "Simon Moe"
+      ],
+      "cvConfig": {
+        "include": true,
+        "expanded": false,
+        "excludeIds": []
+      },
+      "highlightedProjects": [
+        "humtek-curriculum-dev",
+        "nota-leadership-strategy",
+        "kmg-next-teaching-dev"
+      ],
+      "recommendationsConfig": {
+        "include": true,
+        "useShortVersion": true,
+        "excludeIds": []
+      }
+    },
     {
       "id": "kp-epx-socialfondsprojektleder-2026",
       "recipient": {
@@ -42,3 +80,4 @@
     }
   ]
 }
+

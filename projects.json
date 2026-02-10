@@ -130,6 +130,29 @@
             "description": "Kurser for instruktører og scenografer med fokus på integration af digitale medier i scenekunstneriske produktioner."
         },
         {
+            "id": "ruc-hum-tech-project",
+            "title": "Etablering af HUM-TECH på RUC",
+            "year": 2007,
+            "context": "Roskilde Universitet",
+            "images": [
+                "assets/ruc.png"
+            ],
+            "focus": [
+                "Strategi",
+                "Uddannelsesudvikling",
+                "Tværfaglighed",
+                "IT & Humaniora"
+            ],
+            "cvRefs": [
+                "ruc-hum-tech"
+            ],
+            "description": "Strategisk arbejde i forbindelse med oprettelsen af det tværfaglige center HUM-TECH. Fokus var at udvikle nye masteruddannelser, der integrerede IT med humanistiske og socialfaglige discipliner for at imødekomme nye samfundsmæssige behov.",
+            "categories": [
+                "ledelse",
+                "undervisning"
+            ]
+        },
+        {
             "id": "rammen",
             "title": "Rammen",
             "year": 2004,
