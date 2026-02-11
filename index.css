@@ -947,6 +947,108 @@ h1 {
     background: #d1903f;
 }
 
+/* ============================= 
+   PRINT CV STYLES - Professional Standard Layout
+   ============================= */
+
+.print-cv-category-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #333;
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.print-cv-category-header:first-child {
+    margin-top: 0;
+}
+
+.print-cv-item {
+    margin-bottom: 1.5rem;
+}
+
+.print-cv-year {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.print-cv-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.print-cv-place {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #444;
+    margin: 0 0 0.5rem 0;
+}
+
+.print-cv-description {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0 0.25rem 0;
+    line-height: 1.4;
+}
+
+.print-cv-detail {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333;
+    margin: 0.25rem 0;
+}
+
+.print-cv-image {
+    max-width: 200px;
+    height: auto;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+.print-cv-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #0066cc;
+    text-decoration: none;
+    margin-top: 0.25rem;
+}
+
+.print-cv-link:hover {
+    text-decoration: underline;
+}
+
+/* Category color accents (subtle left border) */
+.print-cv-item.print-cat-job {
+    border-left: 3px solid #4a6fa5;
+    padding-left: 0.75rem;
+}
+
+.print-cv-item.print-cat-education {
+    border-left: 3px solid #4aa36c;
+    padding-left: 0.75rem;
+}
+
+.print-cv-item.print-cat-board {
+    border-left: 3px solid #d1903f;
+    padding-left: 0.75rem;
+}
+
+/* End Print CV Styles */
+
+.print-cv-container {
+    display: block;
+    padding: 0;
+}
+
 .scroll-indicator {
     position: absolute;
     bottom: 0;
@@ -1134,11 +1236,8 @@ h1 {
 }
 
 .cv-pages-wrapper .app-cv-container {
-    display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    gap: 0;
-    padding-bottom: 100px;
-    height: auto;
+    display: block;
+    padding-bottom: 50px;
 }
 
 /* Static continuation arrow for printed CV (when more pages) */
@@ -1195,7 +1294,11 @@ h1 {
 .print-buttons {
     display: flex;
     gap: 0.5rem;
-    padding:1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.4rem;
+    background: #f9f9f9;
+    width: fit-content;
 }
 
 /* Print Specifics */
@@ -1277,6 +1380,61 @@ h1 {
     /* Force expand details on print if needed, though JS handles it */
     .cv-wrapper.show-details .cv-details {
         max-height: none !important;
+    }
+    
+    /* Print mode: Simple chronological CV */
+    .cv-print-mode {
+        display: block !important;
+        grid-template-columns: none !important;
+    }
+    
+    .cv-print-mode .vertical-line {
+        display: none !important;
+    }
+    
+    .cv-category-header {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 2rem 0 1rem 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #000;
+    }
+    
+    .cv-category-header:first-child {
+        margin-top: 0;
+    }
+    
+    .cv-print-item {
+        grid-column: auto !important;
+        margin-bottom: 1.5rem !important;
+        break-inside: avoid;
+    }
+    
+    .cv-print-item .cv-entry {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .cv-print-item .cv-year {
+        display: inline;
+        margin-right: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .cv-print-item .cv-title {
+        display: inline;
+        font-size: 1rem;
+    }
+    
+    .cv-print-item .cv-place {
+        font-style: italic;
+        margin-top: 0.25rem;
+    }
+    
+    .cv-print-item .cv-description,
+    .cv-print-item .cv-detail-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
 }
 

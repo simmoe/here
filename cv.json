@@ -265,6 +265,17 @@
             ]
         },
         {
+            "order": 16,
+            "id": "uvm-student",
+            "category": "job",
+            "startYear": 1999,
+            "endYear": 2001,
+            "title": "Studentermedarbejder",
+            "place": "Undervisningsministeriet (UVM)",
+            "description": "Arbejdede under chefkonsulent Lilla Voss i projektportefølje omkring 'It i folkeskolen'.",
+            "detail": "Som studentermedarbejder bidrog jeg til udvikling og udbredelse af it-pædagogiske løsninger i grundskolen. Arbejdet foregik i tæt samarbejde med skoler, kommuner og it-virksomheder."
+        },
+        {
             "order": 11.5,
             "id": "scenekunstskolen",
             "category": "job",
@@ -280,7 +291,7 @@
             "category": "job",
             "startYear": 2007,
             "endYear": 2007,
-            "title": "Strategisk konsulent (HUM-TECH)",
+            "title": "Strategisk konsulent (HUM-TEK)",
             "place": "Roskilde Universitet (RUC)",
             "description": "Bidrog til det strategiske arbejde med oprettelsen af HUM-TECH og udviklingen af curriculum for nye masteruddannelser, der kombinerede IT med humanistiske og socialfaglige fagområder."
         },

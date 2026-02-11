@@ -147,6 +147,7 @@ function initApplicationPage() {
     var btnFull = clone.querySelector('.print-full');
     var btnLetter = clone.querySelector('.print-letter');
     var btnCv = clone.querySelector('.print-cv');
+    var btnRecs = clone.querySelector('.print-recommendations');
     
     // Populate dropdown
     if (applicationsData && applicationsData.applications) {
@@ -156,6 +157,11 @@ function initApplicationPage() {
             option.textContent = app.title;
             dropdown.appendChild(option);
         });
+        
+        // Auto-select first application
+        if (applicationsData.applications.length > 0) {
+            dropdown.value = applicationsData.applications[0].id;
+        }
     }
     
     // Content Container
@@ -172,20 +178,26 @@ function initApplicationPage() {
             if (app) {
                 renderApplicationContent(app, contentDiv, 'full');
                 
-                [btnFull, btnLetter, btnCv].forEach(btn => btn.removeAttribute('disabled'));
+                [btnFull, btnLetter, btnCv, btnRecs].forEach(btn => btn.removeAttribute('disabled'));
                 
                 btnFull.onclick = () => window.open(`?print=${app.id}&type=full`, '_blank');
                 btnLetter.onclick = () => window.open(`?print=${app.id}&type=letter`, '_blank');
                 btnCv.onclick = () => window.open(`?print=${app.id}&type=cv`, '_blank');
+                btnRecs.onclick = () => window.open(`?print=${app.id}&type=recommendations`, '_blank');
             }
         } else {
-            [btnFull, btnLetter, btnCv].forEach(btn => btn.setAttribute('disabled', 'true'));
+            [btnFull, btnLetter, btnCv, btnRecs].forEach(btn => btn.setAttribute('disabled', 'true'));
         }
     });
     
     // Append to container (using .elt to append vanilla node)
     container.elt.appendChild(clone);
     container.child(contentDiv);
+    
+    // Trigger change event to load first application
+    if (applicationsData && applicationsData.applications.length > 0) {
+        dropdown.dispatchEvent(new Event('change'));
+    }
 }
 
 function renderApplicationContent(app, container, printType = 'full') {
@@ -197,6 +209,10 @@ function renderApplicationContent(app, container, printType = 'full') {
         var list = cvData.cv.slice().sort((a, b) => a.order - b.order);
         if (app.cvConfig && app.cvConfig.excludeIds && app.cvConfig.excludeIds.length > 0) {
             list = list.filter(item => !app.cvConfig.excludeIds.includes(item.id));
+        }
+        // Filter by categories if specified
+        if (app.cvConfig && app.cvConfig.categories && app.cvConfig.categories.length > 0) {
+            list = list.filter(item => app.cvConfig.categories.includes(item.category));
         }
         return list;
     };
@@ -247,16 +263,18 @@ function renderApplicationContent(app, container, printType = 'full') {
     }
     
     // Recommendations Section - prepare BEFORE appending to DOM
-    // Only if full or cv
-    if ((printType === 'full' || printType === 'cv') && app.recommendationsConfig && app.recommendationsConfig.include) {
+    // Only if full or recommendations (NOT cv alone)
+    if ((printType === 'full' || printType === 'recommendations') && app.recommendationsConfig && app.recommendationsConfig.include) {
         var recsSection = clone.querySelector('.recommendations-section');
         if (recsSection) {
             recsSection.style.display = 'block';
             
-            // If printing ONLY CV, remove the top margin/border from recommendations if it's the first thing?
-            // Actually, CV comes first, so recommendations are always after CV.
-            // But if we print CV only, we might want to adjust spacing.
-            // For now, keep as is.
+            // If printing ONLY recommendations, remove page break and top spacing
+            if (printType === 'recommendations') {
+                recsSection.style.pageBreakBefore = 'auto';
+                recsSection.style.marginTop = '0';
+                recsSection.style.borderTop = 'none';
+            }
             
             var recsContainer = clone.querySelector('.app-recommendations-container');
             
@@ -309,7 +327,7 @@ function renderApplicationContent(app, container, printType = 'full') {
     }
 
     // CV Section
-    // Only if full or cv
+    // Only if full or cv (NOT recommendations)
     if ((printType === 'full' || printType === 'cv') && app.cvConfig && app.cvConfig.include) {
         var cvSection = clone.querySelector('.cv-section');
         cvSection.style.display = 'block';
@@ -320,54 +338,15 @@ function renderApplicationContent(app, container, printType = 'full') {
              cvSection.style.marginTop = '0';
         }
 
-        // Split CV into two pages after 16 entries
-        var filteredList = getFilteredCvList();
-        var firstCount = Math.min(16, filteredList.length);
-        var secondCount = Math.max(0, filteredList.length - firstCount);
-
         var cvContainerDiv = clone.querySelector('.app-cv-container');
-        // Ensure pages stack vertically (not in the original grid)
-        cvContainerDiv.className = 'cv-pages-wrapper';
+        cvContainerDiv.className = 'print-cv-container';
         cvContainerDiv.innerHTML = '';
-
-        // First page
-        var firstDiv = document.createElement('div');
-        firstDiv.className = 'app-cv-container cv-page';
-        var uniqueId1 = 'cv-' + Math.random().toString(36).substr(2, 9);
-        firstDiv.id = uniqueId1;
-        cvContainerDiv.appendChild(firstDiv);
-
-        // Second page if needed
-        if (secondCount > 0) {
-            var secondDiv = document.createElement('div');
-            secondDiv.className = 'app-cv-container cv-page';
-            var uniqueId2 = 'cv-' + Math.random().toString(36).substr(2, 9);
-            secondDiv.id = uniqueId2;
-            cvContainerDiv.appendChild(secondDiv);
-        }
 
         // Append clone before rendering (p5 select needs it in DOM)
         container.elt.appendChild(clone);
 
-        // Render first chunk
-        createCV('#' + uniqueId1, { ...app.cvConfig, offset: 0, limit: firstCount });
-
-        // If there is a second page, add a static continuation arrow at bottom of first page (print-safe)
-        if (secondCount > 0) {
-            var indicator = document.createElement('div');
-            indicator.className = 'cv-page-indicator';
-            indicator.innerHTML = `
-                <svg viewBox="0 0 12 12" aria-hidden="true">
-                    <path d="M3 4 L6 8 L9 4 Z" />
-                </svg>
-            `;
-            firstDiv.appendChild(indicator);
-        }
-
-        // Render second chunk if present
-        if (secondCount > 0) {
-            createCV('#' + cvContainerDiv.lastChild.id, { ...app.cvConfig, offset: firstCount, limit: secondCount });
-        }
+        // Render all CV using print-specific function (no splitting)
+        createPrintCV('.print-cv-container', app.cvConfig);
     } else {
         container.elt.appendChild(clone);
     }
@@ -535,273 +514,243 @@ function shiftPage(newPage){
     }
 }
 
-function createCV(containerId, config = {}){
-    var cvContainer = select(containerId);
-    cvContainer.html(''); // Clear existing content
-    
-    console.log('createCV called with config:', config);
-
-    // Sorter data efter 'order' attributten
+// Helper: Get filtered CV data
+function getCVData(config = {}) {
     var sortedCV = cvData.cv.slice().sort((a, b) => a.order - b.order);
 
-    // Filter if config has excludeIds
     if (config.excludeIds) {
         sortedCV = sortedCV.filter(job => !config.excludeIds.includes(job.id));
     }
+    
+    if (config.categories && config.categories.length > 0) {
+        sortedCV = sortedCV.filter(job => config.categories.includes(job.category));
+    }
 
-    // Apply offset/limit if provided (for print splitting)
     var offset = config.offset || 0;
     var limit = config.limit || sortedCV.length;
     sortedCV = sortedCV.slice(offset, offset + limit);
 
-    // Define categories
+    if (config.filterCategory && config.filterCategory !== 'all') {
+        sortedCV = sortedCV.filter(item => item.category === config.filterCategory);
+    }
+
+    return sortedCV;
+}
+
+// Helper: Render CV filter buttons
+function renderCVFilter(containerId, config = {}) {
+    if (containerId !== '#cv' || config.skipFilter) return;
+    
+    var filterContainer = select('#cv-filter');
+    if (!filterContainer) return;
+
+    const currentFilter = config.filterCategory || 'all';
     const categories = [
         { id: 'job', title: 'Erhvervserfaring' },
         { id: 'education', title: 'Uddannelse' },
         { id: 'board', title: 'Organisation' }
     ];
+    
+    var existingButtons = selectAll('#cv-filter .filter-btn');
+    
+    if (existingButtons.length === 0) {
+        filterContainer.html('');
+        
+        var allBtn = createSpan('Alle');
+        allBtn.addClass('filter-btn');
+        allBtn.attribute('data-filter', 'all');
+        if(currentFilter === 'all') allBtn.addClass('active');
+        allBtn.parent(filterContainer);
+        allBtn.mousePressed(() => createCV(containerId, { filterCategory: 'all' }));
 
-    // --- Filter Logic ---
-    // Only render filter if we are in the main CV view (not print mode with specific config)
-    if (containerId === '#cv' && !config.skipFilter) {
-        var filterContainer = select('#cv-filter');
-        if (filterContainer) {
-            const currentFilter = config.filterCategory || 'all';
-            
-            // Check if filter is already rendered
-            var existingButtons = selectAll('#cv-filter .filter-btn');
-            
-            if (existingButtons.length === 0) {
-                // First render - create all buttons
-                filterContainer.html('');
-                
-                // All button
-                var allBtn = createSpan('Alle');
-                allBtn.addClass('filter-btn');
-                allBtn.attribute('data-filter', 'all');
-                if(currentFilter === 'all') {
-                    allBtn.addClass('active');
-                }
-                allBtn.parent(filterContainer);
-                allBtn.mousePressed(() => createCV(containerId, { filterCategory: 'all' }));
-
-                categories.forEach(cat => {
-                    var btn = createSpan(cat.title);
-                    btn.addClass('filter-btn');
-                    btn.attribute('data-filter', cat.id);
-                    if(currentFilter === cat.id) {
-                        btn.addClass('active');
-                    }
-                    btn.parent(filterContainer);
-                    btn.mousePressed(() => createCV(containerId, { filterCategory: cat.id }));
-                });
-            } else {
-                // Filter exists - just update active states with transition
-                existingButtons.forEach(btn => {
-                    btn.removeClass('active');
-                    btn.removeClass('active-delayed');
-                });
-                
-                // Use small delay to allow browser to process the removal
-                setTimeout(() => {
-                    existingButtons.forEach(btn => {
-                        var filterType = btn.attribute('data-filter');
-                        if (filterType === currentFilter) {
-                            btn.addClass('active');
-                        }
-                    });
-                }, 10);
-            }
-        }
+        categories.forEach(cat => {
+            var btn = createSpan(cat.title);
+            btn.addClass('filter-btn');
+            btn.attribute('data-filter', cat.id);
+            if(currentFilter === cat.id) btn.addClass('active');
+            btn.parent(filterContainer);
+            btn.mousePressed(() => createCV(containerId, { filterCategory: cat.id }));
+        });
+    } else {
+        existingButtons.forEach(btn => {
+            btn.removeClass('active');
+            btn.removeClass('active-delayed');
+        });
+        
+        setTimeout(() => {
+            existingButtons.forEach(btn => {
+                var filterType = btn.attribute('data-filter');
+                if (filterType === currentFilter) btn.addClass('active');
+            });
+        }, 10);
     }
+}
 
-    // Filter items based on active category
-    let displayItems = sortedCV;
-    if (config.filterCategory && config.filterCategory !== 'all') {
-        displayItems = sortedCV.filter(item => item.category === config.filterCategory);
-    }
-
-    // Lav den vertikale linje som et separat element
-    var verticalLine = createElement('div');
-    verticalLine.addClass('vertical-line');
-    // Lad linjen spænde over alle rækker
-    verticalLine.style('grid-row', '1 / span ' + displayItems.length);
-    cvContainer.child(verticalLine);
-
-    // Hent template med p5 select
+// Helper: Render single CV item
+function renderCVItem(job, index, cvContainer, containerId, config) {
     var template = select('#cv-template');
-
-    displayItems.forEach((job, index) => {
-        // Klon template indhold (Her er vi nødt til at bruge vanilla JS property .elt)
-        var clone = template.elt.content.cloneNode(true);
-        
-        // Udfyld data (Vanilla JS querySelector på klonen)
-        clone.querySelector('.cv-title').textContent = job.title;
-        clone.querySelector('.cv-place').textContent = job.place;
-        
-        // Add Year
-        var yearText = job.startYear;
-        if (job.endYear && job.endYear !== job.startYear) {
-            yearText += ' - ' + job.endYear;
+    var clone = template.elt.content.cloneNode(true);
+    
+    clone.querySelector('.cv-title').textContent = job.title;
+    clone.querySelector('.cv-place').textContent = job.place;
+    
+    var yearText = job.startYear;
+    if (job.endYear && job.endYear !== job.startYear) {
+        yearText += ' - ' + job.endYear;
+    }
+    
+    var yearEl = document.createElement('div');
+    yearEl.className = 'cv-year';
+    yearEl.textContent = yearText;
+    
+    var titleEl = clone.querySelector('.cv-title');
+    titleEl.parentNode.insertBefore(yearEl, titleEl);
+    
+    if(job.description) {
+        clone.querySelector('.cv-description').innerHTML = job.description;
+        if(job.detail) {
+            clone.querySelector('.cv-detail-text').innerHTML = job.detail;
         }
-        
-        var yearEl = document.createElement('div');
-        yearEl.className = 'cv-year';
-        yearEl.textContent = yearText;
-        
-        // Insert before title
-        var titleEl = clone.querySelector('.cv-title');
-        titleEl.parentNode.insertBefore(yearEl, titleEl);
-        
-        // Udfyld detaljer hvis de findes
-        if(job.description) {
-            clone.querySelector('.cv-description').innerHTML = job.description;
+    }
 
-            if(job.detail) {
-                clone.querySelector('.cv-detail-text').innerHTML = job.detail;
-            }
+    if(job.image) {
+        var img = clone.querySelector('.cv-image');
+        if(img) {
+            img.src = job.image;
+            img.style.display = 'block';
         }
+    } else {
+        var img = clone.querySelector('.cv-image');
+        if(img) img.style.display ='none';
+    }
 
-        if(job.image) {
-            var img = clone.querySelector('.cv-image');
-            if(img) {
-                img.src = job.image;
-                img.style.display = 'block';
-            }
-        } else {
-            var img = clone.querySelector('.cv-image');
-            if(img) img.style.display = 'none';
-        }
+    var metaSection = document.createElement('div');
+    metaSection.className = 'cv-meta-section';
 
-        // Meta Section (Links, Recommendations)
-        var metaSection = document.createElement('div');
-        metaSection.className = 'cv-meta-section';
+    if (job.link) {
+        var linkEl = document.createElement('a');
+        linkEl.href = job.link.url;
+        linkEl.target = '_blank';
+        linkEl.className = 'cv-link';
+        linkEl.innerHTML = `
+            <span>${job.link.text}</span>
+            <svg class="cv-link-arrow" viewBox="0 -960 960 960" width="10" height="10">
+                <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" fill="currentColor"/>
+            </svg>
+        `;
+        metaSection.appendChild(linkEl);
+    }
 
-        // Link
-        if (job.link) {
-            var linkEl = document.createElement('a');
-            linkEl.href = job.link.url;
-            linkEl.target = '_blank';
-            linkEl.className = 'cv-link';
+    if (recommendationsData && recommendationsData.recommendations) {
+        var recs = recommendationsData.recommendations.filter(r => r.cvRefs && r.cvRefs.includes(job.id));
+        if (recs.length > 0) {
+            var recContainer = document.createElement('div');
+            recContainer.className = 'cv-recommendation';
             
-            linkEl.innerHTML = `
-                <span>${job.link.text}</span>
-                <svg class="cv-link-arrow" viewBox="0 -960 960 960" width="10" height="10">
-                    <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" fill="currentColor"/>
+            var labelText = recs.length > 1 ? 'Referencer' : 'Reference';
+            var toggle = document.createElement('div');
+            toggle.className = 'cv-rec-toggle';
+            toggle.innerHTML = `
+                <span class="cv-rec-label">${labelText}</span>
+                <svg class="cv-rec-arrow" width="12" height="12" viewBox="0 0 12 12">
+                    <path d="M3 4 L6 8 L9 4 Z" fill="black" />
                 </svg>
             `;
             
-            metaSection.appendChild(linkEl);
-        }
-
-        // Recommendations
-        if (recommendationsData && recommendationsData.recommendations) {
-            var recs = recommendationsData.recommendations.filter(r => r.cvRefs && r.cvRefs.includes(job.id));
-            if (recs.length > 0) {
-                
-                var recContainer = document.createElement('div');
-                recContainer.className = 'cv-recommendation';
-                
-                var labelText = recs.length > 1 ? 'Referencer' : 'Reference';
-
-                var toggle = document.createElement('div');
-                toggle.className = 'cv-rec-toggle';
-                toggle.innerHTML = `
-                    <span class="cv-rec-label">${labelText}</span>
-                    <svg class="cv-rec-arrow" width="12" height="12" viewBox="0 0 12 12">
-                        <path d="M3 4 L6 8 L9 4 Z" fill="black" />
-                    </svg>
+            var content = document.createElement('div');
+            content.className = 'cv-rec-content';
+            
+            recs.forEach((rec, i) => {
+                var recItem = document.createElement('div');
+                recItem.className = 'cv-rec-item';
+                if (i > 0) recItem.style.marginTop = '1.5rem';
+                recItem.innerHTML = `
+                    <p class="cv-rec-quote">"${rec.short || rec.quote}"</p>
+                    <p class="cv-rec-author">- ${rec.author}, ${rec.role}</p>
                 `;
-                
-                var content = document.createElement('div');
-                content.className = 'cv-rec-content';
-                
-                recs.forEach((rec, i) => {
-                    var recItem = document.createElement('div');
-                    recItem.className = 'cv-rec-item';
-                    if (i > 0) recItem.style.marginTop = '1.5rem';
-                    
-                    recItem.innerHTML = `
-                        <p class="cv-rec-quote">"${rec.short || rec.quote}"</p>
-                        <p class="cv-rec-author">- ${rec.author}, ${rec.role}</p>
-                    `;
-                    content.appendChild(recItem);
-                });
-                
-                recContainer.appendChild(toggle);
-                recContainer.appendChild(content);
-                
-                // Toggle logic
-                toggle.addEventListener('click', (e) => {
-                    e.stopPropagation(); 
-                    recContainer.classList.toggle('open');
-                });
-
-                metaSection.appendChild(recContainer);
-            }
+                content.appendChild(recItem);
+            });
+            
+            recContainer.appendChild(toggle);
+            recContainer.appendChild(content);
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                recContainer.classList.toggle('open');
+            });
+            metaSection.appendChild(recContainer);
         }
+    }
 
-        // Only append meta section if it has content
-        if (metaSection.hasChildNodes()) {
-            clone.querySelector('.cv-details').appendChild(metaSection);
-        }
+    if (metaSection.hasChildNodes()) {
+        clone.querySelector('.cv-details').appendChild(metaSection);
+    }
 
-        // Find wrapperen i klonen
-        var wrapper = clone.querySelector('.cv-wrapper');
-        var entry = clone.querySelector('.cv-entry');
+    var wrapper = clone.querySelector('.cv-wrapper');
+    var entry = clone.querySelector('.cv-entry');
 
-        // Category marker class for styling
-        if (job.category) {
-            wrapper.classList.add('cat-' + job.category);
-        }
-        
-        // Force expand if configured
-        if (config.expanded) {
+    if (job.category) {
+        wrapper.classList.add('cat-' + job.category);
+    }
+    
+    if (config.expanded) {
+        wrapper.classList.add('show-details');
+    } else {
+        entry.addEventListener('mouseenter', () => {
             wrapper.classList.add('show-details');
-        } else {
-            // Åbn når man rører selve indholdet (ikke linjen)
-            entry.addEventListener('mouseenter', () => {
-                wrapper.classList.add('show-details');
-            });
+        });
+        entry.addEventListener('mouseleave', () => {
+            wrapper.classList.remove('show-details');
+            var openRecs = wrapper.querySelectorAll('.cv-recommendation.open');
+            openRecs.forEach(rec => rec.classList.remove('open'));
+        });
+    }
+    
+    wrapper.style.gridRow = index + 1;
+    if(index % 2 === 0) {
+        wrapper.classList.add('left');
+    } else {
+        wrapper.classList.add('right');
+    }
 
-            // Luk når musen forlader indholdet (f.eks. ud på linjen)
-            entry.addEventListener('mouseleave', () => {
-                wrapper.classList.remove('show-details');
-                // Close any open recommendations
-                var openRecs = wrapper.querySelectorAll('.cv-recommendation.open');
-                openRecs.forEach(rec => rec.classList.remove('open'));
-            });
-        }
-        
-        // Placer i grid
-        wrapper.style.gridRow = index + 1;
+    if (containerId === '#cv') {
+        wrapper.classList.add('cv-animate');
+        var startDistance = 20 + (index * 2);
+        wrapper.style.setProperty('--start-distance', startDistance + 'px');
+        wrapper.style.animation = `cv-pearl 0.45s ease-out ${index * 50}ms both`;
+    }
+    
+    cvContainer.elt.appendChild(clone);
+}
 
-        if(index % 2 === 0) {
-            wrapper.classList.add('left');
-        } else {
-            wrapper.classList.add('right');
-        }
+function createCV(containerId, config = {}){
+    var cvContainer = select(containerId);
+    cvContainer.html('');
+    
+    console.log('createCV called with config:', config);
 
-        // Staggered appear animation for main CV view
-        if (containerId === '#cv') {
-            wrapper.classList.add('cv-animate');
-            // Gradvist øgende startafstand: 20px + 4px per perle
-            var startDistance = 20 + (index * 2);
-            wrapper.style.setProperty('--start-distance', startDistance + 'px');
-            wrapper.style.animation = `cv-pearl 0.45s ease-out ${index * 50}ms both`;
-        }
-        
-        // Tilføj til containeren
-        cvContainer.elt.appendChild(clone);
+    // Get filtered data
+    var displayItems = getCVData(config);
+    
+    // Render filter
+    renderCVFilter(containerId, config);
+
+    // Render vertical line
+    var verticalLine = createElement('div');
+    verticalLine.addClass('vertical-line');
+    verticalLine.style('grid-row', '1 / span ' + displayItems.length);
+    cvContainer.child(verticalLine);
+
+    // Render each item
+    displayItems.forEach((job, index) => {
+        renderCVItem(job, index, cvContainer, containerId, config);
     });
+    
     console.log('Total items rendered:', displayItems.length, 'skipFilter:', config.skipFilter);
-    // After all items are added, calculate when animation completes and activate filter
-    // (Only runs when filter is recreated during category switching)
+    
+    // Activate filter animation after items render
     if (containerId === '#cv' && !config.skipFilter && displayItems.length > 0) {
         var lastItemDelay = (displayItems.length - 1) * 50;
-        var animationDuration = 0;
-        var totalTime = lastItemDelay + animationDuration;
-        
+        var totalTime = lastItemDelay;
         setTimeout(() => {
             var delayedBtn = select('#cv-filter .active-delayed');
             if (delayedBtn) {
@@ -810,6 +759,107 @@ function createCV(containerId, config = {}){
             }
         }, totalTime);
     }
+}
+
+function createPrintCV(containerId, config = {}) {
+    var cvContainer = select(containerId);
+    cvContainer.html('');
+    
+    console.log('createPrintCV called with config:', config);
+
+    // Get filtered data using shared helper
+    var displayItems = getCVData(config);
+    
+    // Group by category if configured
+    if (config.groupByCategory) {
+        var categoryOrder = config.categoryOrder || ['job', 'education', 'board'];
+        var categoryTitles = {
+            'job': 'Erhvervserfaring',
+            'education': 'Uddannelse',
+            'board': 'Organisation'
+        };
+        
+        // Group items by category
+        var grouped = {};
+        categoryOrder.forEach(cat => {
+            grouped[cat] = displayItems.filter(item => item.category === cat);
+        });
+        
+        // Render each category group
+        categoryOrder.forEach(category => {
+            if (grouped[category] && grouped[category].length > 0) {
+                // Category header
+                var header = document.createElement('h2');
+                header.className = 'print-cv-category-header';
+                header.textContent = categoryTitles[category];
+                cvContainer.elt.appendChild(header);
+                
+                // Render items in this category
+                grouped[category].forEach((job, index) => {
+                    renderPrintCVItem(job, cvContainer);
+                });
+            }
+        });
+    } else {
+        // Render all items without grouping
+        displayItems.forEach((job, index) => {
+            renderPrintCVItem(job, cvContainer);
+        });
+    }
+    
+    console.log('Print CV: Total items rendered:', displayItems.length);
+}
+
+function renderPrintCVItem(job, cvContainer) {
+    // Create simple CV item (no template needed - build from scratch)
+    var item = document.createElement('div');
+    item.className = 'print-cv-item';
+    
+    // Category marker
+    if (job.category) {
+        item.classList.add('print-cat-' + job.category);
+    }
+    
+    // Year
+    var yearText = job.startYear;
+    if (job.endYear && job.endYear !== job.startYear) {
+        yearText += ' - ' + job.endYear;
+    }
+    
+    var year = document.createElement('div');
+    year.className = 'print-cv-year';
+    year.textContent = yearText;
+    item.appendChild(year);
+    
+    // Title
+    var title = document.createElement('h3');
+    title.className = 'print-cv-title';
+    title.textContent = job.title;
+    item.appendChild(title);
+    
+    // Place
+    var place = document.createElement('p');
+    place.className = 'print-cv-place';
+    place.textContent = job.place;
+    item.appendChild(place);
+    
+    // Description
+    if (job.description) {
+        var desc = document.createElement('p');
+        desc.className = 'print-cv-description';
+        desc.innerHTML = job.description;
+        item.appendChild(desc);
+    }
+    
+    // Image
+    if (job.image) {
+        var img = document.createElement('img');
+        img.className = 'print-cv-image';
+        img.src = job.image;
+        item.appendChild(img);
+    }
+    
+    cvContainer.elt.appendChild(item);
 }
 
 function renderApplicationOverview() {

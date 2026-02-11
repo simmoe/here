@@ -130,29 +130,6 @@
             "description": "Kurser for instruktører og scenografer med fokus på integration af digitale medier i scenekunstneriske produktioner."
         },
         {
-            "id": "ruc-hum-tech-project",
-            "title": "Etablering af HUM-TECH på RUC",
-            "year": 2007,
-            "context": "Roskilde Universitet",
-            "images": [
-                "assets/ruc.png"
-            ],
-            "focus": [
-                "Strategi",
-                "Uddannelsesudvikling",
-                "Tværfaglighed",
-                "IT & Humaniora"
-            ],
-            "cvRefs": [
-                "ruc-hum-tech"
-            ],
-            "description": "Strategisk arbejde i forbindelse med oprettelsen af det tværfaglige center HUM-TECH. Fokus var at udvikle nye masteruddannelser, der integrerede IT med humanistiske og socialfaglige discipliner for at imødekomme nye samfundsmæssige behov.",
-            "categories": [
-                "ledelse",
-                "undervisning"
-            ]
-        },
-        {
             "id": "rammen",
             "title": "Rammen",
             "year": 2004,
@@ -433,7 +410,7 @@
                 "assets/accessibility.pdf"
             ],
             "categories": [
-                "kommunikation"
+                "kommunikation", "ledelse"
             ]
         },
         {
@@ -441,7 +418,7 @@
             "title": "Hjælpemidler og adgang til læring",
             "year": 2011,
             "categories": [
-                "kommunikation"
+                "kommunikation", "ledelse"
             ],
             "context": "Nota / Epinion",
             "images": [
@@ -480,6 +457,29 @@
             "description": "Etablering af nationale samarbejder mellem Nota, SPS-ansvarlige, læsevejledere og videregående uddannelser. Initiativet omfattede opbygning af netværk, studiemiljøer for specialestuderende samt vejledning af ErhvervsPhD-projekt om tekstsimplificering og læsevanskeligheder.",
             "categories": [
                 "ledelse"
+            ]
+        },
+        {
+            "id": "ruc-hum-tech-project",
+            "title": "Etablering af HUM-TEk på RUC",
+            "year": 2007,
+            "context": "Roskilde Universitet",
+            "images": [
+                "assets/ruc.png"
+            ],
+            "focus": [
+                "Strategi",
+                "Uddannelsesudvikling",
+                "Tværfaglighed",
+                "IT & Humaniora"
+            ],
+            "cvRefs": [
+                "ruc-hum-tech"
+            ],
+            "description": "Strategisk arbejde i forbindelse med oprettelsen af det tværfaglige center HUM-TECH. Fokus var at udvikle nye masteruddannelser, der integrerede IT med humanistiske og socialfaglige discipliner for at imødekomme nye samfundsmæssige behov.",
+            "categories": [
+                "ledelse",
+                "undervisning"
             ]
         },
         {
