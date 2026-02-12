@@ -704,6 +704,50 @@
             "categories": [
                 "software"
             ]
+        },
+        {
+            "id": "nota-ordblinde-unge-lydboger",
+            "title": "Unge ordblindes behov og effekt af lydbøger",
+            "year": 2012,
+            "categories": [
+                "kommunikation", "ledelse"
+            ],
+            "context": "UVM / Innovation Lab",
+            "images": [
+                "assets/nota.png"
+            ],
+            "focus": [
+                "Ordblindhed",
+                "Lydbogseffekt",
+                "Samfundsdeltagelse",
+                "Tværsektorielt samarbejde"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Forskningsprojekt om unge ordblindes behov og muligheder for samfundsdeltagelse med fokus på samspillet mellem bibliotek, skole og kommunale instanser. Projektet dokumenterede effekten af lydbøger for unge ordblinde."
+        },
+        {
+            "id": "nota-projektskolen",
+            "title": "Projektskolen",
+            "year": 2013,
+            "categories": [
+                "kommunikation", "ledelse"
+            ],
+            "context": "Nota",
+            "images": [
+                "assets/nota.png"
+            ],
+            "focus": [
+                "Strategisk samarbejde",
+                "Vidensudvikling",
+                "Tværfagligt samarbejde",
+                "Læseforståelse"
+            ],
+            "cvRefs": [
+                "nota"
+            ],
+            "description": "Samarbejde mellem Nota og studerende om projekter relevante for læsevanskeligheder og tilgængelig læring."
         }
     ]
 }

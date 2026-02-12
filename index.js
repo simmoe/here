@@ -125,6 +125,46 @@ function setup(){
 
     //skift til current page (kald denne EFTER menuen er bygget)
     shiftPage(currentPage)
+    
+    // Init home logo parallax effect
+    initHomeLogoParallax();
+}
+
+function initHomeLogoParallax() {
+    var homeLogo = document.querySelector('.sidebar .home-logo');
+    if (!homeLogo) return;
+
+    // State for lerping (smoothing)
+    // Start at 0 so it's always centered initially
+    var targetX = 0;
+    var targetY = 0;
+    var currentX = 0;
+    var currentY = 0;
+
+    // Update target on mousemove
+    document.addEventListener('mousemove', (e) => {
+        var rect = homeLogo.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+
+        targetX = e.clientX - cx;
+        targetY = e.clientY - cy;
+    });
+
+    // Animation loop for smooth movement (Lerp)
+    function animate() {
+        // Move current values 10% towards target values each frame
+        // This creates the "fluid" easing effect
+        currentX += (targetX - currentX) * 0.1;
+        currentY += (targetY - currentY) * 0.1;
+
+        homeLogo.style.setProperty('--mouse-dx', currentX.toFixed(2) + 'px');
+        homeLogo.style.setProperty('--mouse-dy', currentY.toFixed(2) + 'px');
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
 }
 
 function keyPressed() {
@@ -730,9 +770,48 @@ function createCV(containerId, config = {}){
 
     // Get filtered data
     var displayItems = getCVData(config);
-    
+
     // Render filter
     renderCVFilter(containerId, config);
+
+    // Set CV top width to match filter width
+    if (containerId === '#cv') {
+        requestAnimationFrame(() => {
+            var page2 = document.getElementById('page2');
+            var filterEl = document.getElementById('cv-filter');
+            if (page2 && filterEl) {
+                var filterWidth = filterEl.getBoundingClientRect().width;
+                if (filterWidth > 0) {
+                    page2.style.setProperty('--cv-top-width', filterWidth + 'px');
+                }
+            }
+        });
+    }
+
+    // Optional CV resume + divider styling on CV page
+    if (containerId === '#cv') {
+        var resumeContainer = document.getElementById('cv-resume');
+        var dividers = document.querySelectorAll('#page2 .cv-top-divider');
+        var resumeText = (cvData && cvData.resume) ? String(cvData.resume).trim() : '';
+
+        if (resumeContainer) {
+            if (resumeText.length > 0 && !config.skipResume) {
+                resumeContainer.innerHTML = resumeText;
+                resumeContainer.style.display = '';
+            } else {
+                resumeContainer.innerHTML = '';
+                resumeContainer.style.display = 'none';
+            }
+        }
+
+        // Ensure divider under filter is always visible; hide the lower one if no resume
+        if (dividers && dividers.length > 0) {
+            dividers[0].style.display = '';
+            if (dividers.length > 1) {
+                dividers[1].style.display = (resumeContainer && resumeContainer.style.display === 'none') ? 'none' : '';
+            }
+        }
+    }
 
     // Render vertical line
     var verticalLine = createElement('div');
@@ -769,6 +848,14 @@ function createPrintCV(containerId, config = {}) {
 
     // Get filtered data using shared helper
     var displayItems = getCVData(config);
+
+    // Optional CV resume at top (print)
+    if (cvData && cvData.resume && String(cvData.resume).trim().length > 0 && !config.skipResume) {
+        var resume = document.createElement('div');
+        resume.className = 'print-cv-resume';
+        resume.innerHTML = cvData.resume;
+        cvContainer.elt.appendChild(resume);
+    }
     
     // Group by category if configured
     if (config.groupByCategory) {
@@ -1160,6 +1247,16 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(window.innerWidth, window.innerHeight);
+
+    // Keep CV top elements aligned with filter width
+    var page2 = document.getElementById('page2');
+    var filterEl = document.getElementById('cv-filter');
+    if (page2 && filterEl) {
+        var filterWidth = filterEl.getBoundingClientRect().width;
+        if (filterWidth > 0) {
+            page2.style.setProperty('--cv-top-width', filterWidth + 'px');
+        }
+    }
 }
 
 class Particle {

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300..800&display=swap');
 
 
 body,
@@ -38,11 +38,27 @@ body,
 
 .sidebar a {
     cursor: pointer;
+    font-family: "Raleway", sans-serif;
     font-size: 1.5rem;
     text-decoration: none;
     color: white;
     opacity: 0.5;
     transition: opacity 0.15s ease-in-out;
+}
+
+/* Keep the home logo visible even when links are dimmed */
+.sidebar a.home-logo {
+    opacity: 1;
+}
+
+.sidebar a.home-logo span {
+    opacity: 0.5;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.sidebar a.home-logo:hover span,
+.sidebar a.home-logo.active span {
+    opacity: 1;
 }
 
 .sidebar a:hover {
@@ -54,21 +70,35 @@ body,
 }
 
 .sidebar .home-logo {
+    position: relative;
     display: grid;
-    grid-auto-flow: column;
-    align-items: center;
-    gap: 0.75rem;
+    place-items: center;
+    padding: 0.15rem 0.35rem;
 }
 
 .sidebar .home-logo img {
-    height: 2.25rem;
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(calc(-50% - (var(--mouse-dx, 0px) * 0.005)), calc(-50% - (var(--mouse-dy, 0px) * 0.005))) scale(1.12);
+    height: 2.75rem;
     width: auto;
-    opacity: 1 !important;
+    opacity: 1;
+    pointer-events: none;
+    /* transition removed for JS lerp */
 }
 
 .sidebar .home-logo span {
+    font-family: inherit;
+    position: relative;
+    z-index: 1;
     font-size: 1.5rem;
     line-height: 1.5rem;
+    text-shadow:
+        0 0 2px rgba(255, 255, 255, 0.35),
+        0 0 10px rgba(255, 255, 255, 0.15);
+    transform: translate(calc(var(--mouse-dx, 0px) * 0.025), calc(var(--mouse-dy, 0px) * 0.025));
+    /* transition removed for JS lerp */
 }
 
 .page {
@@ -161,7 +191,7 @@ h1 {
     }
 
     .sidebar .home-logo img {
-        height: 20px;
+        height: 26px;
     }
 
     .page {
@@ -171,8 +201,8 @@ h1 {
 
 /* CV Page Specifics */
 #page2 {
-    display: grid;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow: hidden;
     place-items: unset;
@@ -180,7 +210,8 @@ h1 {
 }
 
 #cv {
-    height: 100%;
+    flex: 1;
+    height: auto;
     overflow-y: scroll;
 }
 
@@ -551,6 +582,46 @@ h1 {
 .project-link:hover {
     color: #5dade2;
 }
+#cv-filter {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: fit-content;
+    background: #fff;
+    z-index: 10;
+    margin: 0.5rem auto 1.25rem auto;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+#cv-resume {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: normal;
+    width: 100%;
+    margin: 0;
+}
+
+.cv-top-divider {
+    border: 0;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin: 0;
+}
+
+#cv-top {
+    width: var(--cv-top-width, 100%);
+    max-width: 100%;
+    margin: 0 auto 4rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
 
 .project-link-arrow {
     width: 10px;
@@ -559,8 +630,7 @@ h1 {
 }
 
 /* Project Filter */
-#project-filter,
-#cv-filter {
+#project-filter {
     display: grid;
     grid-auto-flow: column;
     justify-content: center;
@@ -1049,6 +1119,16 @@ h1 {
     padding: 0;
 }
 
+.print-cv-resume {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 400;
+    text-align: left;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0 0 1.5rem 0;
+}
+
 .scroll-indicator {
     position: absolute;
     bottom: 0;
@@ -1278,27 +1358,31 @@ h1 {
 
 .application-controls {
     display: flex;
+    flex-direction: column;
     gap: 1rem;
     margin-bottom: 2rem;
-    align-items: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .app-selector {
-    padding: 0.5rem;
-    font-size: 1rem;
-    min-width: 300px;
-    margin-bottom: 0; /* Override skeleton if needed */
+    width: 100%;
 }
 
 .print-buttons {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
     gap: 0.5rem;
-    padding: 1rem;
+    justify-content: end;
+    align-items: start;
+    padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 0.4rem;
     background: #f9f9f9;
-    width: fit-content;
+    width: 100%;
+}
+
+.print-buttons button {
+    margin-bottom: 0;
 }
 
 /* Print Specifics */

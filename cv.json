@@ -1,4 +1,5 @@
 {
+    "resume": "Jeg har 20 års erfaring med uddannelsesområdet for børn og unge. Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis",
     "cv": [
         {
             "order": 0,
@@ -8,7 +9,7 @@
             "endYear": 2026,
             "title": "Empowering Creative Pedagogies with AI",
             "place": "Syddansk Universitet (SDU)",
-            "description": "Bevilliget af Novo Nordisk Fonden. 4-dages kursus om AI og kreativ pædagogik.",
+            "description": "Bevilliget af Novo Nordisk Fonden.<br/>4-dages kursus i AI-understøttede kreative pædagogikker og didaktisk implementering.",
             "detail": "This professional development course supports high school teachers in integrating AI-supported creative pedagogies - such as Problem-Based Learning (PBL) - to foster students’ creative problem-solving skills. Participants will explore how AI tools can enhance student engagement, inquiry, collaboration, and creativity."
         },
         {
@@ -19,7 +20,7 @@
             "endYear": "nu",
             "title": "Bestyrelsesmedlem",
             "place": "TTF (Teknologi- og teknikfagslærerforeningen)",
-            "description": "Faglig og politisk udvikling af teknologifagene",
+            "description": "Bestyrelsesarbejde med fokus på faglig udvikling og uddannelsespolitik for teknologi- og teknikfag.<br/>• Kurser og workshops<br/>• Formidling og interessevaretagelse",
             "detail": "Foreningen arbejder for at udvikle og styrke didaktikken i teknologi og teknikfaget gennem kurser og workshops. Vi arbejder samtidig for at give fagene en stærkere placering og tydeligere stemme i det uddannelsespolitiske landskab.",
             "link": {
                 "url": "https://ttf.nu",
@@ -32,10 +33,10 @@
             "category": "education",
             "startYear": 2024,
             "endYear": 2024,
-            "title": "ICI Coachuddannelse (Del 1)",
+            "title": "ICI Coachuddannelse",
             "place": "EmpowerMind",
-            "description": "Evidensbaseret coachingteori og praksis",
-            "detail": "Uddannelsen giver professionelle kompetencer til at agere coachende med individer og organisationer. Jeg har gennemført 15 personlige coachingforløb med både elever og voksne i mit netværk."
+            "description": "Coachuddannelse med fokus på evidensbaseret coachingteori, samtaleteknik og metode.",
+            "detail": "Uddannelsen giver professionelle kompetencer til at agere coachende med individer og organisationer. Har løbende gennemført coachingforløb med både elever og voksne i mit netværk."
         },
         {
             "order": 1,
@@ -43,10 +44,10 @@
             "category": "job",
             "startYear": 2020,
             "endYear": "nu",
-            "title": "Lektor",
-            "place": "KMG/Next HTX",
-            "description": "Digitalt Design og Udvikling, Programmering. Faggruppeleder for teknikfagene.",
-            "detail": "Min undervisning er bygget op omkring en legende og eksperimenterende tilgang til medier og teknologi. Altid med udgangspunkt i elevernes egen lyst til at skabe noget nyt og originalt. <br/></br>Som faggruppeleder har jeg for nylig oprettet skolens AI udvalg, og arbejder aktivt med at debattere og inteegrere teknologien i undervisningenen og den faglige udvikling."
+            "title": "Lektor og faggruppeleder for teknikfagene",
+            "place": "Københavns Mediegymnasium / NEXT (HTX & STX)",
+            "description": "Underviser i Digitalt Design og Udvikling og Programmering samt faggruppeleder for teknikfagene.<br/><br/>Ansvarsområder:<br/>• Faglig udvikling og koordinering af teknikfagene<br/>• Etablering og ledelse af skolens tværfaglige AI-netværk<br/>• Klasselærer og pæagogikum vejleder i teknikfag<br/><br/>Udvalgte resultater:<br/>• Systematisk analyse af eksamensresultater i DDU (2021–2024) som viser en positiv løfteevne, hvor elevernes karakterer ligger over det forventede niveau ift. socioøkonomisk baggrund.",
+            "detail": "Min undervisning bygger på en legende og eksperimenterende tilgang til akademisk tænkning, med fokus på elevernes skabende arbejde indenfor medier og teknologi.<br/><br/>Som faggruppeleder har jeg etableret skolens AI-udvalg og arbejder med at drøfte og integrere teknologien i undervisningen og den faglige udvikling."
         },
         {
             "order": 1.5,
@@ -56,7 +57,7 @@
             "endYear": "nu",
             "title": "Tværfagligt AI-netværk",
             "place": "KMG Next",
-            "description": "Etableret tværfagligt netværk med fokus på digital udvikling og ansvarlig anvendelse af AI i en uddannelseskontekst.",
+            "description": "Etableret tværfagligt netværk med fokus på digital udvikling og ansvarlig anvendelse af AI i en uddannelseskontekst.<br/>• Facilitering af dialog og videndeling på tværs af faggrupper",
             "detail": "Netværket samler undervisere på tværs af faggrupper til dialog og videndeling om, hvordan AI-teknologier kan anvendes meningsfuldt og ansvarligt i gymnasiet. Fokus på både pædagogisk integration og kritisk refleksion over teknologiens rolle i uddannelse."
         },
         {
@@ -65,9 +66,19 @@
             "category": "job",
             "startYear": 2019,
             "endYear": 2020,
-            "title": "Senior Lecturer",
-            "place": "Kristiania Høgskole Oslo",
-            "description": "Underviste på Interaktionsdesign i frontend-udvikling og moderne frameworks (React, Svelte). Fokus på kreativ problemløsning i praksisnære projekter."
+            "title": "Senior Lecturer, Interaktionsdesign",
+            "place": "Kristiania Høgskole, Oslo",
+            "description": "Undervisning i frontend-udvikling og moderne frameworks (React, Svelte).<br/><br/>Ansvarsområder:<br/>• Udvikling af curriculum for praksisnære IT-forløb<br/>• Undervisning og vejledning på bachelor- og masterniveau<br/>• Integrering af projektbaseret læring og kreativ problemløsning"
+        },
+        {
+            "order": 4.5,
+            "id": "kadenze-ml-musicians-artists",
+            "category": "education",
+            "startYear": 2019,
+            "endYear": 2019,
+            "title": "Machine Learning for Musicians and Artists",
+            "place": "Kadenze (Rebecca Fiebrink, Goldsmiths)",
+            "description": "Onlinekursus i machine learning med fokus på kreative og kunstneriske anvendelser."
         },
         {
             "order": 5,
@@ -77,7 +88,7 @@
             "endYear": 2018,
             "title": "Pædagogikum (Teknikfag + Programmering)",
             "place": "SDU",
-            "description": "Pædagogikum med fokus på Computational Thinking i praksis.",
+            "description": "Gymnasialt pædagogikum med fokus på computational thinking og teknologiforståelse.",
             "detail": "I min Pædagogikum undersøgte jeg praktisk og teoretisk perspektiv, hvordan man didaktisk kan arbejde med teknologiens dobbeltside – både som skabende værktøj og som genstand for kritisk refleksion.",
             "link": {
                 "url": "assets/teopæd.simonmoe.pdf",
@@ -92,7 +103,7 @@
             "endYear": 2019,
             "title": "Gymnasielærer",
             "place": "Slotshaven Gymnasium (HTX)",
-            "description": "Kommunikation og It A, Informatik C/B, Programmering B, DDU"
+            "description": "Undervisning i Kommunikation og IT A, Informatik C/B, Programmering B og DDU.<br/><br/>Ansvarsområder:<br/>• Udvikling af tværfaglige og projektorienterede forløb<br/>• Implementering af nye læreplaner<br/>• Eksamens- og prøveafvikling<br/><br/>Udvalgte resultater:<br/>• Etablerede VR Lab som ramme for produktion og undervisning i nye platforme<br/>• Udviklede format for digitale fællesskaber (Vi er mere end LAN) som blev forankret som tradition"
         },
         {
             "order": 10.5,
@@ -102,7 +113,7 @@
             "endYear": 2016,
             "title": "Frivillig / Organisator",
             "place": "Coding Pirates",
-            "description": "Undervisning af børn i programmering og teknologiforståelse samt organisering af lokale aktiviteter."
+            "description": "Frivilligt arbejde med fokus på teknologiforståelse.<br/>• Undervisning og organisering af lokale aktiviteter"
         },
         {
             "order": 7,
@@ -111,7 +122,7 @@
             "endYear": 2015,
             "title": "MPG (Master of Public Governance)",
             "place": "CBS / Hertie School of Governance",
-            "description": "Mastermoduler i offentlig ledelse og styring.",
+            "description": "Mastermoduler i offentlig ledelse og styring.<br/>• Reform og forandring<br/>• Performance management<br/>• Economics for Non-Economists",
             "detail": "Gennemførte moduler:<br/>- Reform og forandring (CBS)<br/>- Ledelsesfagligt grundforløb (CBS)<br/>- Personligt Udviklingsforløb (CBS)<br/>- Economics for Non-Economists (Hertie School of Governance)<br/>- Performance Management (Hertie School of Governance)"
         },
         {
@@ -121,7 +132,7 @@
             "endYear": 2013,
             "title": "Certified ScrumMaster",
             "place": "Mountain Goat Software, LLC",
-            "description": "Fundamental principles and practices of Scrum.",
+            "description": "Certificering i Scrum og agil projektstyring.",
             "detail": "Taught by Mike Cohn. Covers defined and empirical processes, product backlog, sprint planning, reviews, retrospectives, and scalability of Scrum.",
             "link": {
                 "url": "assets/certified.scrum.pdf",
@@ -135,7 +146,7 @@
             "endYear": 2009,
             "title": "Diplom i Ledelse: Projektledelse",
             "place": "University College Sjælland",
-            "description": "Modul fra Diplomuddannelsen i Ledelse (9 ECTS)."
+            "description": "Diplommodul i projektledelse (9 ECTS)."
         },
         {
             "order": 9,
@@ -143,7 +154,8 @@
             "startYear": 2012,
             "endYear": 2012,
             "title": "Analyse af økonomisk statistik",
-            "place": "Teknologisk Institut"
+            "place": "Teknologisk Institut",
+            "description": "Kursus i statistisk analyse og anvendelse af data som beslutningsgrundlag."
         },
         {
             "order": 10,
@@ -175,7 +187,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Etablerede og ledede analyseenhed for brugerinddragelse og serviceudvikling. Medlem af lederkollegiet med ansvar for strategi, samt budgetansvar for PR og projektportefølje."
+            "description": "Etablerede og ledede analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering"
         },
         {
             "order": 10.3,
@@ -185,7 +197,7 @@
             "endYear": "nu",
             "title": "Medstifter og koordinator - ROAL",
             "place": "ROAL (Netværk for ordblindhed og læsevanskeligheder)",
-            "description": "Central i etableringen af tværfagligt netværk med fokus på samfundsmæssig forståelse af ordblindhed og andre læsevanskeligheder.",
+            "description": "Medstifter og koordinator for netværk med fokus på ordblindhed og læsevanskeligheder.<br/>• Videndeling, temadage og formidling",
             "detail": "ROAL holder øje med den samfundsmæssige forståelse af ordblindhed og andre læsevanskeligheder med fokus på dem, der arbejder med denne målgruppe. Netværket formidler og vidensdeler i publikationer og på temadage, med fokus på såvel gode indsatser som forhold, der skaber barrierer. ROAL tilbyder en platform for ad hoc-gruppers arbejde."
         },
         {
@@ -196,7 +208,7 @@
             "endYear": 2015,
             "title": "Uddannelsespolitisk Netværk",
             "place": "Samuelsen",
-            "description": "Repræsentant for Nota i Samuelsens uddannelsespolitiske netværk.",
+            "description": "Repræsentant for Nota i uddannelsespolitisk netværk.<br/>• Dialog, videndeling og sparring med centrale aktører",
             "detail": "Netværket tager fat i de vigtigste dagsordener på uddannelsesområdet - fra pædagogik og didaktik til politik og reformer. Netværket samler aktører, som beskæftiger sig med uddannelsespolitik fra forskellige vinkler, og udfordrer medlemmer og oplægsholder til at finde løsninger i fællesskab."
         },
         {
@@ -207,7 +219,7 @@
             "endYear": 2008,
             "title": "Selvstændig it-konsulent",
             "place": "Selvstændig",
-            "description": "Programmør, kursusholder, konsulent for bl.a. UVM, Københavns Kommune, WHO, TRYG m.fl."
+            "description": "Opgaver for bl.a. UVM, Københavns Kommune, WHO og TRYG.<br/><br/>Ansvarsområder:<br/>• Systemudvikling og implementering<br/>• Undervisning, kurser og formidling<br/>• Rådgivning i projekter med mange interessenter"
         },
         {
             "order": 13,
@@ -217,7 +229,7 @@
             "endYear": 2006,
             "title": "Kommunikationskonsulent (COINCO)",
             "place": "Københavns Kommune / EU",
-            "description": "Informationsmedarbejder på EU-projektet COINCO.",
+            "description": "Kommunikationskonsulent på EU-projektet COINCO.<br/><br/>Ansvarsområder:<br/>• Digital formidling og interessentkommunikation<br/>• Organisering af politiske og administrative møder<br/>• Koordinering mellem kommunale og europæiske aktører",
             "detail": "Ansvar for hjemmeside, nyhedsbrev (layout og indhold) samt organisering af begivenheder for politikere og embedsmænd.",
             "cvRefs": [
                 "coinco-anbefaling"
@@ -229,7 +241,8 @@
             "startYear": 2006,
             "endYear": 2006,
             "title": "Cand.Comm i Datalogi og Kommunikation",
-            "place": "Roskilde Universitet"
+            "place": "Roskilde Universitet",
+            "description": "Kandidatuddannelse i datalogi og kommunikation med fokus på digitale medier og systemdesign."
         },
         {
             "order": 15,
@@ -238,7 +251,8 @@
             "startYear": 2003,
             "endYear": 2003,
             "title": "Art & Technology",
-            "place": "Chalmers Tekniska Universitet"
+            "place": "Chalmers Tekniska Universitet",
+            "description": "Forløb i krydsfeltet mellem kunst, teknologi og digitalt design."
         },
         {
             "order": 15.5,
@@ -248,7 +262,7 @@
             "endYear": 2004,
             "title": "Studenternævnet",
             "place": "Roskilde Universitet",
-            "description": "Faglig og politisk interessevaretagelse for de studerende."
+            "description": "Faglig og politisk repræsentation af studerende i studienævn og udvalg."
         },
         {
             "order": 14.5,
@@ -258,7 +272,7 @@
             "endYear": 2004,
             "title": "It-konsulent (Undervisningsministeriet)",
             "place": "Undervisningsministeriet (UVM)",
-            "description": "Udvikling af videndelingsplatforme og it-strategi.",
+            "description": "Udvikling af videndelingsplatforme og bidrag til ministeriets IT-strategi.<br/><br/>Ansvarsområder:<br/>• Teknisk og konceptuel udvikling af digitale initiativer<br/>• Tværgående koordinering på folkeskoleområdet<br/>• Understøttelse af politiske indsatser",
             "detail": "Hovedansvar for teknisk og konceptuel udvikling af ministeriets it-strategiplan og videndelingsplatforme. Arbejdet blev vurderet som banebrydende på europæisk plan ift. it som pædagogisk værktøj.",
             "cvRefs": [
                 "uvm-anbefaling"
@@ -272,7 +286,7 @@
             "endYear": 2001,
             "title": "Studentermedarbejder",
             "place": "Undervisningsministeriet (UVM)",
-            "description": "Arbejdede under chefkonsulent Lilla Voss i projektportefølje omkring 'It i folkeskolen'.",
+            "description": "Bidrag til projektportefølje om \"IT i folkeskolen\".<br/><br/>Ansvarsområder:<br/>• Understøttelse af projekter og koordination med skoler, kommuner og it-aktører",
             "detail": "Som studentermedarbejder bidrog jeg til udvikling og udbredelse af it-pædagogiske løsninger i grundskolen. Arbejdet foregik i tæt samarbejde med skoler, kommuner og it-virksomheder."
         },
         {
@@ -283,7 +297,7 @@
             "endYear": 2007,
             "title": "Konsulent og underviser",
             "place": "Den Danske Scenekunstskole",
-            "description": "Kurser for instruktører og scenografer om digitale medier i scenekunst."
+            "description": "Kurser for instruktører og scenografer om digitale medier i scenekunst.<br/><br/>Ansvarsområder:<br/>• Tilrettelæggelse, undervisning og vejledning"
         },
         {
             "order": 11.6,
@@ -293,7 +307,7 @@
             "endYear": 2007,
             "title": "Strategisk konsulent (HUM-TEK)",
             "place": "Roskilde Universitet (RUC)",
-            "description": "Bidrog til det strategiske arbejde med oprettelsen af HUM-TECH og udviklingen af curriculum for nye masteruddannelser, der kombinerede IT med humanistiske og socialfaglige fagområder."
+            "description": "Strategisk arbejde med etablering af HUM-TECH og udvikling af curriculum for nye tværfaglige uddannelsesforløb.<br/><br/>Ansvarsområder:<br/>• Uddannelsesudvikling og strategi<br/>• Tværfaglig koordinering"
         },
         {
             "order": 17,
@@ -303,7 +317,7 @@
             "endYear": 2001,
             "title": "Teamleder & Systemudvikler",
             "place": "Netvokat.dk",
-            "description": "Digital platform for juridiske ydelser.",
+            "description": "Udvikling af digital platform for juridiske ydelser.<br/><br/>Ansvarsområder:<br/>• Teamledelse og leverance i ASP.NET/XML<br/>• Opbygning af platformarkitektur og frontend-framework",
             "detail": "Udvikling af komplet platform fra bunden i .ASP .NET og XML. Samarbejde med Jacob Carstens og Ole Kristensen."
         },
         {
