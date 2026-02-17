@@ -955,6 +955,49 @@ function renderPrintCVItem(job, cvContainer) {
         img.src = job.image;
         item.appendChild(img);
     }
+
+    // References (only used in application/print CV)
+    if (job.references && Array.isArray(job.references) && job.references.length > 0) {
+        var referencesWrapper = document.createElement('div');
+        referencesWrapper.className = 'print-cv-references';
+
+        var referencesLabel = document.createElement('p');
+        referencesLabel.className = 'print-cv-references-label';
+        referencesLabel.textContent = job.references.length > 1 ? 'Referencer:' : 'Reference:';
+        referencesWrapper.appendChild(referencesLabel);
+
+        var referencesList = document.createElement('ul');
+        referencesList.className = 'print-cv-references-list';
+
+        job.references.forEach(ref => {
+            var refItem = document.createElement('li');
+            refItem.className = 'print-cv-reference-item';
+
+            var parts = [];
+            if (ref.name) parts.push(ref.name);
+            if (ref.role) parts.push(ref.role);
+            if (ref.phone) parts.push(ref.phone);
+
+            if (ref.linkedin) {
+                var link = document.createElement('a');
+                link.href = ref.linkedin;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.textContent = 'LinkedIn';
+
+                var textPrefix = parts.length > 0 ? parts.join(', ') + ' · ' : '';
+                refItem.textContent = textPrefix;
+                refItem.appendChild(link);
+            } else {
+                refItem.textContent = parts.join(', ');
+            }
+
+            referencesList.appendChild(refItem);
+        });
+
+        referencesWrapper.appendChild(referencesList);
+        item.appendChild(referencesWrapper);
+    }
     
     cvContainer.elt.appendChild(item);
 }

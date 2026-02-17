@@ -1,6 +1,6 @@
 {
     "resume-short": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent.",
-    "resume": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent. Teoretisk har jeg ballast fra en Master i Public Governance (MPG), som har skærpet min evne til at tænke i helheder og designe indsatser, der er operationelt bæredygtige. Som datalog har jeg en faglig tilgang til kunstig intelligens og dens rolle i uddannelse og organisationer. Jeg orienterer mig pragmatisk i feltet og mit fokus er at identificere, hvor AI reelt skaber værdi og kan integreres ansvarligt, transparent og strategisk.",
+    "resume": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent. Teoretisk har jeg ballast fra en Master i Public Governance (MPG), som har skærpet min evne til at tænke i helheder og designe indsatser, der er operationelt bæredygtige. Som datalog har jeg en faglig tilgang til kunstig intelligens og dens rolle i uddannelse og organisationer. Jeg orienterer mig pragmatisk i feltet og mit fokus er at identificere, hvor AI reelt skaber værdi og kan integreres ansvarligt, transparent og strategisk.<br><br>Referencer oplyses gerne ved samtale.",
     "cv": [
         {
             "order": 0,
@@ -48,7 +48,19 @@
             "title": "Lektor og faggruppeleder for teknikfagene",
             "place": "Københavns Mediegymnasium / NEXT (HTX & STX)",
             "description": "Underviser i Digitalt Design og Udvikling og Programmering samt faggruppeleder for teknikfagene.<br/><br/>Ansvarsområder:<br/>• Faglig udvikling og koordinering af teknikfagene<br/>• Etablering og ledelse af skolens tværfaglige AI-netværk<br/>• Klasselærer og pæagogikum vejleder i teknikfag<br/><br/>Udvalgte resultater:<br/>• Positiv løfteevne i Teknilfag (2021-2024), hvor elevernes karakterer ligger over det forventede niveau ift. socioøkonomisk baggrund.",
-            "detail": "Min undervisning bygger på en legende og eksperimenterende tilgang til akademisk tænkning, med fokus på elevernes skabende arbejde indenfor medier og teknologi.<br/><br/>Som faggruppeleder har jeg etableret skolens AI-udvalg og arbejder med at drøfte og integrere teknologien i undervisningen og den faglige udvikling."
+            "detail": "Min undervisning bygger på en legende og eksperimenterende tilgang til akademisk tænkning, med fokus på elevernes skabende arbejde indenfor medier og teknologi.<br/><br/>Som faggruppeleder har jeg etableret skolens AI-udvalg og arbejder med at drøfte og integrere teknologien i undervisningen og den faglige udvikling.",
+            "references": [
+                {
+                    "name": "Rasmus Christian Dietz",
+                    "role": "Rektor",
+                    "phone": "+4522636697"
+                },
+                {
+                    "name": "Pernille Birgitte Frøling",
+                    "role": "Vicerektor",
+                    "phone": "+4551703404"
+                }
+            ]
         },
         {
             "order": 1.5,
@@ -69,7 +81,12 @@
             "endYear": 2020,
             "title": "Senior Lecturer, Interaktionsdesign",
             "place": "Kristiania Høgskole, Oslo",
-            "description": "Undervisning i frontend-udvikling og moderne frameworks (React, Svelte).<br/><br/>Ansvarsområder:<br/>• Udvikling af curriculum for praksisnære IT-forløb<br/>• Undervisning og vejledning på bachelor- og masterniveau<br/>• Integrering af projektbaseret læring og kreativ problemløsning"
+            "description": "Undervisning i frontend-udvikling og moderne frameworks (React, Svelte).<br/><br/>Ansvarsområder:<br/>• Udvikling af curriculum for praksisnære IT-forløb<br/>• Undervisning og vejledning på bachelor- og masterniveau<br/>• Integrering af projektbaseret læring og kreativ problemløsning",
+            "references": [
+                {
+                    "name": "Olivier Klaver"
+                }
+            ]
         },
         {
             "order": 4.5,
@@ -104,7 +121,17 @@
             "endYear": 2019,
             "title": "Gymnasielærer",
             "place": "Slotshaven Gymnasium (HTX)",
-            "description": "Undervisning i Kommunikation og IT A, Informatik C/B, Programmering B og DDU.<br/><br/>Ansvarsområder:<br/>• Udvikling af tværfaglige og projektorienterede forløb<br/>• Implementering af nye læreplaner<br/>• Eksamens- og prøveafvikling<br/><br/>Udvalgte resultater:<br/>• Etablerede VR Lab som ramme for produktion og undervisning i nye platforme<br/>• Udviklede format for digitale fællesskaber (Vi er mere end LAN) som blev forankret som tradition"
+            "description": "Undervisning i Kommunikation og IT A, Informatik C/B, Programmering B og DDU.<br/><br/>Ansvarsområder:<br/>• Udvikling af tværfaglige og projektorienterede forløb<br/>• Implementering af nye læreplaner<br/>• Eksamens- og prøveafvikling<br/><br/>Udvalgte resultater:<br/>• Etablerede VR Lab som ramme for produktion og undervisning i nye platforme<br/>• Udviklede format for digitale fællesskaber (Vi er mere end LAN) som blev forankret som tradition",
+            "references": [
+                {
+                    "name": "Malene Gram Granjean",
+                    "role": "Rektor"
+                },
+                {
+                    "name": "Marianne Worck Nielsen",
+                    "role": "Kursusleder"
+                }
+            ]
         },
         {
             "order": 10.5,
@@ -188,7 +215,21 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Daglig ledelse af 8 medarbejdere<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering"
+            "description": "Analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Daglig ledelse af 8 medarbejdere<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering",
+            "references": [
+                {
+                    "name": "Inge Padkær",
+                    "linkedin": "https://www.linkedin.com/in/inge-padk%C3%A6r-nielsen-33778a38/?originalSubdomain=dk"
+                },
+                {
+                    "name": "Katia Bill Nielsen",
+                    "role": "Assistant professor, University of Copenhagen"
+                },
+                {
+                    "name": "Søren Bolvig Poulsen",
+                    "role": "Associate Professor, Ph.D. at AAU"
+                }
+            ]
         },
         {
             "order": 10.3,

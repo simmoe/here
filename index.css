@@ -1075,6 +1075,34 @@ h1 {
     line-height: 1.4;
 }
 
+.print-cv-references {
+    margin-top: 0.5rem;
+}
+
+.print-cv-references-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #333;
+}
+
+.print-cv-references-list {
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.print-cv-reference-item {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0 0 0.15rem 0;
+    color: #444;
+}
+
+.print-cv-reference-item a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 .print-cv-detail {
     font-size: 0.85rem;
     line-height: 1.4;
