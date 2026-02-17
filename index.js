@@ -261,10 +261,7 @@ function renderApplicationContent(app, container, printType = 'full') {
     if (printType === 'full' || printType === 'letter') {
         // Sender Info
         clone.querySelector('.sender-name').textContent = contactData.name;
-        clone.querySelector('.sender-address').textContent = contactData.address;
-        clone.querySelector('.sender-zip').textContent = contactData.zip;
-        clone.querySelector('.sender-phone').textContent = 'tlf: ' + contactData.phone;
-        clone.querySelector('.sender-email').textContent = contactData.email;
+        clone.querySelector('.sender-phone').textContent = contactData.phone;
         
         // Recipient Info
         clone.querySelector('.recipient-company').textContent = app.recipient.company;
@@ -277,6 +274,7 @@ function renderApplicationContent(app, container, printType = 'full') {
         clone.querySelector('.letter-title').textContent = app.title;
         
         var bodyDiv = clone.querySelector('.letter-body');
+        
         app.content.forEach(para => {
             if (para === '---') {
                 var pb = document.createElement('div');
@@ -291,9 +289,21 @@ function renderApplicationContent(app, container, printType = 'full') {
                     bodyDiv.appendChild(sigImg);
                 }
                 
-                var p = document.createElement('p');
-                p.textContent = para;
-                bodyDiv.appendChild(p);
+                // Check if para contains HTML markup
+                if (para.includes('<') && para.includes('>')) {
+                    // HTML markup - insert directly
+                    var wrapper = document.createElement('div');
+                    wrapper.innerHTML = para;
+                    // Append all children
+                    while(wrapper.firstChild) {
+                        bodyDiv.appendChild(wrapper.firstChild);
+                    }
+                } else {
+                    // Plain text - create paragraph
+                    var p = document.createElement('p');
+                    p.textContent = para;
+                    bodyDiv.appendChild(p);
+                }
             }
         });
     } else {
@@ -792,7 +802,7 @@ function createCV(containerId, config = {}){
     if (containerId === '#cv') {
         var resumeContainer = document.getElementById('cv-resume');
         var dividers = document.querySelectorAll('#page2 .cv-top-divider');
-        var resumeText = (cvData && cvData.resume) ? String(cvData.resume).trim() : '';
+        var resumeText = (cvData && cvData['resume-short']) ? String(cvData['resume-short']).trim() : '';
 
         if (resumeContainer) {
             if (resumeText.length > 0 && !config.skipResume) {
@@ -1179,41 +1189,46 @@ function createProjects(config = {}){
             }
         }
 
-        // Scroll Indicator Logic
-        // scrollIndicator var allerede defineret ovenfor
+        // Scroll Indicator Logic - Med simpel wrapper
+        let isExpanded = false;
         
-        // Check overflow on hover
+        // Lav en simpel wrapper til alt indhold i content
+        let wrapper = document.createElement('div');
+        wrapper.style.transition = 'transform 0.5s ease';
+        while(content.firstChild) {
+            wrapper.appendChild(content.firstChild);
+        }
+        content.appendChild(wrapper);
+        
+        // Tjek for overflow ved hover
         card.addEventListener('mouseenter', () => {
-            // Function to check overflow
-            const checkOverflow = () => {
-                // Add a buffer of 40px (approx 2 lines) so it only shows if there's significant overflow
-                if (content.scrollHeight > content.clientHeight + 50) {
+            setTimeout(() => {
+                // Tjek om wrapper har overflow
+                if (wrapper.scrollHeight > content.clientHeight + 50) {
                     scrollIndicator.classList.add('visible');
                 } else {
                     scrollIndicator.classList.remove('visible');
                 }
-            };
-            
-            // Wait for the slide-up animation (0.5s) to finish before checking
-            // Checking immediately gives wrong results because of the initial margin-top on context
-            setTimeout(checkOverflow, 550);
+            }, 550);
         });
 
+        // Reset ved mouseleave
         card.addEventListener('mouseleave', () => {
             scrollIndicator.classList.remove('visible');
-            content.scrollTop = 0; // Reset scroll
-            scrollIndicator.style.opacity = ''; // Reset inline style
+            wrapper.style.transform = '';
+            scrollIndicator.style.opacity = '';
+            isExpanded = false;
         });
 
-        // Hide indicator on scroll
-        content.addEventListener('scroll', () => {
-             if(content.scrollTop > 10) {
-                 scrollIndicator.style.opacity = '0';
-             } else {
-                 if(scrollIndicator.classList.contains('visible')) {
-                    scrollIndicator.style.opacity = '1';
-                 }
-             }
+        // Klik på pil - flyt wrapper op
+        scrollIndicator.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isExpanded) {
+                let overflow = wrapper.scrollHeight - content.clientHeight;
+                wrapper.style.transform = `translateY(-${overflow}px)`;
+                isExpanded = true;
+                scrollIndicator.style.opacity = '0';
+            }
         });
 
         container.elt.appendChild(clone);

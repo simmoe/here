@@ -1,5 +1,6 @@
 {
-    "resume": "Jeg har 20 års erfaring med uddannelsesområdet for børn og unge. Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis",
+    "resume-short": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent.",
+    "resume": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent. Teoretisk har jeg ballast fra en Master i Public Governance (MPG), som har skærpet min evne til at tænke i helheder og designe indsatser, der er operationelt bæredygtige. Som datalog har jeg en faglig tilgang til kunstig intelligens og dens rolle i uddannelse og organisationer. Jeg orienterer mig pragmatisk i feltet og mit fokus er at identificere, hvor AI reelt skaber værdi og kan integreres ansvarligt, transparent og strategisk.",
     "cv": [
         {
             "order": 0,
@@ -187,7 +188,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Etablerede og ledede analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering"
+            "description": "Analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Daglig ledelse af 8 medarbejdere<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering"
         },
         {
             "order": 10.3,
@@ -219,7 +220,7 @@
             "endYear": 2008,
             "title": "Selvstændig it-konsulent",
             "place": "Selvstændig",
-            "description": "Opgaver for bl.a. UVM, Københavns Kommune, WHO og TRYG.<br/><br/>Ansvarsområder:<br/>• Systemudvikling og implementering<br/>• Undervisning, kurser og formidling<br/>• Rådgivning i projekter med mange interessenter"
+            "description": "Opgaver for bl.a. Københavns Kommune, WHO og TRYG.<br/><br/>Ansvarsområder:<br/>• Systemudvikling og implementering<br/>• Undervisning, kurser og formidling<br/>• Rådgivning i projekter med mange interessenter"
         },
         {
             "order": 13,
@@ -240,7 +241,7 @@
             "category": "education",
             "startYear": 2006,
             "endYear": 2006,
-            "title": "Cand.Comm i Datalogi og Kommunikation",
+            "title": "Cand.Scient.Comm i Datalogi og Kommunikation",
             "place": "Roskilde Universitet",
             "description": "Kandidatuddannelse i datalogi og kommunikation med fokus på digitale medier og systemdesign."
         },
@@ -265,11 +266,11 @@
             "description": "Faglig og politisk repræsentation af studerende i studienævn og udvalg."
         },
         {
-            "order": 14.5,
+            "order": 11.8,
             "id": "uvm-konsulent",
             "category": "job",
             "startYear": 2001,
-            "endYear": 2004,
+            "endYear": 2006,
             "title": "It-konsulent (Undervisningsministeriet)",
             "place": "Undervisningsministeriet (UVM)",
             "description": "Udvikling af videndelingsplatforme og bidrag til ministeriets IT-strategi.<br/><br/>Ansvarsområder:<br/>• Teknisk og konceptuel udvikling af digitale initiativer<br/>• Tværgående koordinering på folkeskoleområdet<br/>• Understøttelse af politiske indsatser",
