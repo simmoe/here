@@ -1,5 +1,45 @@
 {
   "applications": [
+    {
+      "id": "todai-uopfordret-2026",
+      "recipient": {
+        "company": "Todai",
+        "attn": "Dan Rose Johansen"
+      },
+      "date": "26. februar 2026",
+      "title": "Uopfordret ansøgning",
+      "useSignature": true,
+      "content": [
+        "A.I ruller undervisningsverdenen rundt, og jeg tror jeg kan være med til at gøre en positiv forskel som konsulent hos jer, hvis i gør undervisning til et indsatsområde. I klasselokalet på Frederiksberg kan jeg gøre lige hvad jeg vil, men ikke dreje organisationen rundt.",
+        "Jeg tror i har brug for sådan en som mig, fordi jeg tænker kreativt, har en fundamental evne til at inspirere til forandring uden at miste blik for drift og budgetter, og fordi jeg brænder for at skabe de bedst mulige vilkår for læring i organisationer.",
+        "Skolesystemet er måske ikke jeres fokus lige nu; institutionerne er træge og decentraliserede og styret af en ministeriel slæbegigant. Alligevel tror jeg på, at undervisningssystemet er en hovedpulsåre i forandringen som A.I indvarsler. Og reformen af gymnasierne er på vej, ministeriet gisper efter luft i kampen for at skabe retningslinjer og praksis, der kan føre skolerne konstruktivt videre. Arbejdsmarkedet og konkurrencevilkårene forandrer sig internationalt, det minder lidt om internettets indtog i 90'erne. Bare det, at A.I ikke er Internettet.",
+        "Lige nu bruger lærere og elever teknologien med hovedet under armen, og i frygt for at blive opdaget af den anden part. Det er lidt sjovt, men.. Strategi, arkitektur, analyse og kortlægning af målsætninger, ressourcer og kvalitet, mangler.",
+        "Jeg har tyve års erfaring med uddannelse, tidligere som leder og selvstændig konsulent, i dag som underviser på HTX. Min uddannelsesbaggrund er datalogi og kommunikation, men den røde tråd i min karriere handler om læring og teknik: teknologisk udforskning og eksperimentelt mod, som fundament for erkendelse, kreativitet og resultater.",
+        "Som datalog har jeg grundlæggende indsigt i A.I. Jeg er ikke verdens bedste programmør (dem er der få af), men jeg er heller ikke verdens dårligste (mange!). Til gengæld er jeg rigtig dygtig til at styre et it-projekt, har fordel af generalistens indblik i komplekse systemer og faggrupper, og jeg kan tale med <i>alle</i> - også på en dårlig dag. Mit brændstof er nysgerrighed, samarbejde og umage.",
+        "Jeg er ikke noget exceptionelt menneske, men af grunde der er ukendte for mig selv, har jeg ofte et gear mere i en proces. Og generelt et energiniveau, som er højere end andres. Jeg afslutter, implementerer og sætter i gang, også under et vist tidspres. Jeg er god til at sætte mig ind i folks ønsker og behov (og at skelne mellem de to), og jeg brænder for at levere noget der gør en forskel.",
+        "Evnen til at eksperimentere og inspirere er måske medfødt, men evnen til at styre det langsigtet og med begge ben på jorden, er tillært. Jeg stiller meget gerne op til en uformel samtale om mulighederne for at føre Todai ind i undervisningsverdenen på et kort personligt møde, hvis det har interesse.",
+        "Med venlig hilsen",
+        "Simon Moe"
+      ],
+      "cvConfig": {
+        "include": true,
+        "expanded": true,
+        "excludeIds": [],
+        "categories": ["job", "education"],
+        "groupByCategory": true,
+        "categoryOrder": ["job", "education", "board"]
+      },
+      "highlightedProjects": [
+        "ddu-media-ai",
+        "infc-ml-genai",
+        "kmg-next-teaching-dev"
+      ],
+      "recommendationsConfig": {
+        "include": true,
+        "useShortVersion": true,
+        "excludeIds": []
+      }
+    },
         {
       "id": "stuk-chefkonsulent-epx-2026",
       "recipient": {

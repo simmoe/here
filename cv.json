@@ -145,6 +145,7 @@
         },
         {
             "order": 7,
+            "id": "mpg-cbs",
             "category": "education",
             "startYear": 2013,
             "endYear": 2015,
@@ -155,6 +156,7 @@
         },
         {
             "order": 8,
+            "id": "scrum-certified",
             "category": "education",
             "startYear": 2013,
             "endYear": 2013,
@@ -169,6 +171,7 @@
         },
         {
             "order": 11,
+            "id": "diplom-projektledelse",
             "category": "education",
             "startYear": 2009,
             "endYear": 2009,
@@ -178,6 +181,7 @@
         },
         {
             "order": 9,
+            "id": "kursus-statistik",
             "category": "education",
             "startYear": 2012,
             "endYear": 2012,
@@ -187,6 +191,7 @@
         },
         {
             "order": 10,
+            "id": "kursus-forhandling",
             "category": "education",
             "startYear": 2010,
             "endYear": 2010,
@@ -279,6 +284,7 @@
         },
         {
             "order": 14,
+            "id": "ruc-cand",
             "category": "education",
             "startYear": 2006,
             "endYear": 2006,

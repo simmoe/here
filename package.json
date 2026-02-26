@@ -1,0 +1,12 @@
+{
+  "name": "here",
+  "version": "1.0.0",
+  "description": "Simon Moe's portfolio site",
+  "scripts": {
+    "migrate": "node migrate-to-firestore.js"
+  },
+  "dependencies": {
+    "firebase": "^10.8.0"
+  },
+  "devDependencies": {}
+}

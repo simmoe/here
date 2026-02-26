@@ -187,11 +187,42 @@ h1 {
 
     .sidebar a {
         display: block;
-        margin: 1rem 0;
+        margin: 0;
+        padding: 0.75rem 0;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    .sidebar a:first-of-type {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Make home-logo look like all other menu items in mobile */
+    .sidebar .home-logo {
+        display: block;
+        position: static;
+        padding: 0.75rem 0;
+    }
+
+    /* Hide logo background image in mobile */
     .sidebar .home-logo img {
-        height: 26px;
+        display: none;
+    }
+
+    /* Reset home-logo text styling to match other links */
+    .sidebar .home-logo span {
+        transform: none !important;
+        opacity: 0.5;
+        font-size: 1.5rem;
+        text-shadow: none;
+        position: static;
+    }
+
+    .sidebar a.home-logo:hover span,
+    .sidebar a.home-logo.active span {
+        opacity: 1;
     }
 
     .page {
@@ -1283,6 +1314,43 @@ h1 {
     font-size: 1.2rem;
 }
 
+.editable-content {
+    min-height: 3rem;
+}
+
+.editable-content p {
+    margin: 0;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.editable-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Hide empty paragraphs */
+.editable-content p:empty {
+    display: none;
+}
+
+/* Lists in editable content */
+.editable-content ul {
+    margin: 1rem 0 1rem 0;
+    padding-left: 2.5rem;
+    list-style-type: disc;
+    list-style-position: outside;
+}
+
+.editable-content li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    line-height: 1.6;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
 .letter-body ul {
     margin: 1rem 0 1rem 0;
     padding-left: 2.5rem;
@@ -1301,7 +1369,7 @@ h1 {
 .signature-img {
     position: absolute;
     height: 12rem;
-    margin-top: calc(-4rem - 15px);
+    margin-top: calc(-6rem - 15px);
     margin-left: -5px;
 }
 
@@ -1354,7 +1422,7 @@ h1 {
 }
 
 .cv-section {
-    margin-top: 4rem;
+    margin-top: 8rem;
     page-break-before: always;
 }
 

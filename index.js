@@ -4,6 +4,8 @@ var projectsData;
 var recommendationsData;
 var contactData;
 var applicationsData;
+var sitemetaData;
+var dataLoaded = false; // Track if Firestore data is loaded
 var particles = []; // Frontpage animation
 var canvasOpacity = 0; // For fade-in animation
 var animationStartTime = 0; // Track when animation should start
@@ -15,12 +17,32 @@ var projectCategories = [
     { id: 'ledelse', title: 'Ledelse' }
 ];
 
+// Load data from Firestore
+async function loadFirestoreData() {
+    try {
+        console.log('Loading data from Firestore...');
+        const data = await window.loadAllData();
+        
+        sitemetaData = data.sitemeta;
+        contactData = data.contact;
+        cvData = data.cv;
+        projectsData = data.projects;
+        applicationsData = data.applications;
+        recommendationsData = data.recommendations;
+        
+        dataLoaded = true;
+        console.log('Data loaded successfully from Firestore');
+        
+        // Initialize the app now that data is ready
+        initializeApp();
+    } catch (error) {
+        console.error('Error loading Firestore data:', error);
+        alert('Failed to load data. Please refresh the page.');
+    }
+}
+
 function preload(){
-    cvData = loadJSON('cv.json');
-    projectsData = loadJSON('projects.json');
-    recommendationsData = loadJSON('recommendations.json');
-    contactData = loadJSON('contact.json');
-    applicationsData = loadJSON('applications.json');
+    // Preload is kept for p5.js compatibility but data loading happens in loadFirestoreData
 }
 
 //P5 setup() bliver kaldt EN gang før siden vises 
@@ -47,6 +69,12 @@ function setup(){
         });
     }
     
+    // Start loading data from Firestore
+    loadFirestoreData();
+}
+
+// Initialize app after data is loaded
+function initializeApp() {
     // Check for print URL param
     var urlParams = new URLSearchParams(window.location.search);
     var printAppId = urlParams.get('print');
@@ -70,6 +98,11 @@ function setup(){
             // Render app content
             renderApplicationContent(app, printContainer, printType);
             
+            // Enable editing for print mode content
+            if (window.enableEditing) {
+                window.enableEditing();
+            }
+            
             // Trigger print dialog after a short delay to ensure rendering
             setTimeout(() => window.print(), 500);
         }
@@ -79,6 +112,7 @@ function setup(){
     // Don't render CV immediately - wait for first navigation
     // createProjects(); // Removed to ensure fresh animation on first visit
     initApplicationPage(); // Initialize the application page UI
+    renderFrontpage(); // Render frontpage content from Firestore
     
     //Sæt menu op
     //Hent alle sider som et array
@@ -128,6 +162,11 @@ function setup(){
     
     // Init home logo parallax effect
     initHomeLogoParallax();
+    
+    // Initialize inline editing system
+    if (window.initEditable) {
+        window.initEditable();
+    }
 }
 
 function initHomeLogoParallax() {
@@ -165,6 +204,42 @@ function initHomeLogoParallax() {
     }
 
     animate();
+}
+
+function renderFrontpage() {
+    const frontpageData = sitemetaData.frontpage;
+    const container = document.getElementById('frontpage-content');
+    
+    // Create heading
+    const h1 = document.createElement('h1');
+    h1.textContent = frontpageData.heading;
+    h1.contentEditable = 'true';
+    h1.dataset.firestoreCollection = 'here_content';
+    h1.dataset.firestoreDoc = 'meta';
+    h1.dataset.firestoreField = 'frontpage.heading';
+    container.appendChild(h1);
+    
+    // Create tagline
+    const tagline = document.createElement('p');
+    tagline.className = 'tagline';
+    tagline.textContent = frontpageData.tagline;
+    tagline.contentEditable = 'true';
+    tagline.dataset.firestoreCollection = 'here_content';
+    tagline.dataset.firestoreDoc = 'meta';
+    tagline.dataset.firestoreField = 'frontpage.tagline';
+    container.appendChild(tagline);
+    
+    // Create statement
+    const statementDiv = document.createElement('div');
+    statementDiv.className = 'statement';
+    const statementP = document.createElement('p');
+    statementP.innerHTML = frontpageData.statement.replace(/\n/g, '<br/>');
+    statementP.contentEditable = 'true';
+    statementP.dataset.firestoreCollection = 'here_content';
+    statementP.dataset.firestoreDoc = 'meta';
+    statementP.dataset.firestoreField = 'frontpage.statement';
+    statementDiv.appendChild(statementP);
+    container.appendChild(statementDiv);
 }
 
 function keyPressed() {
@@ -218,6 +293,11 @@ function initApplicationPage() {
             if (app) {
                 renderApplicationContent(app, contentDiv, 'full');
                 
+                // Re-enable editing for newly rendered content
+                if (window.enableEditing) {
+                    window.enableEditing();
+                }
+                
                 [btnFull, btnLetter, btnCv, btnRecs].forEach(btn => btn.removeAttribute('disabled'));
                 
                 btnFull.onclick = () => window.open(`?print=${app.id}&type=full`, '_blank');
@@ -263,49 +343,69 @@ function renderApplicationContent(app, container, printType = 'full') {
         clone.querySelector('.sender-name').textContent = contactData.name;
         clone.querySelector('.sender-phone').textContent = contactData.phone;
         
-        // Recipient Info
-        clone.querySelector('.recipient-company').textContent = app.recipient.company;
-        clone.querySelector('.recipient-attn').textContent = app.recipient.attn;
-        clone.querySelector('.recipient-address').textContent = app.recipient.address;
-        clone.querySelector('.recipient-zip').textContent = app.recipient.zip;
+        // Recipient Info (editable)
+        var recipientCompany = clone.querySelector('.recipient-company');
+        recipientCompany.textContent = app.recipient.company;
+        recipientCompany.dataset.firestoreCollection = 'here_applications';
+        recipientCompany.dataset.firestoreDoc = app.id;
+        recipientCompany.dataset.firestoreField = 'recipient.company';
         
-        // Letter Content
-        clone.querySelector('.letter-meta.date').textContent = app.date;
-        clone.querySelector('.letter-title').textContent = app.title;
+        var recipientAttn = clone.querySelector('.recipient-attn');
+        recipientAttn.textContent = app.recipient.attn;
+        recipientAttn.dataset.firestoreCollection = 'here_applications';
+        recipientAttn.dataset.firestoreDoc = app.id;
+        recipientAttn.dataset.firestoreField = 'recipient.attn';
+        
+        var recipientAddress = clone.querySelector('.recipient-address');
+        recipientAddress.textContent = app.recipient.address;
+        recipientAddress.dataset.firestoreCollection = 'here_applications';
+        recipientAddress.dataset.firestoreDoc = app.id;
+        recipientAddress.dataset.firestoreField = 'recipient.address';
+        
+        var recipientZip = clone.querySelector('.recipient-zip');
+        recipientZip.textContent = app.recipient.zip;
+        recipientZip.dataset.firestoreCollection = 'here_applications';
+        recipientZip.dataset.firestoreDoc = app.id;
+        recipientZip.dataset.firestoreField = 'recipient.zip';
+        
+        // Letter Content (editable)
+        var letterDate = clone.querySelector('.letter-meta.date');
+        letterDate.textContent = app.date;
+        letterDate.dataset.firestoreCollection = 'here_applications';
+        letterDate.dataset.firestoreDoc = app.id;
+        letterDate.dataset.firestoreField = 'date';
+        
+        var letterTitle = clone.querySelector('.letter-title');
+        letterTitle.textContent = app.title;
+        letterTitle.dataset.firestoreCollection = 'here_applications';
+        letterTitle.dataset.firestoreDoc = app.id;
+        letterTitle.dataset.firestoreField = 'title';
         
         var bodyDiv = clone.querySelector('.letter-body');
         
-        app.content.forEach(para => {
-            if (para === '---') {
-                var pb = document.createElement('div');
-                pb.className = 'page-break';
-                bodyDiv.appendChild(pb);
-            } else {
-                // Check for signature insertion before name
-                if (para === contactData.name && contactData.signature && app.useSignature) {
-                    var sigImg = document.createElement('img');
-                    sigImg.src = contactData.signature;
-                    sigImg.className = 'signature-img';
-                    bodyDiv.appendChild(sigImg);
-                }
-                
-                // Check if para contains HTML markup
-                if (para.includes('<') && para.includes('>')) {
-                    // HTML markup - insert directly
-                    var wrapper = document.createElement('div');
-                    wrapper.innerHTML = para;
-                    // Append all children
-                    while(wrapper.firstChild) {
-                        bodyDiv.appendChild(wrapper.firstChild);
-                    }
-                } else {
-                    // Plain text - create paragraph
-                    var p = document.createElement('p');
-                    p.textContent = para;
-                    bodyDiv.appendChild(p);
-                }
-            }
-        });
+        // Create single editable content div
+        // Convert content array to HTML paragraphs
+        var contentHTML = app.content
+            .filter(para => para !== '---') // Skip page breaks only
+            .map(para => `<p>${para}</p>`)
+            .join('');
+        
+        var contentDiv = document.createElement('div');
+        contentDiv.className = 'editable-content';
+        contentDiv.innerHTML = contentHTML;
+        contentDiv.dataset.firestoreCollection = 'here_applications';
+        contentDiv.dataset.firestoreDoc = app.id;
+        contentDiv.dataset.firestoreField = 'content';
+        contentDiv.dataset.isArray = 'true'; // Flag to indicate this should be split into array
+        bodyDiv.appendChild(contentDiv);
+        
+        // Add signature if configured (non-editable)
+        if (app.useSignature && contactData.signature) {
+            var sigImg = document.createElement('img');
+            sigImg.src = contactData.signature;
+            sigImg.className = 'signature-img';
+            bodyDiv.appendChild(sigImg);
+        }
     } else {
         // Hide letter parts
         clone.querySelector('.doc-header').style.display = 'none';
@@ -456,6 +556,143 @@ function renderApplicationContent(app, container, printType = 'full') {
 
         refSection.appendChild(refList);
         container.elt.appendChild(refSection);
+    }
+}
+
+/**
+ * Enable inline editing for application content with autosave
+ */
+let autosaveTimeout = null;
+let currentEditingApp = null;
+const AUTOSAVE_DELAY = 2000; // 2 seconds after last edit
+
+function enableApplicationEditing(appId) {
+    if (!appId) return;
+    
+    // Find the application data
+    const app = applicationsData.applications.find(a => a.id === appId);
+    if (!app) return;
+    
+    currentEditingApp = app;
+    
+    // Make title editable
+    const titleEl = document.querySelector('.letter-title');
+    if (titleEl && printType !== 'cv' && printType !== 'recommendations') {
+        titleEl.contentEditable = true;
+        titleEl.classList.add('editable');
+        titleEl.addEventListener('input', () => handleTitleEdit(titleEl));
+        titleEl.addEventListener('blur', () => handleFieldBlur());
+    }
+    
+    // Make content paragraphs editable
+    const bodyDiv = document.querySelector('.letter-body');
+    if (bodyDiv) {
+        const paragraphs = bodyDiv.querySelectorAll('p');
+        paragraphs.forEach((p, index) => {
+            p.contentEditable = true;
+            p.classList.add('editable');
+            p.dataset.index = index;
+            p.addEventListener('input', () => handleContentEdit(p, index));
+            p.addEventListener('blur', () => handleFieldBlur());
+        });
+    }
+    
+    // Add save indicator
+    addSaveIndicator();
+}
+
+function handleTitleEdit(titleEl) {
+    if (!currentEditingApp) return;
+    
+    currentEditingApp.title = titleEl.textContent.trim();
+    scheduleAutosave();
+}
+
+function handleContentEdit(paragraphEl, index) {
+    if (!currentEditingApp) return;
+    
+    // Get the text or HTML content
+    const content = paragraphEl.innerHTML.trim();
+    currentEditingApp.content[index] = content;
+    
+    scheduleAutosave();
+}
+
+function handleFieldBlur() {
+    // Remove any highlight
+    document.querySelectorAll('.editable').forEach(el => {
+        el.classList.remove('editing');
+    });
+}
+
+function scheduleAutosave() {
+    // Clear existing timeout
+    if (autosaveTimeout) {
+        clearTimeout(autosaveTimeout);
+    }
+    
+    // Show saving indicator
+    showSaveStatus('saving');
+    
+    // Schedule save
+    autosaveTimeout = setTimeout(async () => {
+        await saveApplication();
+    }, AUTOSAVE_DELAY);
+}
+
+async function saveApplication() {
+    if (!currentEditingApp) return;
+    
+    try {
+        showSaveStatus('saving');
+        await window.updateApplication(currentEditingApp.id, currentEditingApp);
+        showSaveStatus('saved');
+        
+        // Update local data
+        const index = applicationsData.applications.findIndex(a => a.id === currentEditingApp.id);
+        if (index !== -1) {
+            applicationsData.applications[index] = currentEditingApp;
+        }
+    } catch (error) {
+        console.error('Error saving application:', error);
+        showSaveStatus('error');
+    }
+}
+
+function addSaveIndicator() {
+    // Check if already exists
+    if (document.querySelector('.save-indicator')) return;
+    
+    const indicator = document.createElement('div');
+    indicator.className = 'save-indicator';
+    indicator.innerHTML = '<span class="save-text">●</span>';
+    document.querySelector('.application-controls')?.appendChild(indicator);
+}
+
+function showSaveStatus(status) {
+    const indicator = document.querySelector('.save-indicator');
+    if (!indicator) return;
+    
+    const textEl = indicator.querySelector('.save-text');
+    
+    indicator.className = 'save-indicator ' + status;
+    
+    switch(status) {
+        case 'saving':
+            textEl.textContent = '● Gemmer...';
+            break;
+        case 'saved':
+            textEl.textContent = '✓ Gemt';
+            setTimeout(() => {
+                if (indicator.classList.contains('saved')) {
+                    indicator.classList.remove('saved');
+                    textEl.textContent = '●';
+                }
+            }, 3000);
+            break;
+        case 'error':
+            textEl.textContent = '✗ Fejl';
+            break;
     }
 }
 

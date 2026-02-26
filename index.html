@@ -11,8 +11,37 @@
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/png" href="./assets/favicon.ico">
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDU1QQ5IOx65YauKjemsexCpfgNBblrQRc",
+            authDomain: "p5-firebase-eebc1.firebaseapp.com",
+            databaseURL: "https://p5-firebase-eebc1-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "p5-firebase-eebc1",
+            storageBucket: "p5-firebase-eebc1.appspot.com",
+            messagingSenderId: "757530790495",
+            appId: "1:757530790495:web:3b63a4a12d2afdad97e9ea",
+            measurementId: "G-JR2VDMFNZ8"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        // Make db and auth available globally
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        window.firebaseApp = app;
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+    <script src="./firestore-data.js" type="module"></script>
+    <script src="./editable.js" type="module"></script>
 </head>
 
 <body>
@@ -23,15 +52,8 @@
     </div>
     <main>
         <div class="page show" id="page1" data-title="Hjem" data-image="./assets/moelogo.png">
-            <div id="frontpage-content" contenteditable="true">
-                <h1>Simon Moe</h1>
-                <p class="tagline">Undervisning • Software • Kommunikation</p>
-                
-                <div class="statement">
-                    <p>
-Vi lever i en verden, kun vi kan mærke. Ethvert spørgsmål og ethvert svar, angår den sanselige verden. 
-                    <br/>Alt sker i kontekst.                      </p>
-                </div>
+            <div id="frontpage-content">
+                <!-- Content loaded from Firestore -->
             </div>
             <div id="p5-container"></div>
         </div>

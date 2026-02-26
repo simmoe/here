@@ -17,7 +17,7 @@
             "cvRefs": [
                 "ttf-board"
             ],
-            "description": "Redesign og implementering af ny hjemmeside for Teknologi- og Teknikfagslærerforeningen. Fokus på en mere moderne visuel identitet og bedre formidling af foreningens aktiviteter.",
+            "description": "Redesign og implementering af ny hjemmeside med fokus på moderne visuel identitet og formidling af foreningens aktiviteter.",
             "categories": [
                 "software"
             ]
@@ -38,7 +38,7 @@
             "cvRefs": [
                 "next"
             ],
-            "description": "Praksisnært DDU-forløb, hvor elever arbejder eksperimenterende med generativ AI som kreativt medie med fokus på forståelse, refleksion og ansvarlig anvendelse.",
+            "description": "Praksisnært DDU-forløb hvor elever eksperimenterer med generativ AI som kreativt medie.",
             "categories": [
                 "undervisning"
             ]
@@ -60,7 +60,7 @@
             "cvRefs": [
                 "next"
             ],
-            "description": "Undervisningsforløb der introducerer grundprincipper i machine learning og generativ AI gennem hands-on eksperimenter og faglig refleksion.",
+            "description": "Undervisningsforløb der introducerer machine learning og generativ AI gennem hands-on eksperimenter.",
             "categories": [
                 "undervisning"
             ]
@@ -76,7 +76,7 @@
                 "Fysisk computing"
             ],
             "cvRefs": [],
-            "description": "Den digitale knap er det fundamentale princip i ethvert interaktionsdesign. Hvert år undervises alle skolens elever i den grundlæggende forståelse af det digitale sprog.",
+            "description": "Årligt minikursus hvor alle elever introduceres til den digitale knap som grundprincip i interaktionsdesign.",
             "categories": [
                 "undervisning"
             ]
@@ -102,7 +102,7 @@
             "cvRefs": [
                 "next"
             ],
-            "description": "Analyse af eksamensresultater i Digitalt Design og Udvikling (2021-2024). Tallene viser en positiv løfteevne, hvor elevernes karakterer ligger over det forventede niveau ift. socioøkonomisk baggrund.",
+            "description": "Analyse af eksamensresultater (2021-2024) viser positiv løfteevne ift. socioøkonomisk reference.",
             "links": [
                 "assets/gymsocref.pdf"
             ]
@@ -152,6 +152,26 @@
             "description": "Et teaterlaboratorie der undersøgte rammen som et digitalt og analogt afgrænsningsfelt."
         },
         {
+            "id": "uden-titel-ii",
+            "title": "Uden Titel II",
+            "year": 2005,
+            "categories": [
+                "kunst",
+                "research",
+                "performance"
+            ],
+            "context": "Støttet af Statens Kunstfond. Laboratorium på Odsherrede scenekunst skole (1. oktober – 1. november).",
+            "images": ["assets/udentitelII.png"],
+            "focus": [
+                "Teater",
+                "Digital scenekunst",
+                "Research",
+                "Eksperiment"
+            ],
+            "cvRefs": [],
+            "description": "Tværfagligt kunst- og researchprojekt om telematisk performativ scenekunst."
+        },
+        {
             "id": "regntid",
             "year": 2004,
             "title": "Regntid",
@@ -167,10 +187,32 @@
                 "Digital kunst"
             ],
             "cvRefs": [],
-            "description": "Udviklet sammen med Ole Kristensen. 100 elektromagnetiske dyser med sprinklere, halogenspots og et interaktivt gulv skabte et 'Rum, hvor det regner, men ikke på dig'.",
+            "description": "100 elektromagnetiske dyser, sprinklere og interaktivt gulv skabte et rum hvor det regner, men ikke på dig.",
             "categories": [
                 "kunst"
             ]
+        },
+        {
+            "id": "cocoon",
+            "title": "Cocoon",
+            "year": 2003,
+            "categories": [
+                "kunst"
+            ],
+            "context": "Robodoc festivalen, Rotterdam",
+            "images": [
+                "assets/cocoon1.jpg",
+                "assets/cocoon2.JPG",
+                "assets/cocoon3.jpg",
+                "assets/cocoon4.jpg"
+            ],
+            "focus": [
+                "Kunstinstallation",
+                "Telematisk tilstedeværelse",
+                "Flydende identitet"
+            ],
+            "cvRefs": [],
+            "description": "Kunstinstallation der udforsker flydende identitet i telematisk tilstedeværelse."
         },
         {
             "id": "chindogu",
@@ -184,7 +226,7 @@
                 "Designproces"
             ],
             "cvRefs": [],
-            "description": "Et årligt tilbagevendende projekt hvor eleverne laver en hverdags-gadget. Det japanske koncept dækker over opfindelser som på papiret kan se gode nok ud - men som i praksis ville være pinlige eller ubrugelige.",
+            "description": "Årligt projekt hvor eleverne designer hverdags-gadgets efter det japanske koncept: opfindelser der ser gode ud på papiret, men er pinlige eller ubrugelige i praksis.",
             "categories": [
                 "undervisning"
             ]
@@ -205,7 +247,7 @@
             "cvRefs": [
                 "kristiania"
             ],
-            "description": "Undervisningsforløb i moderne webteknologi (React.js), med fokus på at introducere studerende til professionelle udviklingsmetoder og framework-baseret arkitektur.",
+            "description": "Undervisningsforløb i React.js med fokus på professionelle udviklingsmetoder og framework-arkitektur.",
             "categories": [
                 "undervisning"
             ]
@@ -226,7 +268,7 @@
             "cvRefs": [
                 "kristiania"
             ],
-            "description": "Tilrettelæggelse og gennemførsel af undervisning i Svelte.js, med vægt på reaktiv programmering og effektiv komponentstruktur som introduktion til moderne frontend-udvikling.",
+            "description": "Undervisningsforløb i Svelte.js med vægt på reaktiv programmering og komponentstruktur.",
             "categories": [
                 "undervisning"
             ]
@@ -245,7 +287,7 @@
                 "Kommunikationsteori"
             ],
             "cvRefs": [],
-            "description": "Forfatter til kapitel om Datadrevet Kommunikation i grundbogen til Kommunikation og IT A. Kapitlet behandler samspillet mellem dataanalyse og strategisk kommunikation i en digital kontekst.",
+            "description": "Kapitel om Datadrevet Kommunikation i grundbogen til Kommunikation og IT A.",
             "categories": [
                 "undervisning"
             ]
@@ -311,7 +353,7 @@
             "cvRefs": [
                 "pædagogikum"
             ],
-            "description": "Opgaven argumenterer for en dannelsestilgang, hvor eleverne myndiggøres gennem både skabende praksis og kritisk analyse af teknologiens rolle i samfundet.",
+            "description": "Dannelsestilgang hvor elever myndiggøres gennem skabende praksis og kritisk teknologianalyse.",
             "links": [
                 "assets/teopæd.simonmoe.pdf"
             ],
@@ -336,7 +378,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Etablering og opbygning af en selvstændig viden- og udviklingsfunktion med ansvar for analyser, brugerundersøgelser og evidens for Notas services. Funktionen blev over en årrække integreret som strategisk beslutningsgrundlag og en del af institutionens samlede ledelsesarbejde.",
+            "description": "Etablering af viden- og udviklingsfunktion med ansvar for analyser, brugerundersøgelser og evidens for Notas services.",
             "categories": [
                 "ledelse"
             ]
@@ -360,7 +402,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Ledelse af processen hvor Nota overtog Materialebasen, landets største samling af tilgængelige lærebøger. Efterfølgende etablering af Skole- og Studieservice, der sikrede at alle elever med læsevanskeligheder i det danske uddannelsessystem fik lovkrav på produktion af studiematerialer i tilgængelige formater.",
+            "description": "Overtagelse af Materialebasen og etablering af Skole- og Studieservice med lovkrav på tilgængelige studiematerialer.",
             "categories": [
                 "ledelse"
             ]
@@ -382,7 +424,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Initiering og strategisk udvikling af Notas webbaserede lydbogsafspiller med ord-for-ord-synkronisering mellem tekst og menneskelig oplæsning. Løsningen gjorde det muligt at tilbyde tusindvis af eksisterende titler med fuld multimodal understøttelse og byggede på dokumenteret effekt for ordblindes læseudvikling.",
+            "description": "Udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering mellem tekst og oplæsning.",
             "categories": [
                 "ledelse"
             ]
@@ -405,12 +447,13 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Landsdækkende undersøgelse i samarbejde med Epinion, som for første gang afdækkede sammenhænge mellem læsevanskeligheder, uddannelse, trivsel og sociale vilkår blandt børn og unge. ",
+            "description": "Landsdækkende undersøgelse der afdækkede sammenhænge mellem læsevanskeligheder, uddannelse, trivsel og sociale vilkår.",
             "links": [
                 "assets/accessibility.pdf"
             ],
             "categories": [
-                "kommunikation", "ledelse"
+                "kommunikation",
+                "ledelse"
             ]
         },
         {
@@ -418,7 +461,8 @@
             "title": "Hjælpemidler og adgang til læring",
             "year": 2011,
             "categories": [
-                "kommunikation", "ledelse"
+                "kommunikation",
+                "ledelse"
             ],
             "context": "Nota / Epinion",
             "images": [
@@ -432,7 +476,7 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Landsdækkende undersøgelse af børn og unge med læsevanskeligheder. For Nota i samarbejde med Epinion i 2011.",
+            "description": "Landsdækkende undersøgelse af børn og unge med læsevanskeligheder.",
             "links": [
                 "https://nota.dk/bibliotek/bog/hj%C3%A6lpemidler-og-adgang-til-l%C3%A6ring-blandt-b%C3%B8rn-og-unge-med-ordblindhedsv%C3%A6re#audio"
             ]
@@ -454,10 +498,32 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Etablering af nationale samarbejder mellem Nota, SPS-ansvarlige, læsevejledere og videregående uddannelser. Initiativet omfattede opbygning af netværk, studiemiljøer for specialestuderende samt vejledning af ErhvervsPhD-projekt om tekstsimplificering og læsevanskeligheder.",
+            "description": "Etablering af netværk mellem Nota, SPS-ansvarlige, læsevejledere og videregående uddannelser.",
             "categories": [
                 "ledelse"
             ]
+        },
+        {
+            "id": "miniature",
+            "title": "Mini:ature",
+            "year": 2012,
+            "categories": [
+                "kunst"
+            ],
+            "context": "Baghold",
+            "images": [
+                "assets/mini1.jpg",
+                "assets/mini2.jpg",
+                "assets/mini3.jpg"
+            ],
+            "focus": [
+                "Installation",
+                "Rumlig oplevelse",
+                "Projektion",
+                "Miniature"
+            ],
+            "cvRefs": [],
+            "description": "Installation der udforsker oplevelsen af at være placeret i et filmet miniaturehus."
         },
         {
             "id": "ruc-hum-tech-project",
@@ -476,7 +542,7 @@
             "cvRefs": [
                 "ruc-hum-tech"
             ],
-            "description": "Strategisk arbejde i forbindelse med oprettelsen af det tværfaglige center HUM-TECH. Fokus var at udvikle nye masteruddannelser, der integrerede IT med humanistiske og socialfaglige discipliner for at imødekomme nye samfundsmæssige behov.",
+            "description": "Strategisk arbejde med oprettelsen af HUM-TECH og udvikling af masteruddannelser der integrerer IT med humanistiske discipliner.",
             "categories": [
                 "ledelse",
                 "undervisning"
@@ -501,7 +567,7 @@
                 "Lys og vand"
             ],
             "cvRefs": [],
-            "description": "I seks uger i sommeren 2002 blev en bunker på Østerbro omdannet til en digital installation. Et vandspejl på 20m2 skabte et infinity mirror af interaktive lyskæder. Installationen var åben for publikum."
+            "description": "Digital installation i en bunker på Østerbro. Et vandspejl på 20m2 skabte et infinity mirror af interaktive lyskæder."
         },
         {
             "id": "robots-chalmers",
@@ -545,7 +611,7 @@
             "cvRefs": [
                 "netvokat"
             ],
-            "description": "Digital platform for juridiske ydelser til virksomheder og private. Projektet omfattede opbygning af systemet fra bunden i .ASP .NET med et skræddersyet XML-baseret frontend framework. Udført i samarbejde med Jacob Carstens og Ole Kristensen."
+            "description": "Digital platform for juridiske ydelser bygget i .ASP .NET med skræddersyet XML-baseret frontend."
         },
         {
             "id": "ruc-manerum-poesi",
@@ -567,7 +633,7 @@
             "cvRefs": [
                 "ruc"
             ],
-            "description": "Interaktivt læringsrum, hvor elever møder poesi gennem rumlige og digitale installationer. Projektet undersøger, hvordan teknologisk iscenesættelse kan understøtte æstetisk oplevelse og læring. Bedømt med karakteren 13.",
+            "description": "Interaktivt læringsrum hvor elever møder poesi gennem rumlige og digitale installationer. Bedømt med 13.",
             "categories": [
                 "undervisning"
             ]
@@ -590,7 +656,7 @@
             "cvRefs": [
                 "ruc"
             ],
-            "description": "Projekt om fælles digitalt udtryk og kollektiv meningsskabelse, hvor tekniske systemer anvendes som ramme for æstetisk og kommunikativ interaktion. Bedømt med karakteren 13.",
+            "description": "Projekt om fælles digitalt udtryk hvor tekniske systemer anvendes til æstetisk og kommunikativ interaktion. Bedømt med 13.",
             "categories": [
                 "software"
             ]
@@ -611,7 +677,7 @@
             "cvRefs": [
                 "ruc"
             ],
-            "description": "Feltbaseret projekt gennemført i samarbejde med Gentofte Kommune (SKUB), hvor interaktive redskaber og pædagogiske strategier blev udviklet og afprøvet i folkeskolens undervisning. Bedømt med karakteren 11.",
+            "description": "Feltbaseret projekt hvor interaktive redskaber blev udviklet og afprøvet i folkeskolens undervisning. Bedømt med 11.",
             "categories": [
                 "undervisning"
             ]
@@ -634,7 +700,7 @@
             "cvRefs": [
                 "ruc"
             ],
-            "description": "Teoretisk speciale om sammenhænge mellem læring, teknologi og scenografisk iscenesættelse. Projektet samler og perspektiverer erfaringer fra tidligere praksisprojekter i en analytisk ramme. Bedømt med karakteren 9.",
+            "description": "Teoretisk speciale om sammenhænge mellem læring, teknologi og scenografisk iscenesættelse. Bedømt med 9.",
             "categories": [
                 "undervisning"
             ]
@@ -656,7 +722,7 @@
             "cvRefs": [
                 "coinco-konsulent"
             ],
-            "description": "Informationsmedarbejder på EU-projektet COINCO. Ansvarlig for udvikling og drift af projektets hjemmeside, layout og indhold til nyhedsbreve samt organisering af begivenheder for politikere og embedsmænd.",
+            "description": "Informationsmedarbejder ansvarlig for hjemmeside, nyhedsbreve og events på EU-projektet COINCO.",
             "categories": [
                 "kommunikation"
             ]
@@ -678,7 +744,7 @@
             "cvRefs": [
                 "ruc"
             ],
-            "description": "Studieprojekt med fokus på samtidighed og procesorienteret simulering i Java. Projektet resulterede i udviklingen af en effektiv algoritme, der overgik eksisterende referenceimplementeringer. Projektet blev bedømt med karakteren 13 og markerede et tidligt fagligt gennembrud inden for algoritmisk tænkning og systemisk modellering.",
+            "description": "Studieprojekt om samtidighed og procesorienteret simulering i Java. Udvikling af algoritme der overgik eksisterende implementeringer. Bedømt med 13.",
             "categories": [
                 "software"
             ]
@@ -700,7 +766,7 @@
             "cvRefs": [
                 "uvm-konsulent"
             ],
-            "description": "Udvikling og implementering af ministeriets it-strategiplan og videndelingsplatforme. Projektet indebar teknisk og konceptuelt ansvar for dynamiske, database-baserede løsninger, der blev vurderet som banebrydende på europæisk plan for brug af it som pædagogisk værktøj.",
+            "description": "Udvikling af it-strategiplan og videndelingsplatforme. Teknisk og konceptuelt ansvar for database-baserede løsninger.",
             "categories": [
                 "software"
             ]
@@ -710,7 +776,8 @@
             "title": "Unge ordblindes behov og effekt af lydbøger",
             "year": 2012,
             "categories": [
-                "kommunikation", "ledelse"
+                "kommunikation",
+                "ledelse"
             ],
             "context": "UVM / Innovation Lab",
             "images": [
@@ -725,14 +792,15 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Forskningsprojekt om unge ordblindes behov og muligheder for samfundsdeltagelse med fokus på samspillet mellem bibliotek, skole og kommunale instanser. Projektet dokumenterede effekten af lydbøger for unge ordblinde."
+            "description": "Forskningsprojekt om unge ordblindes behov med fokus på samspillet mellem bibliotek, skole og kommune."
         },
         {
             "id": "nota-projektskolen",
             "title": "Projektskolen",
             "year": 2013,
             "categories": [
-                "kommunikation", "ledelse"
+                "kommunikation",
+                "ledelse"
             ],
             "context": "Nota",
             "images": [

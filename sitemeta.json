@@ -1,0 +1,30 @@
+{
+  "navigation": {
+    "page1": {
+      "id": "page1",
+      "title": "Hjem",
+      "image": "./assets/moelogo.png",
+      "hidden": false
+    },
+    "page2": {
+      "id": "page2",
+      "title": "CV",
+      "hidden": false
+    },
+    "page3": {
+      "id": "page3",
+      "title": "Projekter",
+      "hidden": false
+    },
+    "page-application": {
+      "id": "page-application",
+      "title": "Ansøgning",
+      "hidden": true
+    }
+  },
+  "frontpage": {
+    "heading": "Simon Moe",
+    "tagline": "Undervisning • Software • Kommunikation",
+    "statement": "Vi lever i en verden, kun vi kan mærke. Ethvert spørgsmål og ethvert svar, angår den sanselige verden.\nAlt sker i kontekst."
+  }
+}
