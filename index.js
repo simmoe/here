@@ -243,9 +243,15 @@ function renderFrontpage() {
 }
 
 function keyPressed() {
-    // Ctrl+4 (or Cmd+4) to show application page
+    // Ctrl+4 (or Cmd+4) to show application page and toggle login
     if (key === '4' && (keyIsDown(CONTROL) || keyIsDown(META))) {
         shiftPage('#page-application');
+        
+        // Toggle login/logout
+        if (window.handleAuth) {
+            window.handleAuth();
+        }
+        
         return false; // Prevent default browser behavior
     }
 }

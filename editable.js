@@ -29,7 +29,6 @@ export function initEditable() {
     }
     
     createSaveIndicator();
-    createAuthUI();
     
     // Listen for auth state changes
     onAuthStateChanged(auth, (user) => {
@@ -37,12 +36,10 @@ export function initEditable() {
             currentUser = user;
             console.log('Logged in as:', user.email);
             enableEditing();
-            updateAuthUI(true);
         } else {
             currentUser = null;
             console.log('Not logged in or unauthorized');
             disableEditing();
-            updateAuthUI(false);
         }
     });
 }
@@ -71,51 +68,9 @@ function createSaveIndicator() {
 }
 
 /**
- * Create auth UI (login/logout button)
+ * Handle login/logout
  */
-function createAuthUI() {
-    const authButton = document.createElement('button');
-    authButton.id = 'auth-button';
-    authButton.style.cssText = `
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        padding: 0.75rem 1.5rem;
-        background: #333;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        z-index: 9999;
-        transition: background 0.2s;
-    `;
-    authButton.textContent = 'Login';
-    authButton.addEventListener('click', handleAuthClick);
-    authButton.addEventListener('mouseenter', () => {
-        authButton.style.background = '#555';
-    });
-    authButton.addEventListener('mouseleave', () => {
-        authButton.style.background = '#333';
-    });
-    document.body.appendChild(authButton);
-}
-
-/**
- * Update auth UI based on login state
- */
-function updateAuthUI(isLoggedIn) {
-    const authButton = document.getElementById('auth-button');
-    if (authButton) {
-        authButton.textContent = isLoggedIn ? 'Logout' : 'Login';
-        authButton.style.background = isLoggedIn ? '#4CAF50' : '#333';
-    }
-}
-
-/**
- * Handle auth button click
- */
-async function handleAuthClick() {
+export async function handleAuth() {
     if (currentUser) {
         // Logout
         try {
@@ -129,19 +84,14 @@ async function handleAuthClick() {
         const provider = new GoogleAuthProvider();
         try {
             console.log('Attempting login...');
-            console.log('Current domain:', window.location.hostname);
-            console.log('Auth domain config:', auth.config.authDomain);
-            
             const result = await signInWithPopup(auth, provider);
             if (result.user.email !== AUTHORIZED_EMAIL) {
                 await signOut(auth);
                 alert('Unauthorized email. Only ' + AUTHORIZED_EMAIL + ' can edit.');
             }
         } catch (error) {
-            console.error('Login error FULL:', error);
-            console.error('Error code:', error.code);
-            console.error('Error message:', error.message);
-            alert('Login failed: ' + error.message + '\n\nSee console for details.');
+            console.error('Login error:', error);
+            alert('Login failed: ' + error.message);
         }
     }
 }
@@ -203,6 +153,9 @@ function disableEditing() {
         element.style.outline = 'none';
         element.style.cursor = 'default';
         element.removeEventListener('input', handleInput);
+        
+        // Remove the enabled flag so it can be re-enabled
+        delete element.dataset.editableEnabled;
     });
     
     // Clear pending changes
@@ -570,3 +523,4 @@ function showSaveIndicator(message, color) {
 // Make functions available globally
 window.initEditable = initEditable;
 window.enableEditing = enableEditing;
+window.handleAuth = handleAuth;
