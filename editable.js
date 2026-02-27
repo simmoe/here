@@ -1,4 +1,14 @@
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import {
+    getAuth,
+    signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
+    signOut,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    setPersistence,
+    browserLocalPersistence
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 /**
@@ -9,6 +19,8 @@ import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.8.
 
 const AUTOSAVE_DELAY = 2000; // 2 seconds after last edit
 const AUTHORIZED_EMAIL = 'simmoe@gmail.com'; // Your email
+const AUTH_DEBUG = true;
+const AUTH_DEBUG_MAX_ENTRIES = 200;
 
 let auth;
 let db;
@@ -16,22 +28,210 @@ let currentUser = null;
 let pendingChanges = new Map(); // Map of element -> {collection, docId, field, value, timeoutId}
 let saveIndicator = null;
 
+function sanitizeAuthError(error) {
+    if (!error) return null;
+    return {
+        code: error.code || null,
+        message: error.message || null,
+        customData: error.customData || null,
+        name: error.name || null,
+        stack: error.stack || null
+    };
+}
+
+function testStorage(type) {
+    try {
+        const storage = type === 'localStorage' ? window.localStorage : window.sessionStorage;
+        const key = '__auth_debug_test__';
+        storage.setItem(key, '1');
+        storage.removeItem(key);
+        return { available: true, error: null };
+    } catch (error) {
+        return {
+            available: false,
+            error: sanitizeAuthError(error)
+        };
+    }
+}
+
+function getAuthEnvironmentSnapshot() {
+    const localStorageStatus = testStorage('localStorage');
+    const sessionStorageStatus = testStorage('sessionStorage');
+
+    return {
+        timestamp: new Date().toISOString(),
+        location: {
+            href: window.location.href,
+            origin: window.location.origin,
+            host: window.location.host,
+            hostname: window.location.hostname,
+            protocol: window.location.protocol,
+            pathname: window.location.pathname
+        },
+        document: {
+            referrer: document.referrer,
+            visibilityState: document.visibilityState,
+            hasFocus: document.hasFocus()
+        },
+        browser: {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            cookieEnabled: navigator.cookieEnabled,
+            onLine: navigator.onLine
+        },
+        runtime: {
+            isIframe: window.self !== window.top,
+            crossOriginIsolated: window.crossOriginIsolated || false
+        },
+        storage: {
+            localStorage: localStorageStatus,
+            sessionStorage: sessionStorageStatus
+        },
+        firebase: {
+            projectId: auth?.app?.options?.projectId || null,
+            authDomain: auth?.app?.options?.authDomain || null,
+            apiKeySuffix: auth?.app?.options?.apiKey ? auth.app.options.apiKey.slice(-6) : null
+        }
+    };
+}
+
+function pushAuthDebugEvent(event, details = null, error = null) {
+    if (!AUTH_DEBUG) return;
+
+    if (!window.__authDebugHistory) {
+        window.__authDebugHistory = [];
+    }
+
+    const entry = {
+        timestamp: new Date().toISOString(),
+        event,
+        details,
+        error: sanitizeAuthError(error)
+    };
+
+    window.__authDebugHistory.push(entry);
+    if (window.__authDebugHistory.length > AUTH_DEBUG_MAX_ENTRIES) {
+        window.__authDebugHistory.shift();
+    }
+
+    if (entry.error) {
+        console.error('[AUTH DEBUG]', event, entry);
+    } else {
+        console.log('[AUTH DEBUG]', event, entry);
+    }
+}
+
+function exposeAuthDebugHelpers() {
+    window.getAuthDebugSnapshot = () => getAuthEnvironmentSnapshot();
+    window.getAuthDebugHistory = () => (window.__authDebugHistory || []).slice();
+    window.printAuthDebug = () => {
+        const snapshot = getAuthEnvironmentSnapshot();
+        const history = window.getAuthDebugHistory();
+        console.group('Auth debug snapshot');
+        console.log('Environment:', snapshot);
+        console.log('History count:', history.length);
+        console.table(history.map((item) => ({
+            timestamp: item.timestamp,
+            event: item.event,
+            code: item.error?.code || '',
+            message: item.error?.message || ''
+        })));
+        console.groupEnd();
+        return { snapshot, history };
+    };
+}
+
+function setupGlobalAuthDebugHooks() {
+    if (window.__authDebugHooksInstalled) return;
+
+    window.addEventListener('unhandledrejection', (event) => {
+        const reason = event.reason;
+        const reasonText = reason?.message || String(reason || '');
+        if (reasonText.toLowerCase().includes('auth/')) {
+            pushAuthDebugEvent('unhandledrejection-auth', {
+                reasonText
+            }, reason);
+        }
+    });
+
+    window.addEventListener('storage', (event) => {
+        if (event.key && event.key.includes('firebase')) {
+            pushAuthDebugEvent('storage-event-firebase', {
+                key: event.key,
+                oldValueLength: event.oldValue ? event.oldValue.length : 0,
+                newValueLength: event.newValue ? event.newValue.length : 0
+            });
+        }
+    });
+
+    window.__authDebugHooksInstalled = true;
+}
+
 /**
  * Initialize the editable system
  */
 export function initEditable() {
     auth = window.firebaseAuth;
     db = window.firebaseDb;
+
+    exposeAuthDebugHelpers();
+    setupGlobalAuthDebugHooks();
+    pushAuthDebugEvent('init-start', getAuthEnvironmentSnapshot());
     
     if (!auth || !db) {
         console.error('Firebase not initialized! Make sure firebaseAuth and firebaseDb are available.');
+        pushAuthDebugEvent('init-failed-firebase-missing', {
+            hasAuth: !!auth,
+            hasDb: !!db
+        });
         return;
     }
     
     createSaveIndicator();
+
+    setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+            pushAuthDebugEvent('set-persistence-success', {
+                persistence: 'browserLocalPersistence'
+            });
+        })
+        .catch((error) => {
+            console.warn('Could not set auth persistence:', error);
+            pushAuthDebugEvent('set-persistence-error', null, error);
+        });
+
+    getRedirectResult(auth)
+        .then((result) => {
+            if (result && result.user) {
+                pushAuthDebugEvent('redirect-result-user', {
+                    email: result.user.email,
+                    uid: result.user.uid
+                });
+            } else {
+                pushAuthDebugEvent('redirect-result-empty');
+            }
+        })
+        .catch((error) => {
+            if (error && error.code === 'auth/missing-initial-state') {
+                console.warn('Redirect result unavailable (missing initial state). This usually means sessionStorage was cleared or unavailable.');
+                pushAuthDebugEvent('redirect-result-missing-initial-state', getAuthEnvironmentSnapshot(), error);
+                return;
+            }
+            if (error) {
+                console.warn('Redirect result error:', error);
+                pushAuthDebugEvent('redirect-result-error', getAuthEnvironmentSnapshot(), error);
+            }
+        });
     
     // Listen for auth state changes
     onAuthStateChanged(auth, (user) => {
+        pushAuthDebugEvent('auth-state-changed', {
+            isLoggedIn: !!user,
+            email: user?.email || null,
+            uid: user?.uid || null,
+            isAuthorizedEmail: user?.email === AUTHORIZED_EMAIL
+        });
+
         if (user && user.email === AUTHORIZED_EMAIL) {
             currentUser = user;
             console.log('Logged in as:', user.email);
@@ -71,26 +271,52 @@ function createSaveIndicator() {
  * Handle login/logout
  */
 export async function handleAuth() {
+    pushAuthDebugEvent('handle-auth-invoked', getAuthEnvironmentSnapshot());
+
     if (currentUser) {
         // Logout
         try {
             await signOut(auth);
             console.log('Logged out');
+            pushAuthDebugEvent('logout-success');
         } catch (error) {
             console.error('Logout error:', error);
+            pushAuthDebugEvent('logout-error', null, error);
         }
     } else {
         // Login
+        if (window.self !== window.top) {
+            pushAuthDebugEvent('login-blocked-iframe', getAuthEnvironmentSnapshot());
+            alert('Login must run in a normal browser tab (not inside an embedded preview/iframe). Open simmoe.github.io directly and try again.');
+            return;
+        }
+
         const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+            prompt: 'select_account'
+        });
+
         try {
             console.log('Attempting login...');
+            pushAuthDebugEvent('popup-login-attempt', getAuthEnvironmentSnapshot());
             const result = await signInWithPopup(auth, provider);
+            pushAuthDebugEvent('popup-login-success', {
+                email: result?.user?.email || null,
+                uid: result?.user?.uid || null
+            });
+
             if (result.user.email !== AUTHORIZED_EMAIL) {
                 await signOut(auth);
+                pushAuthDebugEvent('popup-login-unauthorized-email', {
+                    email: result.user.email,
+                    authorizedEmail: AUTHORIZED_EMAIL
+                });
                 alert('Unauthorized email. Only ' + AUTHORIZED_EMAIL + ' can edit.');
             }
         } catch (error) {
             console.error('Login error:', error);
+            pushAuthDebugEvent('popup-login-error', getAuthEnvironmentSnapshot(), error);
+
             if (error && error.code === 'auth/unauthorized-domain') {
                 const host = window.location.host;
                 const projectId = auth?.app?.options?.projectId || 'unknown-project';
@@ -100,6 +326,21 @@ export async function handleAuth() {
                     'Firebase project: ' + projectId + '\n\n' +
                     'Add this exact host to Firebase Console -> Authentication -> Settings -> Authorized domains, then hard refresh and try again.'
                 );
+            } else if (error && error.code === 'auth/missing-initial-state') {
+                alert(
+                    'Login failed: missing initial auth state.\n\n' +
+                    'Your browser blocked or cleared session storage during OAuth.\n' +
+                    'Open the site directly in a normal tab, disable strict tracking protection for this site, and try again.'
+                );
+            } else if (error && error.code === 'auth/popup-blocked') {
+                try {
+                    pushAuthDebugEvent('redirect-login-attempt-after-popup-blocked', getAuthEnvironmentSnapshot());
+                    await signInWithRedirect(auth, provider);
+                } catch (redirectError) {
+                    console.error('Redirect login error:', redirectError);
+                    pushAuthDebugEvent('redirect-login-error', getAuthEnvironmentSnapshot(), redirectError);
+                    alert('Login failed after popup was blocked: ' + redirectError.message);
+                }
             } else {
                 alert('Login failed: ' + error.message);
             }
