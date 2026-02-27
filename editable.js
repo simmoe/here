@@ -91,7 +91,18 @@ export async function handleAuth() {
             }
         } catch (error) {
             console.error('Login error:', error);
-            alert('Login failed: ' + error.message);
+            if (error && error.code === 'auth/unauthorized-domain') {
+                const host = window.location.host;
+                const projectId = auth?.app?.options?.projectId || 'unknown-project';
+                alert(
+                    'Login failed: unauthorized domain.\n\n' +
+                    'Current host: ' + host + '\n' +
+                    'Firebase project: ' + projectId + '\n\n' +
+                    'Add this exact host to Firebase Console -> Authentication -> Settings -> Authorized domains, then hard refresh and try again.'
+                );
+            } else {
+                alert('Login failed: ' + error.message);
+            }
         }
     }
 }
