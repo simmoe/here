@@ -87,6 +87,15 @@ function initializeApp() {
         
         var app = applicationsData.applications.find(a => a.id === printAppId);
         if (app) {
+            // Set browser/PDF title based on print type
+            if (printType === 'cv') {
+                document.title = 'CV Simon Moe';
+            } else if (printType === 'recommendations') {
+                document.title = 'Anbefalinger Simon Moe';
+            } else {
+                document.title = app.title || 'Ansøgning Simon Moe';
+            }
+
             // Render directly to body or a clean container
             var printContainer = createDiv();
             printContainer.id('print-container');

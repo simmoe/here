@@ -1,6 +1,6 @@
 {
     "resume-short": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent.",
-    "resume": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent. Teoretisk har jeg ballast fra en Master i Public Governance (MPG), som har skærpet min evne til at tænke i helheder og designe indsatser, der er operationelt bæredygtige. Som datalog har jeg en faglig tilgang til kunstig intelligens og dens rolle i uddannelse og organisationer. Jeg orienterer mig pragmatisk i feltet og mit fokus er at identificere, hvor AI reelt skaber værdi og kan integreres ansvarligt, transparent og strategisk.<br><br>Referencer oplyses gerne ved samtale.",
+    "resume": "Den røde tråd gennem min karriere er at skabe sammenhæng mellem politiske ambitioner, faglig kvalitet og implementerbare løsninger i uddannelsespraksis. Læring og didaktik er den gennemgående drivkraft - både som leder, underviser og selvstændig konsulent. Teoretisk har jeg ballast fra en Master i Public Governance (MPG), som har skærpet min evne til at tænke i helheder og designe indsatser, der er operationelt bæredygtige. Som datalog har jeg en faglig tilgang til kunstig intelligens og dens rolle i uddannelse og organisationer. Jeg orienterer mig pragmatisk i feltet og mit fokus er at identificere, hvor AI reelt skaber værdi og kan integreres ansvarligt, transparent og strategisk.<br><br>Referencer kan indhentes ifbm samtale.",
     "cv": [
         {
             "order": 0,
@@ -220,15 +220,16 @@
             "cvRefs": [
                 "nota"
             ],
-            "description": "Analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Daglig ledelse af 8 medarbejdere<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering",
+            "description": "Analyseenhed med ansvar for brugerinddragelse og strategisk serviceudvikling på ordblinde området.<br/><br/>Ansvarsområder:<br/>• Daglig ledelse af 8 medarbejdere<br/>• Strategisk analyse og policyunderstøttelse<br/>• Budgetansvar for projektportefølje og PR<br/>• Tværministerielt samarbejde<br/>• Juridisk og rettighedsmæssig udvikling (ophavsret, adgang til undervisningsmaterialer)<br/>• Netværksopbygning på nationalt niveau (ROAL m.fl.)<br/><br/>Udvalgte resultater:<br/>• Overtagelse af Materialebasen og etablering af Skole- og Studieservice<br/>• Strategisk udvikling af webbaseret lydbogsafspiller med ord-for-ord-synkronisering<br/>• Landsdækkende kvantitative undersøgelser af børn og unge med læsevanskeligheder i samarbejde med Epinion og UVM<br/>• Kvalitative studier af målgruppens brugsmønstre og støttebehov<br/>• Forfatter på peer-reviewed Springer-artikel om resultaterne, som for første gang viste signifikant forskel for unge, der bruger lydbøger aktivt i skolegang",
             "references": [
                 {
                     "name": "Inge Padkær",
-                    "linkedin": "https://www.linkedin.com/in/inge-padk%C3%A6r-nielsen-33778a38/?originalSubdomain=dk"
+                    "phone": "39 13 46 00 (Nota)"
                 },
                 {
                     "name": "Katia Bill Nielsen",
-                    "role": "Assistant professor, University of Copenhagen"
+                    "role": "Assistant professor, University of Copenhagen",
+                    "phone": "+45 60196903"
                 },
                 {
                     "name": "Søren Bolvig Poulsen",
