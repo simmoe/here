@@ -1,0 +1,408 @@
+rules_version = '2';
+// MERGED rules for the shared Firebase project `p5-firebase-eebc1`.
+//
+// Firestore deploy always REPLACES the entire ruleset. Never deploy a
+// single-app fragment. Fetch live rules first, then merge this repo's
+// `here_*` block (and any other live blocks) before deploy.
+//
+// Deploy: `firebase deploy --only firestore:rules --project p5-firebase-eebc1`
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: is the user signed in?
+    function signedIn() { return request.auth != null; }
+
+    // Helper: is this user a teacher (read-only access to all mat_teacher data)?
+    function isTeacher() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/mat_teacher_users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/mat_teacher_users/$(request.auth.uid)).data.role == 'teacher';
+    }
+
+    // Helper: portfolio owner (verified Google account).
+    function isHereOwner() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email == 'simmoe@gmail.com';
+    }
+
+    // ----------------------------------------------------------
+    // Simon Moe portfolio (`here`, GitHub Pages: simmoe.github.io/here)
+    // Public READ so the site works without login.
+    // WRITE only for the owner — the inline editor in editable.js.
+    // Restored 2026-08-17 after a later project deploy dropped this block
+    // (last present in live rules 2026-06-05).
+    // Collections: here_content, here_cv, here_projects,
+    //              here_applications, here_recommendations
+    // ----------------------------------------------------------
+
+    match /here_content/{docId} {
+      allow read: if true;
+      allow write: if isHereOwner();
+    }
+
+    match /here_cv/{docId} {
+      allow read: if true;
+      allow write: if isHereOwner();
+    }
+
+    match /here_projects/{docId} {
+      allow read: if true;
+      allow write: if isHereOwner();
+    }
+
+    match /here_applications/{docId} {
+      allow read: if true;
+      allow write: if isHereOwner();
+    }
+
+    match /here_recommendations/{docId} {
+      allow read: if true;
+      allow write: if isHereOwner();
+    }
+
+    // ----------------------------------------------------------
+    // Generic drag-and-drop lists — `ddu-dragdrop` (rewritten).
+    // Any signed-in user can create lists. Owner controls visibility:
+    //   - visibility == "public" → anyone with the link can READ.
+    //   - editorEmails contains the viewer's verified email → can WRITE.
+    // Owner can always read/write/delete.
+    //
+    // Rules are split into multiple flat allow branches so Firestore's
+    // static query analyzer can prove each dashboard query (where ownerUid
+    // == auth.uid, or where editorEmails array-contains email) satisfies
+    // at least one branch.
+    // ----------------------------------------------------------
+
+    match /CURSOR_dnd_lists/{listId} {
+      // READ — public lists are world-readable
+      allow read: if resource.data.visibility == "public";
+
+      // READ — owner
+      allow read: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid;
+
+      // READ — invited editor (verified email in the editorEmails list)
+      allow read: if request.auth != null
+        && request.auth.token.email_verified == true
+        && resource.data.editorEmails is list
+        && request.auth.token.email in resource.data.editorEmails;
+
+      // CREATE — any signed-in user; ownerUid must be self
+      allow create: if request.auth != null
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() < 200
+        && request.resource.data.visibility in ["public", "private"];
+
+      // UPDATE — owner (ownerUid is immutable)
+      allow update: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == resource.data.ownerUid;
+
+      // UPDATE — invited editor (cannot change ownerUid)
+      allow update: if request.auth != null
+        && request.auth.token.email_verified == true
+        && resource.data.editorEmails is list
+        && request.auth.token.email in resource.data.editorEmails
+        && request.resource.data.ownerUid == resource.data.ownerUid;
+
+      // DELETE — owner only
+      allow delete: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // User profile docs
+    match /mat_teacher_users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isTeacher());
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid
+                    && request.resource.data.role == resource.data.role; // role can't self-promote
+    }
+
+    // Assignments
+    match /mat_teacher_assignments/{aid} {
+      allow read: if signedIn()
+                  && (resource.data.ownerUid == request.auth.uid || isTeacher());
+      allow create: if signedIn()
+                    && request.resource.data.ownerUid == request.auth.uid;
+      allow update: if signedIn()
+                    && resource.data.ownerUid == request.auth.uid;
+      // Sletning sker via Cloud Function (admin) — recursiveDelete + evt. fremtidige bilagsfiler
+      allow delete: if false;
+
+      // Steps subcollection
+      match /steps/{sid} {
+        allow read: if signedIn()
+                    && (get(/databases/$(database)/documents/mat_teacher_assignments/$(aid)).data.ownerUid == request.auth.uid
+                        || isTeacher());
+        // Only Cloud Functions (admin SDK) write steps
+        allow write: if false;
+      }
+
+      // Feedback subcollection
+      match /feedback/{fid} {
+        allow read: if signedIn()
+                    && (get(/databases/$(database)/documents/mat_teacher_assignments/$(aid)).data.ownerUid == request.auth.uid
+                        || isTeacher());
+        allow write: if false;
+      }
+    }
+
+    // NEXT AI Design Hub — public markdown documents shown on aihub-application.
+    // Read is public so anyone can view the proposal site.
+    // Write is restricted to the designated editors (verified Google accounts).
+    function isAihubEditor() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+          'simmoe@gmail.com',
+          'mrnm@aarhustech.dk'
+        ];
+    }
+
+    match /documents/{docId} {
+      allow read: if true;
+      allow write: if isAihubEditor();
+    }
+
+    // ================================================================
+    // Fællesbandet / chord-formatter
+    // Tilføjet 2026-05-01. Bandets medlemmer ligger i
+    // chord_bands/{bandId}.memberUids og styres derfra.
+    // ================================================================
+
+    function isChordBandMember(bandId) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/chord_bands/$(bandId))
+        && request.auth.uid in get(/databases/$(database)/documents/chord_bands/$(bandId)).data.memberUids;
+    }
+
+    // User-profil-doc'er (oprettet ved første login eller via bootstrap-script).
+    match /chord_users/{uid} {
+      allow read:   if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid;
+      allow delete: if false;
+    }
+
+    // Band-dokumentet. Læses af alle medlemmer; opdateres kun af owner
+    // (typisk via bootstrap-script, ikke direkte fra UI'et).
+    match /chord_bands/{bandId} {
+      allow read:   if isChordBandMember(bandId);
+      allow update: if signedIn()
+                    && resource.data.ownerUid == request.auth.uid
+                    && request.resource.data.ownerUid == resource.data.ownerUid;
+      allow create: if false; // opret via Admin SDK
+      allow delete: if false;
+
+      // Sangbog
+      match /songs/{songId} {
+        allow read, write: if isChordBandMember(bandId);
+
+        match /recordings/{recordingId} {
+          allow read: if isChordBandMember(bandId);
+          allow create: if isChordBandMember(bandId)
+                        && request.resource.data.createdBy == request.auth.uid
+                        && request.resource.data.podcastStatus == "pending"
+                        && request.resource.data.podcastAttemptCount == 0
+                        && !("podcastMp3Path" in request.resource.data)
+                        && !("podcastMp3Url" in request.resource.data);
+          allow update: if isChordBandMember(bandId)
+                        && resource.data.createdBy == request.auth.uid
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+                          "title", "recordedAt", "venue", "notes", "updatedBy", "updatedAt"
+                        ]);
+          allow delete: if isChordBandMember(bandId)
+                        && resource.data.createdBy == request.auth.uid;
+        }
+      }
+
+      // Fælles klient-indstillinger for sangbogen (fx kategori-farver).
+      match /settings/{settingsId} {
+        allow read, write: if isChordBandMember(bandId);
+      }
+
+      // Sætlister
+      match /setlists/{setlistId} {
+        allow read, write: if isChordBandMember(bandId);
+      }
+    }
+
+    // ================================================================
+    // Informatik C — fagbegrebs-wiki / opslagsbog.
+    // Tilføjet 2026-05-12. Offentlig læsning; skrivning kræver Google-login.
+    // Hvert opslag har en forfatter; redigering bevarer historik via
+    // separate explanations-dokumenter under hvert opslag.
+    // ================================================================
+
+    // Stamp = { uid, name } lagret på dokumenterne (createdBy, defaultAuthor,
+    // explanations.author). Må matche den indloggede bruger.
+    function infcStamp(stamp) {
+      return stamp is map
+        && stamp.uid == request.auth.uid
+        && stamp.name is string
+        && stamp.name.size() > 0;
+    }
+
+    // Ekstra forklaring: nye dokumenter har kun `mediaUrl`; ældre kan have ren tekst i `body`.
+    function infcExplHasContent(data) {
+      return (data.mediaUrl is string
+              && data.mediaUrl.size() > 0
+              && data.mediaUrl.size() < 2100)
+        || (data.kind == 'text'
+            && data.body is string
+            && data.body.size() > 0
+            && data.body.size() < 50000);
+    }
+
+    // Hovedopslag — slug som document-id.
+    match /informatik_c_entries/{slug} {
+      // Offentlig læsning: fagbogen skal kunne bruges uden login.
+      // Skrivning kræver stadig Google-login.
+      allow read: if true;
+
+      allow create: if signedIn()
+        && request.resource.data.term is string
+        && request.resource.data.term.size() > 0
+        && request.resource.data.term.size() < 200
+        && request.resource.data.slug == slug
+        && request.resource.data.defaultText is string
+        && infcStamp(request.resource.data.createdBy)
+        && infcStamp(request.resource.data.defaultAuthor);
+
+      // Update: alle må redigere default-teksten; slug, createdBy og defaultAuthor er låst.
+      allow update: if signedIn()
+        && request.resource.data.slug == resource.data.slug
+        && request.resource.data.createdBy == resource.data.createdBy
+        && (!('defaultAuthor' in resource.data)
+            || request.resource.data.defaultAuthor == resource.data.defaultAuthor)
+        && request.resource.data.term is string
+        && request.resource.data.term.size() > 0
+        && request.resource.data.defaultText is string;
+
+      // Ingen sletning fra UI — bevarer historik.
+      allow delete: if false;
+
+      // Ekstra forklaringer — ét link/sti i nye opslag; legacy: tekst uden link.
+      match /explanations/{explId} {
+        allow read: if true;
+        allow create: if signedIn()
+          && request.resource.data.kind in ['text', 'image', 'video', 'audio', 'link']
+          && request.resource.data.body is string
+          && request.resource.data.body.size() < 50000
+          && request.resource.data.title is string
+          && request.resource.data.title.size() < 200
+          && infcStamp(request.resource.data.author)
+          && infcExplHasContent(request.resource.data);
+        allow update: if signedIn()
+          && request.resource.data.kind in ['text', 'image', 'video', 'audio', 'link']
+          && request.resource.data.body is string
+          && request.resource.data.body.size() < 50000
+          && request.resource.data.title is string
+          && request.resource.data.title.size() < 200
+          && infcStamp(request.resource.data.author)
+          && infcExplHasContent(request.resource.data);
+        // Sletning kun af den oprindelige forfatter.
+        allow delete: if signedIn()
+          && resource.data.author.uid == request.auth.uid;
+      }
+    }
+
+    // ================================================================
+    // Informatik C — eksamensopgaver (FORTROLIGE).
+    // Tilføjet 2026-06-08. Eksamensmateriale må ALDRIG være offentligt.
+    // Kun ejeren (verificeret Google-konto) må læse og skrive. Indholdet
+    // hentes runtime, så det ikke ligger i den offentlige JS-bundle.
+    // ================================================================
+    function isInfcExamOwner() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email == 'simmoe@gmail.com';
+    }
+
+    match /informatik_c_exam/{docId} {
+      allow read, write: if isInfcExamOwner();
+    }
+
+    // ================================================================
+    // Informatik C — Eigils tømrerord.
+    // Offentlig, simpel flashcard-side uden login. Indholdet er ikke
+    // fortroligt, men Firestore er stadig source of truth.
+    // ================================================================
+    function isEigilWord(data) {
+      return data.keys().hasOnly([
+          'word',
+          'explanation',
+          'alternatives',
+          'image',
+          'order',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.word is string
+        && data.word.size() > 0
+        && data.word.size() < 80
+        && data.explanation is string
+        && data.explanation.size() > 0
+        && data.explanation.size() < 1200
+        && data.order is int
+        && (!('alternatives' in data) || data.alternatives is list)
+        && (!('image' in data) || (data.image is string && data.image.size() < 900000));
+    }
+
+    match /informatik_c_eigil_words/{wordId} {
+      allow read: if true;
+      allow create, update: if isEigilWord(request.resource.data);
+      allow delete: if true;
+    }
+
+    // ================================================================
+    // Min økonomi — private, UID-isolerede økonomidata.
+    // Kun den indloggede bruger må læse og skrive sit eget namespace.
+    // Rod-dokumentet bærer schemaVersion; underkollektionerne indeholder
+    // konti, kilder, transaktioner og senere budgetter/scenarier.
+    // ================================================================
+    match /min_oekonomi/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.schemaVersion == 1;
+      allow delete: if false;
+
+      match /{document=**} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // ================================================================
+    // Teknikfag DDU — forløb, elever (fornavne), grupper.
+    // Offentlig læsning: ingen følsomme persondata i disse collections.
+    // Skrivning: kun ejer (verificeret Google-konto).
+    // Prefix: teknikfag_ddu_*
+    // ================================================================
+    function isTeknikfagDduOwner() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email == 'simmoe@gmail.com';
+    }
+
+    match /teknikfag_ddu_forlob/{id} {
+      allow read: if true;
+      allow create, update, delete: if isTeknikfagDduOwner();
+    }
+
+    match /teknikfag_ddu_students/{id} {
+      allow read: if true;
+      allow create, update, delete: if isTeknikfagDduOwner();
+    }
+
+    match /teknikfag_ddu_groups/{id} {
+      allow read: if true;
+      allow create, update, delete: if isTeknikfagDduOwner();
+    }
+
+  }
+}
