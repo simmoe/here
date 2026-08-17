@@ -1,0 +1,41 @@
+---
+description: Firestore rules for the shared p5-firebase-eebc1 project must be merged, never replaced
+alwaysApply: true
+---
+
+# Firestore rules — merge, never overwrite
+
+This site (`here`) uses the **shared** Firebase project `p5-firebase-eebc1`.
+The same project holds data for Fællesbandet, mat-teacher, AI Hub, ddu-dragdrop,
+Informatik C, Min økonomi, Teknikfag DDU, and others.
+
+`firebase deploy --only firestore:rules` **replaces the entire live ruleset**.
+There is no server-side merge. Deploying only this app's collections will
+make the public portfolio return `PERMISSION_DENIED` for anonymous visitors
+(GitHub Pages still loads, but Firestore content does not).
+
+## Before every rules deploy
+
+1. Fetch the currently deployed rules (Console → Firestore → Rules, or the
+   Firebase Rules API). Do not trust a copy in another repo; those go stale.
+2. Diff against `firestore.rules` in this repo.
+3. Keep **all** existing `match` blocks from live rules. Only add or edit
+   this app's `here_*` block.
+4. Confirm these prefixes still exist after the merge:
+   `here_`, `CURSOR_dnd_`, `mat_teacher_`, `documents`, `chord_`,
+   `informatik_c_`, `min_oekonomi`, `teknikfag_ddu_`.
+5. Deploy only rules, never functions or hosting from this repo:
+
+```bash
+firebase deploy --only firestore:rules --project p5-firebase-eebc1
+```
+
+## This app's block (required)
+
+- Collections: `here_content`, `here_cv`, `here_projects`,
+  `here_applications`, `here_recommendations`
+- Public **read** (`allow read: if true`) — the site is public
+- **Write** only for verified `simmoe@gmail.com`
+
+Do not deploy a fragment. Do not copy an outdated "canonical" file from
+another project without fetching live rules first.
