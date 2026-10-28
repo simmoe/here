@@ -75,6 +75,45 @@ class WorkData {
 			.map((enrollment) => ({ enrollment, student: this.student(enrollment.studentId) }))
 			.sort((a, b) => (a.student?.name || '').localeCompare(b.student?.name || '', 'da'));
 	}
+
+	classesByYear() {
+		const groups = new Map<string, ClassItem[]>();
+		for (const item of this.classes) {
+			const label = yearLabel(item.year);
+			const rows = groups.get(label) ?? [];
+			rows.push(item);
+			groups.set(label, rows);
+		}
+		return [...groups.entries()]
+			.sort((a, b) => yearStart(b[0]) - yearStart(a[0]))
+			.map(([label, items]) => ({
+				label,
+				items: items.sort((a, b) => (a.order || 0) - (b.order || 0))
+			}));
+	}
+}
+
+/** School year flips on 1 August: October 2026 is 26/27, August 2027 is 27/28. */
+export function currentSchoolYear(now = new Date()) {
+	const start = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+	return `${String(start).slice(-2)}/${String(start + 1).slice(-2)}`;
+}
+
+export function yearLabel(year?: string) {
+	if (!year) return currentSchoolYear();
+	const full = year.match(/^(\d{4})\/(\d{2,4})$/);
+	if (!full) return year;
+	const end = full[2].length === 4 ? full[2].slice(-2) : full[2];
+	return `${full[1].slice(-2)}/${end}`;
+}
+
+function yearStart(label: string) {
+	const match = label.match(/^(\d{2})\//);
+	return match ? Number(match[1]) : 0;
+}
+
+export function lineFields(item?: ClassItem) {
+	return (item?.fields || []).filter((field) => field.kind === 'line');
 }
 
 export const workData = new WorkData();

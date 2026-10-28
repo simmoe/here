@@ -1,0 +1,113 @@
+{
+  "ranAt": "2026-10-20T19:11:07.683835+00:00",
+  "seconds": 2259,
+  "done": true,
+  "rate": 0.67199,
+  "error": "",
+  "counts": {
+    "houses": 676,
+    "underPrice": 676,
+    "withinDrive": 283,
+    "withWater": 6
+  },
+  "sources": [
+    {
+      "name": "Fastighetsbyrån",
+      "ok": true
+    },
+    {
+      "name": "Hemnet",
+      "ok": false
+    },
+    {
+      "name": "Booli",
+      "ok": false
+    }
+  ],
+  "houses": [
+    {
+      "id": "fastighetsbyran:3507560",
+      "address": "Fåglasång 1005",
+      "area": "Kågeröd",
+      "type": "Villa",
+      "priceDkk": 668630,
+      "priceSek": 995000,
+      "minutes": 91,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "å",
+      "evidence": "En å er synlig fra huset på et af annoncebillederne.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/svalovs-kommun/objekt/?objektID=3507560",
+      "photo": "https://media.fastighetsbyran.se/49966518.png"
+    },
+    {
+      "id": "fastighetsbyran:3330890",
+      "address": "Storgatan 15",
+      "area": "Bromölla",
+      "type": "Villa",
+      "priceDkk": 974386,
+      "priceSek": 1450000,
+      "minutes": 120,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "å",
+      "evidence": "Satellitbilledet viser en å, der støder op til grunden bag huset.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/bromolla-kommun/objekt/?objektID=3330890",
+      "photo": "https://media.fastighetsbyran.se/49015484.jpg"
+    },
+    {
+      "id": "fastighetsbyran:3151778",
+      "address": "Fiskaregränd ",
+      "area": "Bunkeflostrand",
+      "type": "Fritidshus",
+      "priceDkk": 1343980,
+      "priceSek": 2000000,
+      "minutes": 38,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "hav",
+      "evidence": "Havet kan ses fra terrassen på foto 2, og satellitbilledet viser, at grunden støder op til havet.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/malmo-stad/objekt/?objektID=3151778",
+      "photo": "https://media.fastighetsbyran.se/44088758.jpg"
+    },
+    {
+      "id": "fastighetsbyran:2742245",
+      "address": "Garnvägen 3",
+      "area": "Hässleholm - Finjasjön",
+      "type": "Fritidshus",
+      "priceDkk": 1343980,
+      "priceSek": 2000000,
+      "minutes": 110,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "sø",
+      "evidence": "Vand kan ses fra grunden og huset på flere fotos, og grunden støder op til en stor sø ifølge kort og satellitbillede.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/hassleholms-kommun/objekt/?objektID=2742245",
+      "photo": "https://media.fastighetsbyran.se/37341520.jpg"
+    },
+    {
+      "id": "fastighetsbyran:3085831",
+      "address": "Äskebäskan 294",
+      "area": "Veberöd - Vomb",
+      "type": "Villa",
+      "priceDkk": 1542217,
+      "priceSek": 2295000,
+      "minutes": 70,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "sø",
+      "evidence": "Vand kan ses fra huset og terrassen på flere fotos, og satellitbilledet viser vand lige op til grunden.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/lunds-kommun/objekt/?objektID=3085831",
+      "photo": "https://media.fastighetsbyran.se/48967301.jpg"
+    },
+    {
+      "id": "fastighetsbyran:2946382",
+      "address": "Äspenäsvägen 38",
+      "area": "Äspenäs",
+      "type": "Fritidshus",
+      "priceDkk": 1945411,
+      "priceSek": 2895000,
+      "minutes": 112,
+      "driveFrom": "Ejderstedgade 2",
+      "water": "sø",
+      "evidence": "Søen er tydeligt synlig i baggrunden på et af luftfotoene, der viser huset.",
+      "url": "https://www.fastighetsbyran.com/sv/sverige/till-salu/skane-lan/angelholms-kommun/objekt/?objektID=2946382",
+      "photo": "https://media.fastighetsbyran.se/46056712.jpg"
+    }
+  ]
+}

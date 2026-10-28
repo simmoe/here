@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 .DS_Store
 private/
+fritidshus_search/data/
+__pycache__/
+*.pyc

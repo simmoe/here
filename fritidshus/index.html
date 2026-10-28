@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fritidshus</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@500&display=swap">
+    <style>
+        body {
+            margin: 0;
+            background: #f6f4f0;
+            color: #1a1a1a;
+            font-family: "Open Sans", sans-serif;
+        }
+        .bar {
+            background: #111;
+            color: white;
+            padding: 1.1rem 8vw;
+            font-family: Raleway, sans-serif;
+            letter-spacing: 0.04em;
+        }
+        .wrap {
+            width: min(1080px, calc(100% - 3rem));
+            margin: 2rem auto 4rem;
+        }
+        .sources {
+            margin: 0 0 1.4rem;
+        }
+        ul {
+            line-height: 1.6;
+            padding-left: 1.1rem;
+        }
+        .searched,
+        .status {
+            margin: 1rem 0 0;
+            color: #444;
+        }
+        .status {
+            margin-bottom: 1.5rem;
+        }
+        .house {
+            display: grid;
+            grid-template-columns: 160px 1fr 11rem;
+            gap: 1rem;
+            background: white;
+            padding: 0.8rem;
+            margin: 0 0 0.8rem;
+        }
+        .house img {
+            width: 160px;
+            height: 120px;
+            object-fit: cover;
+            background: #ddd;
+        }
+        .note {
+            width: 100%;
+            min-height: 120px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            padding: 0.45rem 0.5rem;
+            font: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+            background: #fafafa;
+        }
+        .house h2 {
+            font-family: Raleway, sans-serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin: 0 0 0.3rem;
+        }
+        .house p {
+            margin: 0.15rem 0;
+        }
+        a {
+            color: inherit;
+        }
+        @media (max-width: 640px) {
+            .house {
+                grid-template-columns: 1fr;
+            }
+            .house img {
+                width: 100%;
+                height: 200px;
+            }
+            .note {
+                min-height: 4.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bar">Fritidshus</div>
+    <div class="wrap">
+        <p class="sources">Søgningen bruger Fastighetsbyrån. Hemnet og Booli er blokeret og kommer ikke med.</p>
+        <ul>
+            <li>Helt hus: villa, fritidshus eller gård. Ingen lejlighed eller rækkehus.</li>
+            <li>Under 2.000.000 kr.</li>
+            <li>Under to timers kørsel fra Ejderstedgade 2 eller Toftekærsvej 91, Søborg.</li>
+            <li>Teksten skal nævne hav, sø eller å. Først derefter tjekkes de fem første fotos og satellitkortet.</li>
+        </ul>
+        <p class="searched" id="searched"></p>
+        <div class="status" id="status"></div>
+        <div id="houses"></div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, doc, onSnapshot, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        var db = getFirestore(initializeApp({
+            apiKey: "AIzaSyDU1QQ5IOx65YauKjemsexCpfgNBblrQRc",
+            authDomain: "p5-firebase-eebc1.firebaseapp.com",
+            projectId: "p5-firebase-eebc1",
+            storageBucket: "p5-firebase-eebc1.appspot.com",
+            messagingSenderId: "757530790495",
+            appId: "1:757530790495:web:3b63a4a12d2afdad97e9ea"
+        }));
+
+        var searched = document.getElementById("searched");
+        var status = document.getElementById("status");
+        var houses = document.getElementById("houses");
+        var notes = {};
+        var noteTimers = {};
+        var shownKey = "";
+        var noteId = /^fastighetsbyran:\d+$/;
+
+        function dkk(value) {
+            return value.toLocaleString("da-DK") + " kr";
+        }
+
+        function httpsOnly(value) {
+            return typeof value === "string" && value.startsWith("https://") ? value : "";
+        }
+
+        function searchedAt(iso) {
+            var date = new Date(iso);
+            if (Number.isNaN(date.getTime())) return "";
+            var formatted = new Intl.DateTimeFormat("da-DK", {
+                timeZone: "Europe/Copenhagen",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            }).format(date);
+            return "Sidste søgning " + formatted + ".";
+        }
+
+        function applyNotes() {
+            houses.querySelectorAll("textarea").forEach(function (field) {
+                if (document.activeElement === field) return;
+                var next = notes[field.dataset.note] || "";
+                if (field.value !== next) field.value = next;
+            });
+        }
+
+        function scheduleSave(id, value) {
+            clearTimeout(noteTimers[id]);
+            noteTimers[id] = setTimeout(function () {
+                if (!noteId.test(id)) return;
+                setDoc(doc(db, "here_fritidshus_notes", id), {
+                    text: value.slice(0, 2000),
+                    updatedAt: serverTimestamp()
+                }).catch(function () {});
+            }, 400);
+        }
+
+        function show(report) {
+            if (!report || !report.houses) {
+                searched.textContent = "";
+                status.textContent = "";
+                return;
+            }
+            searched.textContent = searchedAt(report.ranAt);
+            var counts = report.counts || {};
+            var tail = counts.withWater + " huse med vand, af " + counts.withinDrive + " inden for to timer.";
+            if (report.error) tail = report.error + " " + tail;
+            if (report.done === false) tail = "Søger. " + tail;
+            status.textContent = tail;
+            var key = report.houses.map(function (house) { return house.id; }).join("\n");
+            if (key === shownKey) return;
+            shownKey = key;
+            houses.textContent = "";
+            report.houses.forEach(function (house) {
+                var card = document.createElement("div");
+                card.className = "house";
+                var img = document.createElement("img");
+                img.src = httpsOnly(house.photo);
+                img.alt = "";
+                var text = document.createElement("div");
+                var title = document.createElement("h2");
+                var link = document.createElement("a");
+                var href = httpsOnly(house.url);
+                if (href) link.href = href;
+                link.textContent = house.address || "";
+                title.appendChild(link);
+                text.appendChild(title);
+                [house.area, dkk(house.priceDkk) + " · " + house.minutes + " min fra " + house.driveFrom, house.water + ". " + house.evidence].forEach(function (line) {
+                    var p = document.createElement("p");
+                    p.textContent = line || "";
+                    text.appendChild(p);
+                });
+                card.appendChild(img);
+                card.appendChild(text);
+                if (noteId.test(house.id)) {
+                    var field = document.createElement("textarea");
+                    field.className = "note";
+                    field.placeholder = "Kommentar";
+                    field.maxLength = 2000;
+                    field.dataset.note = house.id;
+                    field.value = notes[house.id] || "";
+                    field.addEventListener("input", function () {
+                        scheduleSave(house.id, field.value);
+                    });
+                    card.appendChild(field);
+                }
+                houses.appendChild(card);
+            });
+        }
+
+        onSnapshot(collection(db, "here_fritidshus_notes"), function (snap) {
+            notes = {};
+            snap.forEach(function (item) {
+                var text = item.data().text;
+                if (typeof text === "string" && noteId.test(item.id)) notes[item.id] = text.slice(0, 2000);
+            });
+            applyNotes();
+        });
+
+        function load() {
+            fetch("results.json?t=" + Date.now()).then(function (response) {
+                if (!response.ok) return;
+                return response.json();
+            }).then(show).catch(function () {});
+        }
+
+        load();
+        setInterval(load, 10000);
+    </script>
+</body>
+</html>

@@ -236,12 +236,40 @@ export function initEditable() {
             currentUser = user;
             console.log('Logged in as:', user.email);
             enableEditing();
+            clearLoginRequest();
         } else {
             currentUser = null;
             console.log('Not logged in or unauthorized');
             disableEditing();
+            maybeStartLoginFromRoute();
         }
     });
+}
+
+function isLoginRequest() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('login') === '1') return true;
+    const path = window.location.pathname.replace(/\/+$/, '');
+    return path.endsWith('/login');
+}
+
+function clearLoginRequest() {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has('login') && !url.pathname.replace(/\/+$/, '').endsWith('/login')) {
+        return;
+    }
+    url.searchParams.delete('login');
+    url.pathname = url.pathname.replace(/\/login\/?$/, '/') || '/';
+    const next = url.pathname + url.search + url.hash;
+    history.replaceState(null, '', next);
+}
+
+let loginRouteStarted = false;
+
+function maybeStartLoginFromRoute() {
+    if (loginRouteStarted || !isLoginRequest()) return;
+    loginRouteStarted = true;
+    startLogin();
 }
 
 /**
@@ -284,66 +312,69 @@ export async function handleAuth() {
             pushAuthDebugEvent('logout-error', null, error);
         }
     } else {
-        // Login
-        if (window.self !== window.top) {
-            pushAuthDebugEvent('login-blocked-iframe', getAuthEnvironmentSnapshot());
-            alert('Login must run in a normal browser tab (not inside an embedded preview/iframe). Open simmoe.github.io directly and try again.');
-            return;
-        }
+        await startLogin();
+    }
+}
 
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({
-            prompt: 'select_account'
+async function startLogin() {
+    if (window.self !== window.top) {
+        pushAuthDebugEvent('login-blocked-iframe', getAuthEnvironmentSnapshot());
+        alert('Login must run in a normal browser tab (not inside an embedded preview/iframe). Open simmoe.github.io directly and try again.');
+        return;
+    }
+
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+        prompt: 'select_account'
+    });
+
+    try {
+        console.log('Attempting login...');
+        pushAuthDebugEvent('popup-login-attempt', getAuthEnvironmentSnapshot());
+        const result = await signInWithPopup(auth, provider);
+        pushAuthDebugEvent('popup-login-success', {
+            email: result?.user?.email || null,
+            uid: result?.user?.uid || null
         });
 
-        try {
-            console.log('Attempting login...');
-            pushAuthDebugEvent('popup-login-attempt', getAuthEnvironmentSnapshot());
-            const result = await signInWithPopup(auth, provider);
-            pushAuthDebugEvent('popup-login-success', {
-                email: result?.user?.email || null,
-                uid: result?.user?.uid || null
+        if (result.user.email !== AUTHORIZED_EMAIL) {
+            await signOut(auth);
+            pushAuthDebugEvent('popup-login-unauthorized-email', {
+                email: result.user.email,
+                authorizedEmail: AUTHORIZED_EMAIL
             });
+            alert('Unauthorized email. Only ' + AUTHORIZED_EMAIL + ' can edit.');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        pushAuthDebugEvent('popup-login-error', getAuthEnvironmentSnapshot(), error);
 
-            if (result.user.email !== AUTHORIZED_EMAIL) {
-                await signOut(auth);
-                pushAuthDebugEvent('popup-login-unauthorized-email', {
-                    email: result.user.email,
-                    authorizedEmail: AUTHORIZED_EMAIL
-                });
-                alert('Unauthorized email. Only ' + AUTHORIZED_EMAIL + ' can edit.');
+        if (error && error.code === 'auth/unauthorized-domain') {
+            const host = window.location.host;
+            const projectId = auth?.app?.options?.projectId || 'unknown-project';
+            alert(
+                'Login failed: unauthorized domain.\n\n' +
+                'Current host: ' + host + '\n' +
+                'Firebase project: ' + projectId + '\n\n' +
+                'Add this exact host to Firebase Console -> Authentication -> Settings -> Authorized domains, then hard refresh and try again.'
+            );
+        } else if (error && error.code === 'auth/missing-initial-state') {
+            alert(
+                'Login failed: missing initial auth state.\n\n' +
+                'Your browser blocked or cleared session storage during OAuth.\n' +
+                'Open the site directly in a normal tab, disable strict tracking protection for this site, and try again.'
+            );
+        } else if (error && error.code === 'auth/popup-blocked') {
+            try {
+                pushAuthDebugEvent('redirect-login-attempt-after-popup-blocked', getAuthEnvironmentSnapshot());
+                await signInWithRedirect(auth, provider);
+            } catch (redirectError) {
+                console.error('Redirect login error:', redirectError);
+                pushAuthDebugEvent('redirect-login-error', getAuthEnvironmentSnapshot(), redirectError);
+                alert('Login failed after popup was blocked: ' + redirectError.message);
             }
-        } catch (error) {
-            console.error('Login error:', error);
-            pushAuthDebugEvent('popup-login-error', getAuthEnvironmentSnapshot(), error);
-
-            if (error && error.code === 'auth/unauthorized-domain') {
-                const host = window.location.host;
-                const projectId = auth?.app?.options?.projectId || 'unknown-project';
-                alert(
-                    'Login failed: unauthorized domain.\n\n' +
-                    'Current host: ' + host + '\n' +
-                    'Firebase project: ' + projectId + '\n\n' +
-                    'Add this exact host to Firebase Console -> Authentication -> Settings -> Authorized domains, then hard refresh and try again.'
-                );
-            } else if (error && error.code === 'auth/missing-initial-state') {
-                alert(
-                    'Login failed: missing initial auth state.\n\n' +
-                    'Your browser blocked or cleared session storage during OAuth.\n' +
-                    'Open the site directly in a normal tab, disable strict tracking protection for this site, and try again.'
-                );
-            } else if (error && error.code === 'auth/popup-blocked') {
-                try {
-                    pushAuthDebugEvent('redirect-login-attempt-after-popup-blocked', getAuthEnvironmentSnapshot());
-                    await signInWithRedirect(auth, provider);
-                } catch (redirectError) {
-                    console.error('Redirect login error:', redirectError);
-                    pushAuthDebugEvent('redirect-login-error', getAuthEnvironmentSnapshot(), redirectError);
-                    alert('Login failed after popup was blocked: ' + redirectError.message);
-                }
-            } else {
-                alert('Login failed: ' + error.message);
-            }
+        } else {
+            alert('Login failed: ' + error.message);
         }
     }
 }

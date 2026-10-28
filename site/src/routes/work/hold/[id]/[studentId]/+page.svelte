@@ -37,7 +37,11 @@
 	{#each current?.fields || [] as field}
 		<label>
 			<span>{field.label}</span>
-			<textarea rows="8" value={row.enrollment.values?.[field.key] || ''} oninput={(event) => schedule(row.enrollment.id, field.key, event.currentTarget.value)}></textarea>
+			{#if field.kind === 'line'}
+				<input value={row.enrollment.values?.[field.key] || ''} oninput={(event) => schedule(row.enrollment.id, field.key, event.currentTarget.value)} />
+			{:else}
+				<textarea rows="8" value={row.enrollment.values?.[field.key] || ''} oninput={(event) => schedule(row.enrollment.id, field.key, event.currentTarget.value)}></textarea>
+			{/if}
 		</label>
 	{/each}
 	{#if !(current?.fields || []).length}

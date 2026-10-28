@@ -1,0 +1,17 @@
+---
+description: After changes to this site, commit, push, and deploy hosting.
+alwaysApply: true
+---
+
+# Publish here
+
+https://here-2026.web.app is the site. A local edit is not published until it is on `origin/main` and hosting has been deployed.
+
+After a change that belongs on the site:
+
+1. Commit the working tree in this checkout. Leave out secrets, `node_modules`, and `__pycache__`.
+2. Push `main` to `origin`.
+3. Deploy only from `site/`: `npm run deploy`. That builds and uploads `hosting:here-2026` on `p5-firebase-eebc1`.
+4. Do not deploy `firestore.rules` from this repo. The live ruleset is shared. A hosting deploy is not a rules deploy.
+
+The tree has to be clean, and `HEAD` has to match `origin/main`, before the upload. Do not force-push to get there.
