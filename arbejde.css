@@ -72,12 +72,28 @@ button.tab.active {
     gap: 0.5rem;
 }
 
-.card, .student {
+.card, .student, .group {
     border-top: 1px solid #ddd;
     padding: 0.9rem 0;
 }
 
-.card h3, .student h3 {
+.group, .checks {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+}
+
+.check input {
+    width: auto;
+}
+
+.card h3, .student h3, .group h3 {
     margin: 0;
     font-size: 1rem;
 }

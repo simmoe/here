@@ -41,6 +41,7 @@ const appSection = document.querySelector('#app');
 const statusEl = document.querySelector('#status');
 const classNav = document.querySelector('#class-nav');
 const classView = document.querySelector('#class-view');
+const groupView = document.querySelector('#group-view');
 const notesEl = document.querySelector('#notes');
 
 setPersistence(auth, browserLocalPersistence).catch((error) => {
@@ -56,6 +57,7 @@ const state = {
     classes: [],
     students: new Map(),
     enrollments: [],
+    groups: [],
     selectedClassId: null
 };
 
@@ -117,6 +119,7 @@ function render() {
 
     const current = classes.find((item) => item.id === state.selectedClassId);
     classView.replaceChildren();
+    groupView.replaceChildren();
     if (!current) return;
 
     const heading = document.createElement('h2');
@@ -167,6 +170,163 @@ function render() {
 
         classView.appendChild(card);
     });
+
+    renderGroups(current);
+}
+
+function renderGroups(current) {
+    const heading = document.createElement('h2');
+    heading.textContent = 'Projektgrupper';
+    groupView.appendChild(heading);
+
+    const groups = state.groups
+        .filter((item) => item.classId === current.id)
+        .sort((a, b) => (a.projectName || '').localeCompare(b.projectName || '', 'da'));
+
+    groups.forEach((group) => {
+        const card = document.createElement('article');
+        card.className = 'group';
+
+        const title = document.createElement('h3');
+        title.textContent = group.projectName;
+        card.appendChild(title);
+
+        const members = document.createElement('p');
+        members.className = 'meta';
+        members.textContent = (group.studentIds || [])
+            .map((id) => state.students.get(id)?.name || 'Ukendt elev')
+            .sort((a, b) => a.localeCompare(b, 'da'))
+            .join(', ');
+        card.appendChild(members);
+
+        (group.fields || []).forEach((field) => {
+            const label = document.createElement('label');
+            const caption = document.createElement('span');
+            caption.textContent = field.label;
+            const input = document.createElement('textarea');
+            input.rows = 3;
+            input.value = group.values?.[field.key] || '';
+            input.addEventListener('input', () => scheduleGroupSave(group.id, field.key, input.value));
+            label.append(caption, input);
+            card.appendChild(label);
+        });
+
+        const addField = document.createElement('form');
+        const fieldLabel = document.createElement('input');
+        fieldLabel.placeholder = 'Nyt felt';
+        fieldLabel.required = true;
+        const addButton = document.createElement('button');
+        addButton.type = 'submit';
+        addButton.className = 'secondary';
+        addButton.textContent = 'Tilføj felt';
+        addField.append(fieldLabel, addButton);
+        addField.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const labelText = fieldLabel.value.trim();
+            if (!labelText) return;
+            const key = uniqueFieldKey(labelText, group.fields || []);
+            await updateDoc(doc(db, 'here_private_groups', group.id), {
+                fields: [...(group.fields || []), { key, label: labelText, kind: 'longtext' }],
+                updatedAt: serverTimestamp()
+            });
+        });
+
+        card.append(
+            addField,
+            button('Slet gruppe', 'secondary', () => deleteDoc(doc(db, 'here_private_groups', group.id)))
+        );
+        groupView.appendChild(card);
+    });
+
+    const form = document.createElement('form');
+    const nameLabel = document.createElement('label');
+    const nameCaption = document.createElement('span');
+    nameCaption.textContent = 'Projektnavn';
+    const nameInput = document.createElement('input');
+    nameInput.required = true;
+    nameLabel.append(nameCaption, nameInput);
+
+    const checks = document.createElement('div');
+    checks.className = 'checks';
+    const enrolled = state.enrollments
+        .filter((item) => item.classId === current.id)
+        .map((item) => state.students.get(item.studentId))
+        .filter(Boolean)
+        .sort((a, b) => a.name.localeCompare(b.name, 'da'));
+    enrolled.forEach((student) => {
+        const label = document.createElement('label');
+        label.className = 'check';
+        const box = document.createElement('input');
+        box.type = 'checkbox';
+        box.value = student.id;
+        label.append(box, document.createTextNode(student.name));
+        checks.appendChild(label);
+    });
+
+    const save = document.createElement('button');
+    save.type = 'submit';
+    save.textContent = 'Opret gruppe';
+    form.append(nameLabel, checks, save);
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const studentIds = [...checks.querySelectorAll('input:checked')].map((input) => input.value);
+        if (studentIds.length < 2) {
+            statusEl.textContent = 'En gruppe skal have mindst to elever.';
+            return;
+        }
+        try {
+            await addDoc(collection(db, 'here_private_groups'), {
+                classId: current.id,
+                projectName: nameInput.value.trim(),
+                studentIds,
+                fields: [],
+                values: {},
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+            });
+            form.reset();
+            statusEl.textContent = 'Gruppe gemt';
+        } catch (error) {
+            console.error(error);
+            statusEl.textContent = 'Kunne ikke gemme gruppen.';
+        }
+    });
+    groupView.appendChild(form);
+}
+
+function uniqueFieldKey(label, fields) {
+    const base = label
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '') || 'felt';
+    const taken = new Set(fields.map((field) => field.key));
+    let key = base;
+    let n = 2;
+    while (taken.has(key)) {
+        key = base + '-' + n;
+        n += 1;
+    }
+    return key;
+}
+
+function scheduleGroupSave(groupId, key, value) {
+    const timerKey = 'group:' + groupId + ':' + key;
+    clearTimeout(saveTimers.get(timerKey));
+    statusEl.textContent = 'Gemmer…';
+    saveTimers.set(timerKey, setTimeout(async () => {
+        try {
+            await updateDoc(doc(db, 'here_private_groups', groupId), {
+                [`values.${key}`]: value,
+                updatedAt: serverTimestamp()
+            });
+            statusEl.textContent = 'Gemt';
+        } catch (error) {
+            console.error(error);
+            statusEl.textContent = 'Kunne ikke gemme.';
+        }
+    }, 500));
 }
 
 function scheduleSave(enrollmentId, key, value) {
@@ -252,6 +412,10 @@ function startListening() {
         state.enrollments = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
         render();
     });
+    watch('here_private_groups', (snap) => {
+        state.groups = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+        render();
+    });
     watch('here_private_notes', (snap) => {
         const docs = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
         docs.sort((a, b) => (b.updatedAt?.seconds || 0) - (a.updatedAt?.seconds || 0));
@@ -266,8 +430,10 @@ function stopListening() {
     state.classes = [];
     state.students = new Map();
     state.enrollments = [];
+    state.groups = [];
     classNav.replaceChildren();
     classView.replaceChildren();
+    groupView.replaceChildren();
     notesEl.replaceChildren();
 }
 
