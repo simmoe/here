@@ -1,0 +1,205 @@
+.work-shell {
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: 16rem 1fr;
+	background: #fff;
+	color: #111;
+	font-family: "Open Sans", sans-serif;
+}
+
+.work-side {
+	background: #000;
+	color: #fff;
+	min-height: 100vh;
+	padding: 2.2rem 1.4rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	position: sticky;
+	top: 0;
+	height: 100vh;
+}
+
+.work-side h1 {
+	font-family: Raleway, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	margin: 0 0 1.6rem;
+}
+
+.work-side a,
+.work-side button.link {
+	color: #fff;
+	opacity: 0.55;
+	text-decoration: none;
+	font-family: Raleway, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	background: none;
+	border: 0;
+	padding: 0;
+	height: auto;
+	line-height: 1.4;
+	text-align: left;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.work-side a:hover,
+.work-side a.active,
+.work-side button.link:hover {
+	opacity: 1;
+	color: #fff;
+}
+
+.work-side .sub {
+	display: grid;
+	gap: 0.45rem;
+	margin: 0.7rem 0 1.2rem;
+	padding-left: 0.8rem;
+	border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.work-side .sub a {
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+}
+
+.work-side .bottom {
+	margin-top: auto;
+	display: grid;
+	gap: 0.7rem;
+}
+
+.work-main {
+	padding: 3rem 3.5rem 5rem;
+	max-width: 46rem;
+}
+
+.work-main h2 {
+	font-weight: 300;
+	font-size: 32px;
+	margin: 0 0 0.4rem;
+}
+
+.work-main a {
+	color: inherit;
+}
+
+.work-list {
+	list-style: none;
+	margin: 1.5rem 0 0;
+	padding: 0;
+}
+
+.work-list li {
+	border-top: 1px solid #ddd;
+}
+
+.work-list a {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.85rem 0;
+	text-decoration: none;
+}
+
+.work-list a:hover {
+	color: #000;
+}
+
+.meta {
+	color: #555;
+	font-size: 13px;
+}
+
+.student,
+.group,
+.card,
+.work-form {
+	border-top: 1px solid #ddd;
+	padding: 0.9rem 0;
+	display: grid;
+	gap: 0.7rem;
+}
+
+.work-main label {
+	display: grid;
+	gap: 0.25rem;
+	font-size: 13px;
+}
+
+.work-main input,
+.work-main textarea,
+.work-main button {
+	font: inherit;
+}
+
+.work-main input,
+.work-main textarea {
+	width: 100%;
+	padding: 0.45rem 0.55rem;
+	border: 1px solid #ccc;
+	height: auto;
+	margin: 0;
+}
+
+.work-main button {
+	width: fit-content;
+	height: auto;
+	line-height: 1.4;
+	padding: 0.45rem 0.8rem;
+	margin: 0;
+	background: #111;
+	color: #fff;
+	border: 1px solid #111;
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 400;
+}
+
+.work-main button.secondary,
+.work-side button.link {
+	background: transparent;
+}
+
+.work-main button.secondary {
+	color: #111;
+}
+
+.row,
+.checks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1rem;
+}
+
+.check {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 14px;
+}
+
+.check input {
+	width: auto;
+}
+
+.status {
+	min-height: 1.2rem;
+	color: #555;
+	font-size: 13px;
+}
+
+@media (max-width: 800px) {
+	.work-shell {
+		grid-template-columns: 1fr;
+	}
+
+	.work-side {
+		position: relative;
+		height: auto;
+		min-height: 0;
+	}
+}

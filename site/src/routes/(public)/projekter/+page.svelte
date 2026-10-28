@@ -18,11 +18,9 @@
 
 <div class="page show" id="page3">
 	<div id="project-filter">
-		<button type="button" class="filter-btn" class:active={filter === 'all'} onclick={() => (filter = 'all')}>Alle</button>
+		<span class="filter-btn" class:active={filter === 'all'} role="button" tabindex="0" onclick={() => (filter = 'all')} onkeydown={(event) => event.key === 'Enter' && (filter = 'all')}>Alle</span>
 		{#each projectCategories as category}
-			<button type="button" class="filter-btn" class:active={filter === category.id} onclick={() => (filter = category.id)}>
-				{category.title}
-			</button>
+			<span class="filter-btn" class:active={filter === category.id} role="button" tabindex="0" onclick={() => (filter = category.id)} onkeydown={(event) => event.key === 'Enter' && (filter = category.id)}>{category.title}</span>
 		{/each}
 	</div>
 	<div id="projects">
