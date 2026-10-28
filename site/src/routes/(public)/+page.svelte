@@ -19,11 +19,7 @@
 				{front.tagline}
 			</p>
 			<div class="statement">
-				<p data-edit-collection="here_content" data-edit-doc="meta" data-edit-field="frontpage.statement">
-					{#each (front.statement || '').split('\n') as line, index}
-						{#if index > 0}<br />{/if}{line}
-					{/each}
-				</p>
+				<p data-edit-collection="here_content" data-edit-doc="meta" data-edit-field="frontpage.statement">{@html (front.statement || '').replaceAll('\n', '<br/>')}</p>
 			</div>
 		{/if}
 	</div>
