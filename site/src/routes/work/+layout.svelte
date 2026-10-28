@@ -3,7 +3,8 @@
 	import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 	import { authState } from '$lib/auth.svelte';
 	import { getDb } from '$lib/firebase/client';
-	import { lineFields, workData, type Enrollment } from '$lib/work.svelte';
+	import ScoreMarks from '$lib/ScoreMarks.svelte';
+	import { foldFields, workData, type Enrollment } from '$lib/work.svelte';
 	import './work.css';
 
 	let { children } = $props();
@@ -103,7 +104,7 @@
 									{#each students as row}
 										{@const studentKey = `${item.id}:${row.enrollment.studentId}`}
 										{@const studentOpen = openStudents.includes(studentKey)}
-										{@const fields = lineFields(item)}
+										{@const fields = foldFields(item)}
 										<li>
 											<div class="heading">
 												<a
@@ -123,13 +124,20 @@
 											{#if studentOpen}
 												<div class="project">
 													{#each fields as field}
-														<label>
+														<div class="project-field">
 															<span>{field.label}</span>
-															<input
-																value={shown(row.enrollment, field.key)}
-																oninput={(event) => onLine(row.enrollment, field.key, event.currentTarget.value)}
-															/>
-														</label>
+															{#if field.kind === 'score'}
+																<ScoreMarks
+																	value={shown(row.enrollment, field.key)}
+																	onpick={(value) => onLine(row.enrollment, field.key, value)}
+																/>
+															{:else}
+																<input
+																	value={shown(row.enrollment, field.key)}
+																	oninput={(event) => onLine(row.enrollment, field.key, event.currentTarget.value)}
+																/>
+															{/if}
+														</div>
 													{/each}
 												</div>
 											{/if}

@@ -112,8 +112,8 @@ function yearStart(label: string) {
 	return match ? Number(match[1]) : 0;
 }
 
-export function lineFields(item?: ClassItem) {
-	return (item?.fields || []).filter((field) => field.kind === 'line');
+export function foldFields(item?: ClassItem) {
+	return (item?.fields || []).filter((field) => field.kind === 'line' || field.kind === 'score');
 }
 
 export const workData = new WorkData();
