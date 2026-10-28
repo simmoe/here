@@ -5,7 +5,9 @@ alwaysApply: true
 
 # Publish here
 
-https://here-2026.web.app is the site. A local edit is not published until it is on `origin/main` and hosting has been deployed.
+Work on the live site, https://here-2026.web.app. Do not keep a local dev server or another checkout as the copy under development. Two machines (this Mac and the work computer) must not diverge: `origin/main` and the deployed site are the same thing.
+
+A local edit is not done until it is on `origin/main` and hosting has been deployed. Review the result on the live URL, not on localhost.
 
 After a change that belongs on the site:
 
