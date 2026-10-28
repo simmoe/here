@@ -1,5 +1,14 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import {
+    browserLocalPersistence,
+    getAuth,
+    getRedirectResult,
+    GoogleAuthProvider,
+    onAuthStateChanged,
+    setPersistence,
+    signInWithRedirect,
+    signOut
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 import {
     addDoc,
     collection,
@@ -23,6 +32,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
 
 const gate = document.querySelector('#gate');
 const gateText = document.querySelector('#gate-text');
@@ -31,6 +42,15 @@ const statusEl = document.querySelector('#status');
 const classNav = document.querySelector('#class-nav');
 const classView = document.querySelector('#class-view');
 const notesEl = document.querySelector('#notes');
+
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+    console.error(error);
+});
+
+getRedirectResult(auth).catch((error) => {
+    console.error(error);
+    gateText.textContent = 'Login fejlede: ' + (error.code || error.message);
+});
 
 const state = {
     classes: [],
@@ -44,11 +64,12 @@ let unsubs = [];
 let listening = false;
 
 document.querySelector('#login').addEventListener('click', async () => {
+    gateText.textContent = 'Sender dig til Google…';
     try {
-        await signInWithPopup(auth, new GoogleAuthProvider());
+        await signInWithRedirect(auth, provider);
     } catch (error) {
-        if (error?.code === 'auth/popup-closed-by-user' || error?.code === 'auth/cancelled-popup-request') return;
-        gateText.textContent = 'Login fejlede.';
+        console.error(error);
+        gateText.textContent = 'Login fejlede: ' + (error.code || error.message);
     }
 });
 
