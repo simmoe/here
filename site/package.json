@@ -1,0 +1,27 @@
+{
+	"name": "here",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"deploy": "npm run build && npx -y firebase-tools@latest deploy --only hosting:here-2026 --project p5-firebase-eebc1 --non-interactive"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/kit": "^2.22.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.3",
+		"svelte": "^5.20.0",
+		"svelte-check": "^4.1.1",
+		"typescript": "^5.7.0",
+		"vite": "^6.0.7"
+	},
+	"dependencies": {
+		"firebase": "^12.17.1",
+		"p5": "^1.11.11"
+	}
+}
