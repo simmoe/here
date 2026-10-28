@@ -1859,6 +1859,16 @@ h1 {
     font-weight: 400;
 }
 
+.work-login {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    font-size: 0.75rem;
+    color: #777;
+    text-decoration: none;
+}
+
 #p5-container {
     position: absolute;
     top: 0;
