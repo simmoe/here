@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Arbejde</title>
+    <link rel="stylesheet" href="arbejde.css">
+</head>
+<body>
+    <main>
+        <section id="gate">
+            <h1>Arbejde</h1>
+            <p id="gate-text">Log ind for at se noter og karakterer.</p>
+            <button type="button" id="login">Log ind</button>
+        </section>
+
+        <section id="app" hidden>
+            <header>
+                <h1>Arbejde</h1>
+                <button type="button" id="logout">Log ud</button>
+            </header>
+            <p id="status" class="meta"></p>
+            <nav id="class-nav" class="row"></nav>
+            <section id="class-view"></section>
+
+            <section>
+                <h2>Arbejdsnoter</h2>
+                <form id="note-form">
+                    <input type="hidden" id="note-id">
+                    <label>Titel <input id="note-title" required></label>
+                    <label>Note <textarea id="note-body" rows="5" required></textarea></label>
+                    <div class="row">
+                        <button type="submit">Gem note</button>
+                        <button type="button" id="note-cancel" hidden>Annuller</button>
+                    </div>
+                </form>
+                <div id="notes"></div>
+            </section>
+        </section>
+    </main>
+    <script type="module" src="arbejde.js"></script>
+</body>
+</html>
