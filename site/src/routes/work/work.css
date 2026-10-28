@@ -1,7 +1,7 @@
 .work-shell {
 	min-height: 100vh;
 	display: grid;
-	grid-template-columns: 24rem 1fr;
+	grid-template-columns: 16rem 1fr;
 	background: #fff;
 	color: #000;
 	font-family: Inter, system-ui, sans-serif;
@@ -47,106 +47,25 @@
 	color: #9e9e9e;
 }
 
-.classes,
-.students {
+.classes {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.students {
-	margin: 0.15rem 0 0.45rem;
-	padding-left: 0.75rem;
-	border-left: 1px solid #e0e0e0;
-}
-
-.heading {
-	display: flex;
-	align-items: baseline;
-	gap: 0.5rem;
-	width: 100%;
-	min-width: 0;
-}
-
-.heading a {
-	flex: 1;
-	min-width: 0;
+.classes a {
+	display: block;
 	color: #5a5a5a;
 	text-decoration: none;
 	font-size: 0.8125rem;
 	font-weight: 300;
 	line-height: 1.35;
-	padding: 0.2rem 0;
-}
-
-.heading a:hover,
-.heading a.active {
-	color: #000;
-}
-
-.fold {
-	position: relative;
-	flex: 0 0 auto;
-	width: 0.85rem;
-	height: 0.85rem;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-	color: #9e9e9e;
-}
-
-.fold::before,
-.fold::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 50%;
-	width: 0.7rem;
-	height: 1px;
-	background: currentColor;
-}
-
-.fold::after {
-	transform: rotate(90deg);
-}
-
-.fold[aria-expanded='true']::after {
-	transform: scaleX(0);
-}
-
-.project {
-	width: 100%;
-	padding: 0.15rem 0 0.55rem;
-}
-
-.project-field {
-	display: grid;
-	gap: 0.2rem;
-	width: 100%;
-}
-
-.project span {
-	font-size: 0.6875rem;
-	font-weight: 400;
-	letter-spacing: 0.01em;
-	color: #9e9e9e;
-}
-
-.project input {
-	width: 100%;
-	height: auto;
-	margin: 0;
 	padding: 0.28rem 0;
-	border: 0;
-	border-bottom: 1px solid #e0e0e0;
-	border-radius: 0;
-	background: transparent;
+}
+
+.classes a:hover,
+.classes a.active {
 	color: #000;
-	font: inherit;
-	font-size: 0.8125rem;
-	font-weight: 300;
-	line-height: 1.4;
 }
 
 .rail-foot {
@@ -179,10 +98,114 @@
 	max-width: 46rem;
 }
 
+.crumb {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.45rem;
+	margin: 0 0 1.1rem;
+	color: #9e9e9e;
+	font-size: 0.8125rem;
+}
+
+.crumb a,
+.crumb-link {
+	color: #5a5a5a;
+	background: none;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	height: auto;
+	font: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	letter-spacing: 0;
+	text-transform: none;
+	text-decoration: none;
+}
+
+.crumb a:hover,
+.crumb-link:hover {
+	color: #000;
+}
+
+.crumb .here {
+	color: #000;
+}
+
 .work-main h2 {
 	font-weight: 300;
 	font-size: 32px;
 	margin: 0 0 0.4rem;
+}
+
+.pupils {
+	list-style: none;
+	margin: 1.25rem 0 0;
+	padding: 0;
+	border-top: 1px solid #e0e0e0;
+}
+
+.pupils > li {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.pupil {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	margin: 0;
+	padding: 0.85rem 0;
+	background: none;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	font-weight: 300;
+	line-height: 1.4;
+	letter-spacing: 0;
+	text-align: left;
+	text-transform: none;
+}
+
+.pupil > span:first-child {
+	flex: 1;
+	min-width: 0;
+}
+
+.chevron {
+	flex: 0 0 auto;
+	width: 0.45rem;
+	height: 0.45rem;
+	margin-right: 0.35rem;
+	border-right: 1.5px solid #9e9e9e;
+	border-bottom: 1.5px solid #9e9e9e;
+	transform: rotate(45deg);
+	transition: transform 160ms ease;
+}
+
+.pupils > li.open .chevron {
+	transform: rotate(-135deg);
+}
+
+.pupil-body {
+	display: grid;
+	gap: 0.9rem;
+	padding: 0 0 1rem;
+}
+
+.project-field {
+	display: grid;
+	gap: 0.35rem;
+	width: 100%;
+}
+
+.project-field > span,
+.pupil-body label span {
+	font-size: 0.6875rem;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	color: #9e9e9e;
 }
 
 .work-list + h2 {
@@ -267,10 +290,31 @@
 
 .work-main button.secondary {
 	background: transparent;
+	color: #111;
 }
 
-.work-main button.secondary {
-	color: #111;
+.work-main button.pupil {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	background: none;
+	color: inherit;
+	border: 0;
+	padding: 0.85rem 0;
+	text-align: left;
+}
+
+.work-main button.crumb-link {
+	width: auto;
+	background: none;
+	color: #5a5a5a;
+	border: 0;
+	padding: 0;
+}
+
+.work-main button.crumb-link:hover {
+	color: #000;
 }
 
 .row,
