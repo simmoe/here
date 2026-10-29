@@ -5,3 +5,4 @@ private/
 fritidshus_search/data/
 __pycache__/
 *.pyc
+firestore.rules
