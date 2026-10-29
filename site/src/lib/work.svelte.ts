@@ -17,25 +17,25 @@ export type Enrollment = {
 	classId: string;
 	studentId: string;
 	studyLine?: string;
-	groups?: string[];
-	values?: Record<string, string>;
-};
-export type Group = {
-	id: string;
-	classId: string;
-	projectName: string;
-	studentIds: string[];
-	boardUrl?: string;
-	fields?: Field[];
 	values?: Record<string, string>;
 };
 export type Note = { id: string; title?: string; body?: string; updatedAt?: { seconds?: number } };
+
+/** Personens id er dokument-id i here_private_students. Hold hænger på here_private_enrollments. */
+export type PersonSite = 'ddu' | 'informatik' | 'programmering';
+
+export function personSite(subject?: string, title?: string): PersonSite | null {
+	const text = `${subject ?? ''} ${title ?? ''}`.toLowerCase();
+	if (text.includes('informatik')) return 'informatik';
+	if (text.includes('programmering')) return 'programmering';
+	if (text.includes('ddu') || text.includes('digitalt design')) return 'ddu';
+	return null;
+}
 
 class WorkData {
 	classes = $state<ClassItem[]>([]);
 	students = $state<Student[]>([]);
 	enrollments = $state<Enrollment[]>([]);
-	groups = $state<Group[]>([]);
 	notes = $state<Note[]>([]);
 	#stops: Unsubscribe[] = [];
 
@@ -55,9 +55,6 @@ class WorkData {
 			}),
 			take<Enrollment>('here_private_enrollments', (rows) => {
 				this.enrollments = rows;
-			}),
-			take<Group>('here_private_groups', (rows) => {
-				this.groups = rows;
 			}),
 			take<Note>('here_private_notes', (rows) => {
 				this.notes = rows.sort((a, b) => (b.updatedAt?.seconds || 0) - (a.updatedAt?.seconds || 0));
