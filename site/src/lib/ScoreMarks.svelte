@@ -18,32 +18,39 @@
 
 <style>
 	.marks {
-		display: flex;
-		width: 100%;
-		gap: 0.35rem;
+		display: inline-flex;
+		flex: 0 0 auto;
+		border: 1px solid #d1d1d6;
+		border-radius: 8px;
+		overflow: hidden;
+		background: #f2f2f7;
 	}
 
 	button {
-		flex: 1;
-		height: auto;
+		flex: 0 0 2.75rem;
+		width: 2.75rem;
+		height: 2rem;
 		margin: 0;
-		padding: 0.15rem 0 0.2rem;
+		padding: 0;
 		background: transparent;
-		color: #9e9e9e;
+		color: #000;
 		border: 0;
-		border-bottom: 1px solid #e0e0e0;
+		border-right: 1px solid #d1d1d6;
 		border-radius: 0;
 		font: inherit;
-		font-size: 0.8125rem;
+		font-size: 17px;
 		font-weight: 400;
-		line-height: 1.4;
+		line-height: 2rem;
 		letter-spacing: 0;
 		text-transform: none;
 	}
 
+	button:last-child {
+		border-right: 0;
+	}
+
 	button.on {
-		color: #000;
-		border-bottom-color: #000;
-		font-weight: 500;
+		background: #fff;
+		font-weight: 600;
 	}
 </style>

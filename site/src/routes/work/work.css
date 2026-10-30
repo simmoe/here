@@ -153,68 +153,85 @@
 .pupil {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	gap: 0.75rem;
 	width: 100%;
+	min-height: 44px;
 	margin: 0;
-	padding: 0.85rem 0;
+	padding: 0.55rem 0;
 	background: none;
 	border: 0;
 	color: inherit;
 	font: inherit;
-	font-weight: 300;
-	line-height: 1.4;
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 1.3;
 	letter-spacing: 0;
 	text-align: left;
 	text-transform: none;
 }
 
-.pupil > span:first-child {
+.pupil .name {
 	flex: 1;
 	min-width: 0;
+}
+
+.pupil .meta {
+	flex: 0 1 auto;
+	font-size: 15px;
+	color: #8e8e93;
 }
 
 .chevron {
 	flex: 0 0 auto;
 	width: 0.45rem;
 	height: 0.45rem;
-	margin-right: 0.35rem;
-	border-right: 1.5px solid #9e9e9e;
-	border-bottom: 1.5px solid #9e9e9e;
-	transform: rotate(45deg);
+	margin-left: 0.15rem;
+	border-right: 1.5px solid #8e8e93;
+	border-bottom: 1.5px solid #8e8e93;
+	transform: rotate(-45deg);
 	transition: transform 160ms ease;
 }
 
 .pupils > li.open .chevron {
-	transform: rotate(-135deg);
+	transform: rotate(45deg);
 }
 
 .pupil-body {
 	display: grid;
-	gap: 0.9rem;
-	padding: 0 0 1rem;
-}
-
-.person-id {
-	margin: 0;
-	color: #9e9e9e;
-	font-size: 0.75rem;
-	font-weight: 400;
-	letter-spacing: 0.01em;
-	user-select: all;
-}
-
-.project-field {
-	display: grid;
 	gap: 0.35rem;
-	width: 100%;
+	padding: 0.15rem 0 0.85rem 1.35rem;
 }
 
-.project-field > span,
+.setting {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	min-height: 44px;
+}
+
+.setting > span,
 .pupil-body label span {
-	font-size: 0.6875rem;
+	font-size: 17px;
 	font-weight: 400;
-	letter-spacing: 0.01em;
-	color: #9e9e9e;
+	letter-spacing: 0;
+	color: #000;
+}
+
+.pupil-body label {
+	display: grid;
+	gap: 0.4rem;
+	padding: 0.45rem 0;
+	font-size: 17px;
+}
+
+.pupil-body input,
+.pupil-body textarea {
+	font-size: 17px;
+	line-height: 1.35;
+	padding: 0.55rem 0.7rem;
+	border: 1px solid #d1d1d6;
+	border-radius: 8px;
 }
 
 .work-list + h2 {
@@ -305,13 +322,57 @@
 .work-main button.pupil {
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	gap: 0.75rem;
 	width: 100%;
+	min-height: 44px;
 	background: none;
 	color: inherit;
 	border: 0;
-	padding: 0.85rem 0;
+	padding: 0.55rem 0;
+	font-size: 17px;
+	font-weight: 400;
 	text-align: left;
+}
+
+.work-main .pupil-body input,
+.work-main .pupil-body textarea {
+	width: 100%;
+	height: auto;
+	margin: 0;
+	font-size: 17px;
+	line-height: 1.35;
+	padding: 0.55rem 0.7rem;
+	border: 1px solid #d1d1d6;
+	border-radius: 8px;
+	background: #fff;
+	color: #000;
+}
+
+.work-main .marks button {
+	width: 2.75rem;
+	height: 2rem;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	color: #000;
+	border: 0;
+	border-right: 1px solid #d1d1d6;
+	border-radius: 0;
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 2rem;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.work-main .marks button:last-child {
+	border-right: 0;
+}
+
+.work-main .marks button.on {
+	background: #fff;
+	color: #000;
+	font-weight: 600;
 }
 
 .work-main button.crumb-link {

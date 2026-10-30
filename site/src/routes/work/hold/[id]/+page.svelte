@@ -19,8 +19,6 @@
 	const timers = new Map<string, ReturnType<typeof setTimeout>>();
 	const slideOpts = { duration: 280, easing: cubicOut };
 
-	const openRow = $derived(rows.find((row) => row.enrollment.studentId === openId) ?? null);
-
 	$effect(() => {
 		const hash = page.url.hash;
 		const key = classId + hash;
@@ -65,13 +63,7 @@
 		<span aria-hidden="true">/</span>
 		<span>{yearLabel(current.year)}</span>
 		<span aria-hidden="true">/</span>
-		{#if openRow}
-			<button type="button" class="crumb-link" onclick={() => (openId = null)}>{current.title}</button>
-			<span aria-hidden="true">/</span>
-			<span class="here">{openRow.student?.name || 'Ukendt elev'}</span>
-		{:else}
-			<span class="here">{current.title}</span>
-		{/if}
+		<span class="here">{current.title}</span>
 	</nav>
 	<h2>{current.title}</h2>
 	<p class="meta">{[current.subject, current.level].filter(Boolean).join(' · ')}</p>
@@ -86,16 +78,15 @@
 					aria-expanded={open}
 					onclick={() => toggleStudent(row.enrollment.studentId)}
 				>
-					<span>{row.student?.name || 'Ukendt elev'}</span>
-					<span class="meta">{[formatDate(row.student?.birthDate), row.enrollment.studyLine].filter(Boolean).join(' · ')}</span>
 					<span class="chevron" aria-hidden="true"></span>
+					<span class="name">{row.student?.name || 'Ukendt elev'}</span>
+					<span class="meta">{[formatDate(row.student?.birthDate), row.enrollment.studyLine].filter(Boolean).join(' · ')}</span>
 				</button>
 				{#if open}
 					<div class="pupil-body" transition:slide={slideOpts}>
-						<p class="person-id">{row.enrollment.studentId}</p>
 						{#each current.fields || [] as field}
 							{#if field.kind === 'score'}
-								<div class="project-field">
+								<div class="setting">
 									<span>{field.label}</span>
 									<ScoreMarks
 										value={shown(row.enrollment.id, field.key, row.enrollment.values?.[field.key])}
