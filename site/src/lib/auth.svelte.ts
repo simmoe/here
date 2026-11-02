@@ -14,9 +14,10 @@ class AuthState {
 	error = $state('');
 	busy = $state(false);
 	#started = false;
+	#ready = Promise.withResolvers<void>();
 
 	get isOwner() {
-		return !!this.user?.emailVerified && this.user.email === OWNER_EMAIL;
+		return this.user?.email === OWNER_EMAIL;
 	}
 
 	init() {
@@ -29,21 +30,25 @@ class AuthState {
 				this.error = 'Den konto har ikke adgang. Brug ' + OWNER_EMAIL + '.';
 				this.ready = true;
 				this.busy = false;
+				this.#ready.resolve();
 				return;
 			}
 			this.user = user;
 			this.ready = true;
 			this.busy = false;
 			if (user) this.error = '';
+			this.#ready.resolve();
 		});
 	}
 
 	async login() {
-		if (this.busy || this.isOwner) return;
+		if (this.busy) return;
+		this.init();
+		if (!this.ready) await this.#ready.promise;
+		if (this.isOwner) return;
 		this.busy = true;
 		this.error = '';
 		const provider = new GoogleAuthProvider();
-		provider.setCustomParameters({ prompt: 'select_account' });
 		try {
 			await signInWithPopup(getFirebaseAuth(), provider);
 		} catch (error) {
