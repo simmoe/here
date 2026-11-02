@@ -25,7 +25,9 @@ WATER_TEXT = re.compile(
     r"\b(hav|havet|havs\w+|strand\w+|sjö|sjön|sjö\w+|insjö\w*|badplats\w*|badstrand\w*|bada|brygga|kust\w*|skärgård\w*|vattendrag\w*|ån)\b",
     re.IGNORECASE,
 )
-RESULTS_PATH = Path(__file__).resolve().parents[1] / "fritidshus" / "results.json"
+RESULTS_PATH = (
+    Path(__file__).resolve().parents[1] / "site" / "static" / "fritidshus" / "results.json"
+)
 VAULT = Path.home() / "Documents/Git/cursor-global-setup/.cursor-local/vault/secrets.payload.json"
 
 
