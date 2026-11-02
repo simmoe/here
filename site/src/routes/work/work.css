@@ -7,7 +7,17 @@
 	background: #fff;
 }
 
-.work-gate img {
+.work-gate-logo {
+	display: grid;
+	place-items: center;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.work-gate-logo img {
 	width: 4.5rem;
 	height: auto;
 	opacity: 0.9;

@@ -1,9 +1,8 @@
 import {
-	browserLocalPersistence,
 	getRedirectResult,
 	GoogleAuthProvider,
 	onAuthStateChanged,
-	setPersistence,
+	signInWithPopup,
 	signInWithRedirect,
 	signOut,
 	type User
@@ -33,7 +32,6 @@ class AuthState {
 	async #boot() {
 		const auth = getFirebaseAuth();
 		try {
-			await setPersistence(auth, browserLocalPersistence);
 			const redirected = await getRedirectResult(auth);
 			if (redirected?.user) this.error = '';
 		} catch (error) {
@@ -72,12 +70,31 @@ class AuthState {
 		sessionStorage.setItem(AFTER, '/work');
 		const provider = new GoogleAuthProvider();
 		provider.setCustomParameters({ prompt: 'select_account' });
+		const auth = getFirebaseAuth();
 		try {
-			await signInWithRedirect(getFirebaseAuth(), provider);
+			await signInWithPopup(auth, provider);
+			this.busy = false;
 		} catch (error) {
+			const code = codeOf(error);
 			console.error(error);
+			if (
+				code === 'auth/popup-blocked' ||
+				code === 'auth/cancelled-popup-request' ||
+				code === 'auth/popup-closed-by-user'
+			) {
+				try {
+					await signInWithRedirect(auth, provider);
+					return;
+				} catch (redirectError) {
+					console.error(redirectError);
+					sessionStorage.removeItem(AFTER);
+					this.error = codeOf(redirectError);
+					this.busy = false;
+					return;
+				}
+			}
 			sessionStorage.removeItem(AFTER);
-			this.error = codeOf(error);
+			this.error = code;
 			this.busy = false;
 		}
 	}

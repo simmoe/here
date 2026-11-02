@@ -30,7 +30,9 @@
 
 {#if waiting}
 	<div class="work-gate">
-		<img src="/assets/moelogo.png" alt="" width="72" height="72" />
+		<button type="button" class="work-gate-logo" onclick={() => authState.login()} aria-label="Log ind">
+			<img src="/assets/moelogo.png" alt="" width="72" height="72" />
+		</button>
 		{#if authState.error}
 			<p class="status">{authState.error}</p>
 		{/if}
