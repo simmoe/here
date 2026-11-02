@@ -649,8 +649,8 @@ h1 {
 }
 
 #cv-top {
-    width: var(--cv-top-width, 100%);
-    max-width: 100%;
+    width: var(--cv-top-width, min(36rem, calc(100% - 3rem)));
+    max-width: calc(100% - 3rem);
     margin: 0 auto 4rem auto;
     display: flex;
     flex-direction: column;

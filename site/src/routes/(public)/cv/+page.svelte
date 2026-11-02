@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { cvCategories, publicData, type CvJob } from '$lib/public.svelte';
 
 	let filter = $state('all');
+	let pageEl: HTMLElement;
+	let filterEl: HTMLElement;
 
 	const jobs = $derived(
 		publicData.cv.entries.filter((job) => filter === 'all' || job.category === filter)
@@ -15,12 +18,23 @@
 	function refsFor(job: CvJob) {
 		return publicData.recommendations.filter((rec) => rec.cvRefs?.includes(job.id));
 	}
+
+	onMount(() => {
+		const sync = () => {
+			const width = filterEl?.getBoundingClientRect().width || 0;
+			if (width > 0) pageEl.style.setProperty('--cv-top-width', `${width}px`);
+		};
+		sync();
+		const observer = new ResizeObserver(sync);
+		observer.observe(filterEl);
+		return () => observer.disconnect();
+	});
 </script>
 
 <svelte:head><title>CV</title></svelte:head>
 
-<div class="page show" id="page2">
-	<div id="cv-filter">
+<div class="page show" id="page2" bind:this={pageEl}>
+	<div id="cv-filter" bind:this={filterEl}>
 		<span class="filter-btn" class:active={filter === 'all'} role="button" tabindex="0" onclick={() => (filter = 'all')} onkeydown={(event) => event.key === 'Enter' && (filter = 'all')}>Alle</span>
 		{#each cvCategories as category}
 			<span class="filter-btn" class:active={filter === category.id} role="button" tabindex="0" onclick={() => (filter = category.id)} onkeydown={(event) => event.key === 'Enter' && (filter = category.id)}>{category.title}</span>
