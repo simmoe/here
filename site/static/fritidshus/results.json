@@ -1,15 +1,28 @@
 {
-  "ranAt": "2026-11-02T13:31:14.722178+00:00",
-  "seconds": 0,
-  "done": false,
-  "rate": 0,
-  "error": "",
+  "ranAt": "2026-11-02T13:38:44.864610+00:00",
+  "seconds": 55,
+  "done": true,
+  "rate": 0.68077,
+  "error": "Gemini-kredit opbrugt; listen er genopbygget fra cache for huse der stadig er til salg.",
   "counts": {
-    "houses": 0,
-    "underPrice": 0,
-    "withinDrive": 0,
+    "houses": 628,
+    "underPrice": 628,
+    "withinDrive": 262,
     "withWater": 0
   },
-  "sources": [],
+  "sources": [
+    {
+      "name": "Fastighetsbyrån",
+      "ok": true
+    },
+    {
+      "name": "Hemnet",
+      "ok": false
+    },
+    {
+      "name": "Booli",
+      "ok": false
+    }
+  ],
   "houses": []
 }
