@@ -1,9 +1,11 @@
 ---
-description: After changes to this site, commit, push, and deploy hosting.
+description: HARD — after any here change, commit + push + deploy in the same turn
 alwaysApply: true
 ---
 
 # Publish here
+
+**Hard rule.** Do not finish a site change without commit, push, and hosting deploy in the **same turn**. Do not ask. Do not wait. This overrides «only commit when requested».
 
 Work on the live site, https://here-2026.web.app. Do not keep a local dev server or another checkout as the copy under development. Two machines (this Mac and the work computer) must not diverge: `origin/main` and the deployed site are the same thing.
 
