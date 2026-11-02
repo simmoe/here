@@ -17,6 +17,15 @@
 		return enableOwnerEditing(shell);
 	});
 
+	async function enterWork() {
+		if (authState.isOwner) {
+			await goto('/work');
+			return;
+		}
+		await authState.login();
+		if (authState.isOwner) await goto('/work');
+	}
+
 	onMount(() => {
 		const logo = () => shell?.querySelector<HTMLElement>('.home-logo');
 		let targetX = 0;
@@ -69,7 +78,15 @@
 				<a class="menu-link" class:active={path === '/projekter'} href="/projekter">Projekter</a>
 			</div>
 		</div>
-		<a class="work-login" href="/work">{authState.isOwner ? 'Arbejde' : 'Log ind'}</a>
+		<button
+			type="button"
+			class="work-login"
+			aria-label={authState.isOwner ? 'Arbejde' : 'Log ind'}
+			disabled={authState.busy}
+			onclick={() => enterWork()}
+		>
+			<img src="/assets/moelogo.png" alt="" width="36" height="36" />
+		</button>
 	{/if}
 	{@render children()}
 </div>
