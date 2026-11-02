@@ -1,3 +1,28 @@
+.work-gate {
+	min-height: 100vh;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 1.25rem;
+	background: #fff;
+}
+
+.work-gate img {
+	width: 4.5rem;
+	height: auto;
+	opacity: 0.9;
+}
+
+.work-gate .status {
+	max-width: 22rem;
+	margin: 0;
+	text-align: center;
+	color: #5a5a5a;
+	font-family: Inter, system-ui, sans-serif;
+	font-size: 0.875rem;
+	font-weight: 300;
+}
+
 .work-shell {
 	min-height: 100vh;
 	display: grid;

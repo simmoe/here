@@ -1,7 +1,8 @@
 /** Offentlig Firebase-webkonfiguration. Samme projekt som de andre sites. Adgang styres af rules. */
 export const firebaseConfig = {
 	apiKey: 'AIzaSyDU1QQ5IOx65YauKjemsexCpfgNBblrQRc',
-	authDomain: 'p5-firebase-eebc1.firebaseapp.com',
+	// Same-origin auth so redirect login keeps the session on this Hosting site.
+	authDomain: 'here-2026.web.app',
 	projectId: 'p5-firebase-eebc1',
 	storageBucket: 'p5-firebase-eebc1.appspot.com',
 	messagingSenderId: '757530790495',

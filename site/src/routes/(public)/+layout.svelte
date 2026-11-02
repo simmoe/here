@@ -69,15 +69,7 @@
 				<a class="menu-link" class:active={path === '/projekter'} href="/projekter">Projekter</a>
 			</div>
 		</div>
-		<a
-			class="work-login"
-			href="/work"
-			onclick={(event) => {
-				if (authState.isOwner) return;
-				event.preventDefault();
-				void authState.login();
-			}}>{authState.isOwner ? 'Arbejde' : 'Log ind'}</a
-		>
+		<a class="work-login" href="/work">{authState.isOwner ? 'Arbejde' : 'Log ind'}</a>
 	{/if}
 	{@render children()}
 </div>
