@@ -28,7 +28,7 @@ WATER_TEXT = re.compile(
 RESULTS_PATH = (
     Path(__file__).resolve().parents[1] / "site" / "static" / "fritidshus" / "results.json"
 )
-VAULT = Path.home() / "Documents/Git/cursor-global-setup/.cursor-local/vault/secrets.payload.json"
+VAULT = Path.home() / "Documents/github/cursor-global-setup/.cursor-local/vault/secrets.payload.json"
 
 
 def geocode(query):
