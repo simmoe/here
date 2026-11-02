@@ -7,16 +7,9 @@
 	let { children } = $props();
 
 	const path = $derived(page.url.pathname);
-	const waiting = $derived(!authState.ready || authState.busy || !authState.isOwner);
 
 	$effect(() => {
 		if (authState.isOwner) workData.listen();
-	});
-
-	$effect(() => {
-		if (!authState.ready || authState.isOwner || authState.busy) return;
-		if (sessionStorage.getItem('here-logged-out') === '1') return;
-		void authState.login();
 	});
 </script>
 
@@ -28,9 +21,13 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
 </svelte:head>
 
-{#if waiting}
+{#if !authState.ready}
 	<div class="work-gate">
-		<button type="button" class="work-gate-logo" onclick={() => authState.login()} aria-label="Log ind">
+		<img src="/assets/moelogo.png" alt="" width="72" height="72" />
+	</div>
+{:else if !authState.isOwner}
+	<div class="work-gate">
+		<button type="button" class="work-gate-logo" onclick={() => authState.login()} aria-label="Log ind" disabled={authState.busy}>
 			<img src="/assets/moelogo.png" alt="" width="72" height="72" />
 		</button>
 		{#if authState.error}
