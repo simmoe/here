@@ -80,7 +80,13 @@
 				>
 					<span class="chevron" aria-hidden="true"></span>
 					<span class="name">{row.student?.name || 'Ukendt elev'}</span>
-					<span class="meta">{[formatDate(row.student?.birthDate), row.enrollment.studyLine].filter(Boolean).join(' · ')}</span>
+					{#if row.student?.birthDate || row.enrollment.studyLine}
+						<span class="meta">
+							{#if row.student?.birthDate}<span class="birth">{formatDate(row.student.birthDate)}</span>{/if}
+							{#if row.student?.birthDate && row.enrollment.studyLine}<br />{/if}
+							{#if row.enrollment.studyLine}<span class="line">{row.enrollment.studyLine}</span>{/if}
+						</span>
+					{/if}
 				</button>
 				{#if open}
 					<div class="pupil-body" transition:slide={slideOpts}>
