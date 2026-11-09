@@ -26,7 +26,7 @@
 <label>Tekst <textarea bind:value={raw} rows="8"></textarea></label>
 <label>Resumé <textarea bind:value={summary} rows="8"></textarea></label>
 <div class="actions">
-	<button type="button" class="tlink" onclick={onWrite} disabled={busy}>Lav noter</button>
+	<button type="button" class="tlink" onclick={onWrite} disabled={busy}>{busy ? 'Skriver…' : 'Lav noter'}</button>
 	<button type="button" class="tlink" onclick={() => onSave({ raw: raw.trim(), summary: summary.trim() })} disabled={busy}>Gem</button>
 	<button type="button" class="tlink" onclick={() => onSave({ raw: '', summary: '' })} disabled={busy}>Slet</button>
 </div>

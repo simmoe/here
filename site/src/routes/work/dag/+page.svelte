@@ -26,7 +26,9 @@
 	let showPanel = $state(false);
 	let active = $state<ProgramEvent | null>(null);
 	let busy = $state(false);
+	let working = $state('');
 	let panelError = $state('');
+	const mailStarted = new Set<string>();
 
 	const events = $derived(mergeProgram([work, personal]));
 	const tasks = $derived(
@@ -137,6 +139,7 @@
 		panelError = '';
 		await ensure(event);
 		showPanel = false;
+		void fetchIfEmpty();
 	}
 
 	async function pick(event: ProgramEvent, next: Section) {
@@ -176,18 +179,35 @@
 	}
 
 	async function fetchMail() {
-		if (!active) return;
+		if (!active || busy) return;
 		busy = true;
+		working = 'Henter…';
 		panelError = '';
+		mailStarted.add(openKey);
 		try {
 			await ensure(active);
-			await callWithGoogle('enrichEvent', { day, event: active });
+			const result = await callWithGoogle('enrichEvent', { day, event: active });
+			if (result == null) {
+				mailStarted.delete(openKey);
+				panelError = 'Google-adgang mangler.';
+			}
 		} catch (error) {
 			console.error(error);
+			mailStarted.delete(openKey);
 			fail(error);
 		} finally {
 			busy = false;
+			working = '';
 		}
+	}
+
+	async function fetchIfEmpty() {
+		if (!active || busy) return;
+		if (found(active)?.agenda?.text?.trim()) return;
+		if (mailStarted.has(openKey)) return;
+		section = 'agenda';
+		showPanel = true;
+		await fetchMail();
 	}
 
 	async function savePlace(place: { name: string; address: string }) {
@@ -229,6 +249,7 @@
 	async function addCamera(file: File) {
 		if (!active) return;
 		busy = true;
+		working = 'Henter billeder…';
 		panelError = '';
 		try {
 			const id = await ensure(active);
@@ -240,6 +261,7 @@
 			fail(error);
 		} finally {
 			busy = false;
+			working = '';
 		}
 	}
 
@@ -247,6 +269,7 @@
 		if (!active) return;
 		const popup = window.open('about:blank', '_blank');
 		busy = true;
+		working = 'Henter billeder…';
 		panelError = '';
 		try {
 			const id = await ensure(active);
@@ -273,6 +296,7 @@
 			fail(error);
 		} finally {
 			busy = false;
+			working = '';
 		}
 	}
 
@@ -291,6 +315,7 @@
 	async function writeNotes() {
 		if (!openKey) return;
 		busy = true;
+		working = 'Skriver…';
 		panelError = '';
 		try {
 			const call = httpsCallable(getFunctions(getFirebaseApp(), 'europe-west1'), 'writeNotes');
@@ -300,7 +325,17 @@
 			fail(error);
 		} finally {
 			busy = false;
+			working = '';
 		}
+	}
+
+	function rowStatus(event: ProgramEvent, kind: Section, ready: string) {
+		if (busy && keys[identity(event)] === openKey) {
+			if (working === 'Henter…' && (kind === 'place' || kind === 'agenda')) return working;
+			if (working === 'Skriver…' && kind === 'notes') return working;
+			if (working === 'Henter billeder…' && kind === 'photos') return working;
+		}
+		return ready;
 	}
 
 	async function addTask(event: SubmitEvent) {
@@ -343,16 +378,16 @@
 					{#if openKey === keys[identity(event)]}
 						<div class="points">
 							<button type="button" class:on={showPanel && section === 'place'} onclick={() => pick(event, 'place')}>
-								<span>Sted og tid</span><span>{placeStatus(found(event))}</span>
+								<span>Sted og tid</span><span class:working={rowStatus(event, 'place', '') === 'Henter…'}>{rowStatus(event, 'place', placeStatus(found(event)))}</span>
 							</button>
 							<button type="button" class:on={showPanel && section === 'agenda'} onclick={() => pick(event, 'agenda')}>
-								<span>Dagsorden</span><span>{agendaStatus(found(event))}</span>
+								<span>Dagsorden</span><span class:working={rowStatus(event, 'agenda', '') === 'Henter…'}>{rowStatus(event, 'agenda', agendaStatus(found(event)))}</span>
 							</button>
 							<button type="button" class:on={showPanel && section === 'photos'} onclick={() => pick(event, 'photos')}>
-								<span>Billeder</span><span>{photoStatus(found(event))}</span>
+								<span>Billeder</span><span class:working={rowStatus(event, 'photos', '') === 'Henter billeder…'}>{rowStatus(event, 'photos', photoStatus(found(event)))}</span>
 							</button>
 							<button type="button" class:on={showPanel && section === 'notes'} onclick={() => pick(event, 'notes')}>
-								<span>Noter</span><span>{notesStatus(found(event))}</span>
+								<span>Noter</span><span class:working={rowStatus(event, 'notes', '') === 'Skriver…'}>{rowStatus(event, 'notes', notesStatus(found(event)))}</span>
 							</button>
 						</div>
 					{/if}
@@ -382,6 +417,7 @@
 
 	{#if showPanel && active}
 		<aside class="entry-panel">
+			{#if working || panelError}<p class="status">{working || panelError}</p>{/if}
 			{#if section === 'place'}
 				<EntryPlace {entry} when={whenLabel(active)} {busy} onFetch={fetchMail} onSave={savePlace} />
 			{:else if section === 'agenda'}
@@ -391,7 +427,6 @@
 			{:else}
 				<EntryNotes {entry} {busy} onWrite={writeNotes} onSave={saveNotes} />
 			{/if}
-			{#if panelError}<p class="status">{panelError}</p>{/if}
 		</aside>
 	{/if}
 </div>

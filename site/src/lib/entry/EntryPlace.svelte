@@ -32,7 +32,7 @@
 <label>Adresse <input bind:value={address} /></label>
 {#if maps}<p class="actions"><a class="tlink" href={maps} target="_blank" rel="noreferrer">{address || name}</a></p>{/if}
 <div class="actions">
-	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>Hent fra mail</button>
+	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>{busy ? 'Henter…' : 'Hent fra mail'}</button>
 	<button type="button" class="tlink" onclick={() => onSave({ name: name.trim(), address: address.trim() })} disabled={busy}>Gem</button>
 	<button type="button" class="tlink" onclick={() => onSave({ name: '', address: '' })} disabled={busy}>Slet</button>
 </div>

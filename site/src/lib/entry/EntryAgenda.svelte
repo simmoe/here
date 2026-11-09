@@ -26,7 +26,7 @@
 {/if}
 <label>Tekst <textarea bind:value={text} rows="14"></textarea></label>
 <div class="actions">
-	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>Hent fra mail</button>
+	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>{busy ? 'Henter…' : 'Hent fra mail'}</button>
 	<button type="button" class="tlink" onclick={() => onSave(text.trim())} disabled={busy}>Gem</button>
 	<button type="button" class="tlink" onclick={() => onSave('')} disabled={busy}>Slet</button>
 </div>
