@@ -26,13 +26,13 @@
 	const maps = $derived(entry?.place?.mapsUrl || '');
 </script>
 
-<h3>Sted og tid</h3>
+<p class="section-label">Sted og tid</p>
 {#if when}<p class="when">{when}</p>{/if}
 <label>Sted <input bind:value={name} /></label>
 <label>Adresse <input bind:value={address} /></label>
-{#if maps}<p><a href={maps} target="_blank" rel="noreferrer">{address || name}</a></p>{/if}
-<div class="row">
-	<button type="button" onclick={onFetch} disabled={busy}>Hent fra mail</button>
-	<button type="button" class="secondary" onclick={() => onSave({ name: name.trim(), address: address.trim() })} disabled={busy}>Gem</button>
-	<button type="button" class="secondary" onclick={() => onSave({ name: '', address: '' })} disabled={busy}>Slet</button>
+{#if maps}<p class="actions"><a class="tlink" href={maps} target="_blank" rel="noreferrer">{address || name}</a></p>{/if}
+<div class="actions">
+	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>Hent fra mail</button>
+	<button type="button" class="tlink" onclick={() => onSave({ name: name.trim(), address: address.trim() })} disabled={busy}>Gem</button>
+	<button type="button" class="tlink" onclick={() => onSave({ name: '', address: '' })} disabled={busy}>Slet</button>
 </div>

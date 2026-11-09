@@ -327,6 +327,7 @@
 
 <svelte:head><title>{dayHeading(day)}</title></svelte:head>
 
+<div class="day-page">
 <div class="day-board">
 	<div>
 		<h2>{dayHeading(day)}</h2>
@@ -335,13 +336,9 @@
 			{#each events as event (identity(event))}
 				<li class:open={openKey === keys[identity(event)] && openKey !== ''}>
 					<button type="button" class="event" onclick={() => toggle(event)}>
-						<span class="chevron"></span>
 						<span class="when">{whenLabel(event)}</span>
-						<span class="what">
-							<span>{event.title}</span>
-							{#if event.location}<span class="where">{event.location}</span>{/if}
-						</span>
-						<span class="meta">{event.source === 'work' ? 'Arbejde' : 'Privat'}</span>
+						<span class="what">{event.title}</span>
+						<span class="plus"></span>
 					</button>
 					{#if openKey === keys[identity(event)]}
 						<div class="points">
@@ -363,10 +360,10 @@
 			{/each}
 		</ul>
 		{#if !privateReady}
-			<button type="button" class="secondary" onclick={() => loadPrivate(true)} disabled={authState.busy}>Privat kalender</button>
+			<button type="button" class="tlink lead" onclick={() => loadPrivate(true)} disabled={authState.busy}>Privat kalender</button>
 		{/if}
 
-		<h2>Opgaver</h2>
+		<p class="section-label">Opgaver</p>
 		<ul class="tasks">
 			{#each tasks as task (task.id)}
 				<li class:done={task.done}>
@@ -379,7 +376,7 @@
 		</ul>
 		<form class="task-add" onsubmit={addTask}>
 			<input bind:value={draft} aria-label="Ny opgave" placeholder="Ny opgave" />
-			<button type="submit">Tilføj</button>
+			<button type="submit" class="tlink">Tilføj</button>
 		</form>
 	</div>
 
@@ -397,4 +394,5 @@
 			{#if panelError}<p class="status">{panelError}</p>{/if}
 		</aside>
 	{/if}
+</div>
 </div>

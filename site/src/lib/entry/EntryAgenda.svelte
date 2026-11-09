@@ -20,13 +20,13 @@
 	});
 </script>
 
-<h3>Dagsorden</h3>
+<p class="section-label">Dagsorden</p>
 {#if entry?.agenda?.fileUrl}
-	<p><a href={entry.agenda.fileUrl} target="_blank" rel="noreferrer">PDF</a></p>
+	<p><a class="tlink" href={entry.agenda.fileUrl} target="_blank" rel="noreferrer">PDF</a></p>
 {/if}
 <label>Tekst <textarea bind:value={text} rows="14"></textarea></label>
-<div class="row">
-	<button type="button" onclick={onFetch} disabled={busy}>Hent fra mail</button>
-	<button type="button" class="secondary" onclick={() => onSave(text.trim())} disabled={busy}>Gem</button>
-	<button type="button" class="secondary" onclick={() => onSave('')} disabled={busy}>Slet</button>
+<div class="actions">
+	<button type="button" class="tlink" onclick={onFetch} disabled={busy}>Hent fra mail</button>
+	<button type="button" class="tlink" onclick={() => onSave(text.trim())} disabled={busy}>Gem</button>
+	<button type="button" class="tlink" onclick={() => onSave('')} disabled={busy}>Slet</button>
 </div>

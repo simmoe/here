@@ -20,10 +20,10 @@
 	} = $props();
 </script>
 
-<h3>Billeder</h3>
+<p class="section-label">Billeder</p>
 {#if when}<p class="when">{when}</p>{/if}
-<div class="row">
-	<label class="file">
+<div class="actions">
+	<label class="file tlink">
 		Kamera
 		<input
 			type="file"
@@ -37,19 +37,19 @@
 			}}
 		/>
 	</label>
-	<button type="button" onclick={onPick} disabled={busy}>Google Photos</button>
+	<button type="button" class="tlink" onclick={onPick} disabled={busy}>Google Photos</button>
 </div>
 <ul class="shots">
 	{#each entry?.photos || [] as photo, index}
 		<li>
 			<img src={photo.url} alt="" />
-			<div class="row">
+			<div class="actions">
 				{#if photo.confirmed}
-					<span>Bekræftet</span>
+					<span class="meta">Bekræftet</span>
 				{:else}
-					<button type="button" onclick={() => onConfirm(index)} disabled={busy}>Bekræft</button>
+					<button type="button" class="tlink" onclick={() => onConfirm(index)} disabled={busy}>Bekræft</button>
 				{/if}
-				<button type="button" class="secondary" onclick={() => onRemove(index)} disabled={busy}>Slet</button>
+				<button type="button" class="tlink" onclick={() => onRemove(index)} disabled={busy}>Slet</button>
 			</div>
 		</li>
 	{/each}

@@ -22,11 +22,11 @@
 	});
 </script>
 
-<h3>Noter</h3>
+<p class="section-label">Noter</p>
 <label>Tekst <textarea bind:value={raw} rows="8"></textarea></label>
 <label>Resumé <textarea bind:value={summary} rows="8"></textarea></label>
-<div class="row">
-	<button type="button" onclick={onWrite} disabled={busy}>Lav noter</button>
-	<button type="button" class="secondary" onclick={() => onSave({ raw: raw.trim(), summary: summary.trim() })} disabled={busy}>Gem</button>
-	<button type="button" class="secondary" onclick={() => onSave({ raw: '', summary: '' })} disabled={busy}>Slet</button>
+<div class="actions">
+	<button type="button" class="tlink" onclick={onWrite} disabled={busy}>Lav noter</button>
+	<button type="button" class="tlink" onclick={() => onSave({ raw: raw.trim(), summary: summary.trim() })} disabled={busy}>Gem</button>
+	<button type="button" class="tlink" onclick={() => onSave({ raw: '', summary: '' })} disabled={busy}>Slet</button>
 </div>
