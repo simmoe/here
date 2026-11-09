@@ -19,7 +19,15 @@ export type Enrollment = {
 	studyLine?: string;
 	values?: Record<string, string>;
 };
-export type Note = { id: string; title?: string; body?: string; updatedAt?: { seconds?: number } };
+export type Note = {
+	id: string;
+	title?: string;
+	body?: string;
+	kind?: string;
+	done?: boolean;
+	day?: string;
+	updatedAt?: { seconds?: number };
+};
 
 /** Personens id er dokument-id i here_private_students. Hold hænger på here_private_enrollments. */
 export type PersonSite = 'ddu' | 'informatik' | 'programmering';

@@ -41,6 +41,10 @@
 				<a href="/work">Arbejde</a>
 			</div>
 			<nav aria-label="Hold">
+				<ul class="classes">
+					<li><a href="/work/dag" class:active={path === '/work/dag'}>I dag</a></li>
+					<li><a href="/work/skills" class:active={path === '/work/skills'}>Skills</a></li>
+				</ul>
 				{#each workData.classesByYear() as year}
 					<p class="section-label">{year.label}</p>
 					<ul class="classes">

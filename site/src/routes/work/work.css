@@ -175,6 +175,110 @@
 	margin: 0 0 0.4rem;
 }
 
+.work-main h2:not(:first-child) {
+	margin-top: 2.4rem;
+}
+
+.skill-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	gap: 0.75rem;
+	margin-top: 1.5rem;
+}
+
+.skill-card {
+	border: 1px solid #e0e0e0;
+	border-radius: 12px;
+	padding: 1rem 1.1rem;
+}
+
+.skill-card h3,
+.work-main h3 {
+	margin: 0 0 0.35rem;
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 1.35;
+}
+
+.skill-card p {
+	margin: 0;
+	color: #636366;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.day,
+.tasks {
+	list-style: none;
+	margin: 1.25rem 0 0;
+	padding: 0;
+	border-top: 1px solid #e0e0e0;
+}
+
+.day li,
+.tasks li {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.day li {
+	display: grid;
+	grid-template-columns: 9.5rem minmax(0, 1fr) auto;
+	gap: 0.75rem;
+	align-items: baseline;
+	min-height: 44px;
+	padding: 0.7rem 0;
+	font-size: 17px;
+}
+
+.day .when {
+	color: #636366;
+	font-variant-numeric: tabular-nums;
+}
+
+.day .what {
+	min-width: 0;
+}
+
+.day .where {
+	display: block;
+	margin-top: 0.15rem;
+	color: #8e8e93;
+	font-size: 15px;
+}
+
+.day .meta {
+	color: #8e8e93;
+	font-size: 15px;
+}
+
+.tasks label {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-height: 44px;
+	font-size: 17px;
+}
+
+.tasks input {
+	width: auto;
+	margin: 0;
+}
+
+.tasks li.done span {
+	color: #8e8e93;
+}
+
+.task-add {
+	display: flex;
+	gap: 0.6rem;
+	margin-top: 0.8rem;
+}
+
+.task-add input {
+	flex: 1;
+	min-width: 0;
+}
+
 .pupils {
 	list-style: none;
 	margin: 1.5rem 0 0;
@@ -457,6 +561,24 @@
 
 .status:empty {
 	display: none;
+}
+
+.work-main .tasks label {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-height: 44px;
+	font-size: 17px;
+}
+
+.work-main .tasks input {
+	width: auto;
+	height: auto;
+	margin: 0;
+}
+
+.work-main > button.secondary {
+	margin-top: 0.8rem;
 }
 
 @media (max-width: 800px) {

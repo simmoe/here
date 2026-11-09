@@ -29,7 +29,7 @@
 		{/if}
 	</div>
 </form>
-{#each workData.notes as note}
+{#each workData.notes.filter((note) => note.kind !== 'task') as note}
 	<article class="card">
 		<h3>{note.title || 'Uden titel'}</h3>
 		<p>{note.body}</p>

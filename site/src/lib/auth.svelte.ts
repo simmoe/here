@@ -3,7 +3,8 @@ import {
 	onAuthStateChanged,
 	signInWithPopup,
 	signOut,
-	type User
+	type User,
+	type UserCredential
 } from 'firebase/auth';
 import { getFirebaseAuth } from './firebase/client';
 import { OWNER_EMAIL } from './firebase/config';
@@ -13,6 +14,7 @@ class AuthState {
 	ready = $state(false);
 	error = $state('');
 	busy = $state(false);
+	calendarToken = $state('');
 	#started = false;
 	#ready = Promise.withResolvers<void>();
 
@@ -48,9 +50,9 @@ class AuthState {
 		if (this.isOwner) return;
 		this.busy = true;
 		this.error = '';
-		const provider = new GoogleAuthProvider();
 		try {
-			await signInWithPopup(getFirebaseAuth(), provider);
+			const result = await signInWithPopup(getFirebaseAuth(), calendarProvider());
+			keepCalendarToken(this, result);
 		} catch (error) {
 			console.error(error);
 			this.error = codeOf(error);
@@ -59,10 +61,66 @@ class AuthState {
 		}
 	}
 
+	/** Google access token for the private calendar. Empty when a popup is required. */
+	async ensureCalendar(interactive: boolean) {
+		const cached = this.calendarToken || readCalendarToken();
+		if (cached) {
+			this.calendarToken = cached;
+			return cached;
+		}
+		if (this.busy) return '';
+		this.busy = true;
+		try {
+			const result = await signInWithPopup(getFirebaseAuth(), calendarProvider(interactive ? undefined : 'none'));
+			return keepCalendarToken(this, result);
+		} catch (error) {
+			if (interactive) console.error(error);
+			return '';
+		} finally {
+			this.busy = false;
+		}
+	}
+
 	async logout() {
 		this.error = '';
+		clearCalendarToken(this);
 		await signOut(getFirebaseAuth());
 	}
+}
+
+const calendarScope = 'https://www.googleapis.com/auth/calendar.readonly';
+const calendarKey = 'here-calendar-token';
+
+function calendarProvider(prompt?: string) {
+	const provider = new GoogleAuthProvider();
+	provider.addScope(calendarScope);
+	const params: Record<string, string> = { login_hint: OWNER_EMAIL };
+	if (prompt) params.prompt = prompt;
+	provider.setCustomParameters(params);
+	return provider;
+}
+
+function keepCalendarToken(state: AuthState, result: UserCredential) {
+	const token = GoogleAuthProvider.credentialFromResult(result)?.accessToken ?? '';
+	if (!token) return '';
+	state.calendarToken = token;
+	sessionStorage.setItem(calendarKey, JSON.stringify({ token, until: Date.now() + 50 * 60 * 1000 }));
+	return token;
+}
+
+function readCalendarToken() {
+	try {
+		const parsed = JSON.parse(sessionStorage.getItem(calendarKey) || '') as { token?: string; until?: number };
+		if (!parsed.token || !parsed.until || parsed.until < Date.now()) return '';
+		return parsed.token;
+	} catch {
+		return '';
+	}
+}
+
+export function clearCalendarToken(state: { calendarToken: string } = authState) {
+	state.calendarToken = '';
+	sessionStorage.removeItem(calendarKey);
 }
 
 function codeOf(error: unknown) {

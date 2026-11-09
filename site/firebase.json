@@ -1,4 +1,11 @@
 {
+	"functions": [
+		{
+			"source": "functions",
+			"codebase": "here",
+			"ignore": ["node_modules", ".git"]
+		}
+	],
 	"hosting": {
 		"target": "here-2026",
 		"public": "build",
