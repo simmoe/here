@@ -47,8 +47,10 @@ function eventsOn(text, day) {
 		const title = unescapeText(prop(body, 'SUMMARY')?.value || '').trim();
 		if (!title) continue;
 		events.push({
+			uid: prop(body, 'UID')?.value || '',
 			title,
 			location: unescapeText(prop(body, 'LOCATION')?.value || '').trim(),
+			description: unescapeText(prop(body, 'DESCRIPTION')?.value || '').trim().slice(0, 2000),
 			start: start.allDay ? '' : start.time,
 			end: end && !end.allDay ? end.time : '',
 			allDay: start.allDay,

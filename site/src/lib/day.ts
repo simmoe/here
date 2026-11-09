@@ -1,13 +1,23 @@
 export type ProgramSource = 'work' | 'private';
 
 export type ProgramEvent = {
+	uid?: string;
 	title: string;
 	location: string;
+	description?: string;
 	start: string;
 	end: string;
 	allDay: boolean;
 	source: ProgramSource;
 };
+
+/** Same string as site/functions/ai.js entryDocId. */
+export async function entryDocId(day: string, event: ProgramEvent) {
+	const raw = [day, event.uid || '', event.source, event.start, event.title].join('\n');
+	const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw));
+	const hex = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('').slice(0, 16);
+	return `entry_${day}_${hex}`;
+}
 
 export function copenhagenToday(now = new Date()) {
 	return new Intl.DateTimeFormat('en-CA', {
@@ -74,7 +84,9 @@ export function mergeProgram(groups: ProgramEvent[][]) {
 }
 
 type GoogleEvent = {
+	id?: string;
 	summary?: string;
+	description?: string;
 	location?: string;
 	status?: string;
 	start?: { date?: string; dateTime?: string };
@@ -109,8 +121,10 @@ export async function loadPrivateEvents(token: string, day: string) {
 		const allDay = Boolean(item.start?.date && !item.start?.dateTime);
 		return [
 			{
+				uid: item.id || '',
 				title,
 				location: item.location?.trim() ?? '',
+				description: item.description?.trim().slice(0, 2000) ?? '',
 				start: allDay || !item.start?.dateTime ? '' : clock(item.start.dateTime),
 				end: allDay || !item.end?.dateTime ? '' : clock(item.end.dateTime),
 				allDay,

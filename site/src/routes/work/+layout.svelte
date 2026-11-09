@@ -64,7 +64,7 @@
 				<button type="button" class="link" onclick={() => authState.logout()}>Log ud</button>
 			</div>
 		</aside>
-		<main class="work-main">
+		<main class="work-main" class:wide={path === '/work/dag'}>
 			{@render children()}
 		</main>
 	</div>
