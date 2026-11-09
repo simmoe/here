@@ -39,21 +39,43 @@
 	}
 
 	async function loadPrivate(interactive: boolean) {
+		let token = await authState.ensureCalendar(interactive);
+		if (!token) {
+			privateReady = false;
+			return;
+		}
 		try {
-			const token = await authState.ensureCalendar(interactive);
+			await readPrivate(token);
+		} catch (error) {
+			clearCalendarToken();
+			if (!interactive || !(error instanceof Error) || error.name !== 'CalendarAuth') {
+				console.error(error);
+				personal = [];
+				privateReady = false;
+				if (interactive) status = 'Privat kalender svarede ikke.';
+				return;
+			}
+			token = await authState.ensureCalendar(true);
 			if (!token) {
 				privateReady = false;
 				return;
 			}
-			personal = await loadPrivateEvents(token, day);
-			privateReady = true;
-		} catch (error) {
-			console.error(error);
-			personal = [];
-			privateReady = false;
-			if (error instanceof Error && error.name === 'CalendarAuth') clearCalendarToken();
-			if (interactive) status = 'Privat kalender svarede ikke.';
+			try {
+				await readPrivate(token);
+			} catch (retry) {
+				console.error(retry);
+				clearCalendarToken();
+				personal = [];
+				privateReady = false;
+				status = 'Privat kalender svarede ikke.';
+			}
 		}
+	}
+
+	async function readPrivate(token: string) {
+		personal = await loadPrivateEvents(token, day);
+		privateReady = true;
+		if (status === 'Privat kalender svarede ikke.') status = '';
 	}
 
 	async function addTask(event: SubmitEvent) {

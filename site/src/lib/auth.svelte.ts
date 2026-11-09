@@ -51,8 +51,7 @@ class AuthState {
 		this.busy = true;
 		this.error = '';
 		try {
-			const result = await signInWithPopup(getFirebaseAuth(), calendarProvider());
-			keepCalendarToken(this, result);
+			await signInWithPopup(getFirebaseAuth(), new GoogleAuthProvider());
 		} catch (error) {
 			console.error(error);
 			this.error = codeOf(error);
@@ -61,20 +60,20 @@ class AuthState {
 		}
 	}
 
-	/** Google access token for the private calendar. Empty when a popup is required. */
+	/** Google access token for the private calendar. A popup opens only when the user asks. */
 	async ensureCalendar(interactive: boolean) {
 		const cached = this.calendarToken || readCalendarToken();
 		if (cached) {
 			this.calendarToken = cached;
 			return cached;
 		}
-		if (this.busy) return '';
+		if (!interactive || this.busy) return '';
 		this.busy = true;
 		try {
-			const result = await signInWithPopup(getFirebaseAuth(), calendarProvider(interactive ? undefined : 'none'));
+			const result = await signInWithPopup(getFirebaseAuth(), calendarProvider());
 			return keepCalendarToken(this, result);
 		} catch (error) {
-			if (interactive) console.error(error);
+			console.error(error);
 			return '';
 		} finally {
 			this.busy = false;
@@ -91,12 +90,14 @@ class AuthState {
 const calendarScope = 'https://www.googleapis.com/auth/calendar.readonly';
 const calendarKey = 'here-calendar-token';
 
-function calendarProvider(prompt?: string) {
+function calendarProvider() {
 	const provider = new GoogleAuthProvider();
 	provider.addScope(calendarScope);
-	const params: Record<string, string> = { login_hint: OWNER_EMAIL };
-	if (prompt) params.prompt = prompt;
-	provider.setCustomParameters(params);
+	provider.setCustomParameters({
+		login_hint: OWNER_EMAIL,
+		prompt: 'consent',
+		include_granted_scopes: 'true'
+	});
 	return provider;
 }
 

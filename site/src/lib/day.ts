@@ -94,7 +94,7 @@ export async function loadPrivateEvents(token: string, day: string) {
 	const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`, {
 		headers: { Authorization: `Bearer ${token}` }
 	});
-	if (response.status === 401) {
+	if (response.status === 401 || response.status === 403) {
 		const error = new Error('unauthorized');
 		error.name = 'CalendarAuth';
 		throw error;
