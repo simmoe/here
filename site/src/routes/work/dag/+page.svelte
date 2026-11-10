@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 	import { getFunctions, httpsCallable } from 'firebase/functions';
 	import { clearGoogleToken, authState } from '$lib/auth.svelte';
@@ -14,7 +13,7 @@
 
 	type Section = 'place' | 'agenda' | 'photos' | 'notes';
 
-	const day = copenhagenToday();
+	let day = $state(copenhagenToday());
 	let work = $state<ProgramEvent[]>([]);
 	let personal = $state<ProgramEvent[]>([]);
 	let privateReady = $state(false);
@@ -49,10 +48,23 @@
 		};
 	});
 
-	onMount(() => {
-		void loadWork();
-		void loadPrivate(false);
+	$effect(() => {
+		const current = day;
+		void loadWork(current);
+		void loadPrivate(false, current);
 	});
+
+	function shiftDay(by: number) {
+		const [year, month, date] = day.split('-').map(Number);
+		const value = new Date(Date.UTC(year, month - 1, date));
+		value.setUTCDate(value.getUTCDate() + by);
+		day = value.toISOString().slice(0, 10);
+		openKey = '';
+		active = null;
+		showPanel = false;
+		panelError = '';
+		working = '';
+	}
 
 	function identity(event: ProgramEvent) {
 		return [event.uid || '', event.source, event.start, event.title].join('\n');
@@ -63,10 +75,11 @@
 		return (workData.notes.find((note) => note.id === id) as EntryDoc | undefined) ?? null;
 	}
 
-	async function loadWork() {
+	async function loadWork(current = day) {
 		try {
 			const call = httpsCallable(getFunctions(getFirebaseApp(), 'europe-west1'), 'dayProgram');
-			const result = await call({ day });
+			const result = await call({ day: current });
+			if (current !== day) return;
 			const data = result.data as { events?: ProgramEvent[] };
 			work = data.events ?? [];
 		} catch (error) {
@@ -75,14 +88,14 @@
 		}
 	}
 
-	async function loadPrivate(interactive: boolean) {
+	async function loadPrivate(interactive: boolean, current = day) {
 		let token = await authState.ensureGoogle(interactive);
 		if (!token) {
 			privateReady = false;
 			return;
 		}
 		try {
-			await readPrivate(token);
+			await readPrivate(token, current);
 		} catch (error) {
 			clearGoogleToken();
 			if (!interactive || !(error instanceof Error) || error.name !== 'CalendarAuth') {
@@ -98,7 +111,7 @@
 				return;
 			}
 			try {
-				await readPrivate(token);
+				await readPrivate(token, current);
 			} catch (retry) {
 				console.error(retry);
 				clearGoogleToken();
@@ -109,8 +122,10 @@
 		}
 	}
 
-	async function readPrivate(token: string) {
-		personal = await loadPrivateEvents(token, day);
+	async function readPrivate(token: string, current = day) {
+		const events = await loadPrivateEvents(token, current);
+		if (current !== day) return;
+		personal = events;
 		privateReady = true;
 		if (status === 'Privat kalender svarede ikke.') status = '';
 	}
@@ -203,7 +218,7 @@
 
 	async function fetchIfEmpty() {
 		if (!active || busy) return;
-		if (found(active)?.agenda?.text?.trim()) return;
+		if (found(active)?.agenda?.fileUrl) return;
 		if (mailStarted.has(openKey)) return;
 		section = 'agenda';
 		showPanel = true;
@@ -365,6 +380,10 @@
 <div class="day-page">
 <div class="day-board">
 	<div>
+		<div class="day-nav">
+			<button type="button" class="tlink" onclick={() => shiftDay(-1)}>I går</button>
+			<button type="button" class="tlink" onclick={() => shiftDay(1)}>I morgen</button>
+		</div>
 		<h2>{dayHeading(day)}</h2>
 		{#if status}<p class="status">{status}</p>{/if}
 		<ul class="day">

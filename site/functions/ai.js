@@ -110,10 +110,17 @@ function header(message, name) {
 }
 
 async function collectMail(token, day, event) {
-	const listed = await gmail(token, `/messages?q=${encodeURIComponent(mailQuery(event, day))}&maxResults=8`);
+	const base = mailQuery(event, day);
+	const ids = [];
+	for (const query of [`${base} filename:pdf`, base]) {
+		const listed = await gmail(token, `/messages?q=${encodeURIComponent(query)}&maxResults=8`);
+		for (const item of listed.messages || []) {
+			if (!ids.includes(item.id)) ids.push(item.id);
+		}
+	}
 	const messages = [];
-	for (const item of (listed.messages || []).slice(0, 6)) {
-		const message = await gmail(token, `/messages/${item.id}?format=full`);
+	for (const id of ids.slice(0, 8)) {
+		const message = await gmail(token, `/messages/${id}?format=full`);
 		const parts = { text: [], pdfs: [] };
 		walkParts(message.payload, parts);
 		const text = parts.text.join('\n').replace(/\s+\n/g, '\n').trim().slice(0, 6000);
@@ -159,7 +166,7 @@ async function readContext(apiKey, token, messages, event) {
 				'Brug kun det, der står i mailen eller i PDF-filen. Opfind ikke en adresse.',
 				'Svar som JSON: {"place":{"name":"","address":""},"agenda":"","messageIndex":0}',
 				'place.name er stedets navn. place.address er gaden, postnummer og by, hvis mailen nævner det.',
-				'agenda er dagsordenens egen tekst, så tæt på kilden som muligt. Tom streng, hvis der ingen dagsorden er.',
+				'agenda er dagsordenens egen tekst fra PDF-filen, hvis der er en. En senere kort mail må rette tid og sted, men ikke erstatte dagsordenen. Tom streng, hvis der ingen dagsorden er.',
 				'messageIndex er nummeret på den mail, dagsordenen kommer fra.',
 				'',
 				`Begivenhed: ${event.title}`,
@@ -176,7 +183,7 @@ async function readContext(apiKey, token, messages, event) {
 	}
 	const parsed = await gemini(apiKey, parts);
 	const index = Number(parsed.messageIndex);
-	const message = messages[index] || pdf?.message || messages[0];
+	const message = pdf?.message || messages[index] || messages[0];
 	return { parsed, pdf, message };
 }
 
