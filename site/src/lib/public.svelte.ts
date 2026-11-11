@@ -102,9 +102,7 @@ class PublicData {
 	load() {
 		if (this.#started) return;
 		this.#started = true;
-		const run = () => void this.#fetch();
-		if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 2500 });
-		else setTimeout(run, 1);
+		void this.#fetch();
 	}
 
 	async #fetch() {
