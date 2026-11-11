@@ -4,7 +4,6 @@
 	import { onMount } from 'svelte';
 	import '../../../../index.css';
 	import { authState } from '$lib/auth.svelte';
-	import { enableOwnerEditing } from '$lib/edit';
 
 	let { children } = $props();
 	let shell: HTMLElement;
@@ -14,7 +13,12 @@
 
 	$effect(() => {
 		if (!authState.isOwner || !shell) return;
-		return enableOwnerEditing(shell);
+		let stop = () => {};
+		void import('$lib/edit').then(({ enableOwnerEditing }) => {
+			if (!authState.isOwner || !shell) return;
+			stop = enableOwnerEditing(shell);
+		});
+		return () => stop();
 	});
 
 	async function enterWork() {

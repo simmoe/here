@@ -1,5 +1,4 @@
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
-import { getDb } from './firebase/client';
+import snapshot from './data/public-content.json';
 
 export type CvJob = {
 	id: string;
@@ -63,29 +62,57 @@ export type Recommendation = {
 	cvRefs?: string[];
 };
 
+type PublicSnapshot = {
+	sitemeta?: { frontpage?: { heading?: string; tagline?: string; statement?: string } };
+	contact?: { name?: string; phone?: string; signature?: string };
+	cv?: { resume?: string; resumeShort?: string; entries?: CvJob[] };
+	projects?: Project[];
+	applications?: Application[];
+	recommendations?: Recommendation[];
+};
+
+function fromSnapshot(data: PublicSnapshot) {
+	return {
+		sitemeta: data.sitemeta ?? {},
+		contact: data.contact ?? {},
+		cv: {
+			resume: data.cv?.resume ?? '',
+			resumeShort: data.cv?.resumeShort ?? '',
+			entries: data.cv?.entries ?? []
+		},
+		projects: data.projects ?? [],
+		applications: data.applications ?? [],
+		recommendations: data.recommendations ?? []
+	};
+}
+
+const seeded = fromSnapshot(snapshot as PublicSnapshot);
+
 class PublicData {
-	loaded = $state(false);
+	loaded = $state(true);
 	error = $state('');
-	sitemeta = $state<{ frontpage?: { heading?: string; tagline?: string; statement?: string } }>({});
-	contact = $state<{ name?: string; phone?: string; signature?: string }>({});
-	cv = $state<{ resume: string; resumeShort: string; entries: CvJob[] }>({
-		resume: '',
-		resumeShort: '',
-		entries: []
-	});
-	projects = $state<Project[]>([]);
-	applications = $state<Application[]>([]);
-	recommendations = $state<Recommendation[]>([]);
+	sitemeta = $state(seeded.sitemeta);
+	contact = $state(seeded.contact);
+	cv = $state(seeded.cv);
+	projects = $state<Project[]>(seeded.projects);
+	applications = $state<Application[]>(seeded.applications);
+	recommendations = $state<Recommendation[]>(seeded.recommendations);
 	#started = false;
 
 	load() {
 		if (this.#started) return;
 		this.#started = true;
-		void this.#fetch();
+		const run = () => void this.#fetch();
+		if (typeof requestIdleCallback === 'function') requestIdleCallback(run, { timeout: 2500 });
+		else setTimeout(run, 1);
 	}
 
 	async #fetch() {
 		try {
+			const [{ collection, doc, getDoc, getDocs }, { getDb }] = await Promise.all([
+				import('firebase/firestore'),
+				import('./firebase/client')
+			]);
 			const db = getDb();
 			const [metaSnap, contactSnap, cvSnap, projectSnap, appSnap, recSnap] = await Promise.all([
 				getDoc(doc(db, 'here_content', 'meta')),
@@ -134,12 +161,15 @@ class PublicData {
 			this.applications = applications;
 
 			const recommendations: Recommendation[] = [];
-			recSnap.forEach((item) => recommendations.push({ id: item.id, ...(item.data() as Omit<Recommendation, 'id'>) }));
+			recSnap.forEach((item) =>
+				recommendations.push({ id: item.id, ...(item.data() as Omit<Recommendation, 'id'>) })
+			);
 			this.recommendations = recommendations;
 			this.loaded = true;
+			this.error = '';
 		} catch (error) {
 			console.error(error);
-			this.error = 'Kunne ikke hente indholdet.';
+			if (!this.sitemeta?.frontpage) this.error = 'Kunne ikke hente indholdet.';
 		}
 	}
 }

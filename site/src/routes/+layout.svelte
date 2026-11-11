@@ -6,8 +6,10 @@
 	let { children } = $props();
 
 	onMount(() => {
-		authState.init();
 		publicData.load();
+		const bootAuth = () => authState.init();
+		if (typeof requestIdleCallback === 'function') requestIdleCallback(bootAuth, { timeout: 2000 });
+		else setTimeout(bootAuth, 1);
 	});
 </script>
 

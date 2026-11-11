@@ -1,7 +1,8 @@
-import { doc, updateDoc } from 'firebase/firestore';
-import { getDb } from './firebase/client';
-
 export async function saveField(collectionName: string, id: string, field: string, value: unknown) {
+	const [{ doc, updateDoc }, { getDb }] = await Promise.all([
+		import('firebase/firestore'),
+		import('./firebase/client')
+	]);
 	await updateDoc(doc(getDb(), collectionName, id), { [field]: value });
 }
 
