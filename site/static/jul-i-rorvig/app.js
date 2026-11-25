@@ -1,12 +1,17 @@
-// Konfiguration til fælles synkronisering (valgfrit)
-// 1. 'local': Gemmer lokalt i browseren (virker med det samme)
-// 2. 'google-sheets': Indsæt din Google Apps Script Web App URL herunder for fælles synk i Google Drive
 const CONFIG = {
-  syncMode: 'local',
-  googleScriptUrl: '',
-  storageKey: 'jul_rorvig_2027_state_v1',
   splashSeenKey: 'jul_rorvig_2027_splash_seen_v2'
 }
+
+firebase.initializeApp({
+  apiKey: 'AIzaSyDU1QQ5IOx65YauKjemsexCpfgNBblrQRc',
+  authDomain: 'p5-firebase-eebc1.firebaseapp.com',
+  projectId: 'p5-firebase-eebc1',
+  storageBucket: 'p5-firebase-eebc1.appspot.com',
+  messagingSenderId: '757530790495',
+  appId: '1:757530790495:web:3b63a4a12d2afdad97e9ea'
+})
+
+const planRef = firebase.firestore().collection('here_jul').doc('rorvig')
 
 const DEFAULT_STATE = {
   afternoon: [
@@ -54,35 +59,27 @@ const DEFAULT_STATE = {
   ]
 }
 
-let state = loadLocalState()
+let state = cloneDefaultState()
+let saveDepth = 0
+let saveChain = Promise.resolve()
 
 function cloneDefaultState() {
   return JSON.parse(JSON.stringify(DEFAULT_STATE))
 }
 
-function loadLocalState() {
-  try {
-    const raw = localStorage.getItem(CONFIG.storageKey)
-    if (!raw) return cloneDefaultState()
-    const parsed = JSON.parse(raw)
-    const base = cloneDefaultState()
-    const merged = { ...base, ...parsed }
-    for (const key of Object.keys(base)) {
-      if (!Array.isArray(base[key]) || !Array.isArray(parsed[key])) continue
-      const saved = new Map(parsed[key].filter((item) => item && item.id).map((item) => [item.id, item]))
-      const ids = new Set(base[key].map((item) => item.id))
-      merged[key] = [
-        ...base[key].map((item) => {
-          const prev = saved.get(item.id)
-          return prev ? { ...item, done: !!prev.done } : item
-        }),
-        ...parsed[key].filter((item) => item && !ids.has(item.id))
-      ]
-    }
-    return merged
-  } catch (err) {
-    return cloneDefaultState()
+function cleanItem(item) {
+  if (!item || typeof item.id !== 'string' || typeof item.text !== 'string') return null
+  return { id: item.id, text: item.text, done: !!item.done }
+}
+
+function normalizeState(parsed) {
+  const next = cloneDefaultState()
+  if (!parsed || typeof parsed !== 'object') return next
+  for (const key of Object.keys(DEFAULT_STATE)) {
+    if (!Array.isArray(parsed[key])) continue
+    next[key] = parsed[key].map(cleanItem).filter(Boolean)
   }
+  return next
 }
 
 function setSyncStatus(label) {
@@ -90,45 +87,46 @@ function setSyncStatus(label) {
   if (badge) badge.textContent = label
 }
 
-async function saveState() {
-  try {
-    localStorage.setItem(CONFIG.storageKey, JSON.stringify(state))
-  } catch (err) {
-    // Ignorer hvis localStorage er blokeret
-  }
-
-  if (CONFIG.syncMode === 'google-sheets' && CONFIG.googleScriptUrl) {
-    setSyncStatus('Gemmer...')
-    try {
-      await fetch(CONFIG.googleScriptUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(state)
-      })
-      setSyncStatus('Synkroniseret')
-    } catch (err) {
-      setSyncStatus('Offline (gemt lokalt)')
+function watchPlan() {
+  planRef.onSnapshot((snap) => {
+    if (saveDepth > 0) return
+    if (!snap.exists) {
+      state = cloneDefaultState()
+      renderAllLists()
+      saveState(null)
+      return
     }
-  } else {
-    setSyncStatus('Gemt lokalt')
-  }
+    state = normalizeState(snap.data().state)
+    renderAllLists()
+    setSyncStatus('Fælles')
+  }, () => setSyncStatus('Ikke gemt'))
 }
 
-async function fetchRemoteState() {
-  if (CONFIG.syncMode !== 'google-sheets' || !CONFIG.googleScriptUrl) return
-  setSyncStatus('Henter...')
-  try {
-    const res = await fetch(CONFIG.googleScriptUrl)
-    const data = await res.json()
-    if (data && typeof data === 'object' && Object.keys(data).length > 0) {
-      state = { ...cloneDefaultState(), ...data }
-      localStorage.setItem(CONFIG.storageKey, JSON.stringify(state))
+function saveState(changedKey) {
+  const localLists = JSON.parse(JSON.stringify(state))
+  setSyncStatus('Gemmer…')
+  saveDepth += 1
+  saveChain = saveChain.then(async () => {
+    try {
+      const next = await firebase.firestore().runTransaction(async (tx) => {
+        const snap = await tx.get(planRef)
+        const current = snap.exists ? normalizeState(snap.data().state) : cloneDefaultState()
+        if (changedKey) current[changedKey] = localLists[changedKey]
+        else {
+          for (const key of Object.keys(DEFAULT_STATE)) current[key] = localLists[key]
+        }
+        tx.set(planRef, { state: current })
+        return current
+      })
+      state = next
       renderAllLists()
+      setSyncStatus('Fælles')
+    } catch (err) {
+      setSyncStatus('Ikke gemt')
+    } finally {
+      saveDepth -= 1
     }
-    setSyncStatus('Synkroniseret')
-  } catch (err) {
-    setSyncStatus('Offline (gemt lokalt)')
-  }
+  })
 }
 
 function renderList(listKey) {
@@ -152,7 +150,7 @@ function renderList(listKey) {
     checkbox.addEventListener('change', () => {
       item.done = checkbox.checked
       renderList(listKey)
-      saveState()
+      saveState(listKey)
     })
 
     const span = document.createElement('span')
@@ -170,7 +168,7 @@ function renderList(listKey) {
     delBtn.addEventListener('click', () => {
       state[listKey] = state[listKey].filter((entry) => entry.id !== item.id)
       renderList(listKey)
-      saveState()
+      saveState(listKey)
     })
 
     li.appendChild(label)
@@ -205,7 +203,7 @@ function initForms() {
       })
       input.value = ''
       renderList(listKey)
-      saveState()
+      saveState(listKey)
     })
   })
 }
@@ -286,7 +284,7 @@ function initActions() {
     resetBtn.addEventListener('click', () => {
       state = cloneDefaultState()
       renderAllLists()
-      saveState()
+      saveState(null)
     })
   }
 }
@@ -296,5 +294,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initForms()
   initActions()
   initSplashVideo()
-  fetchRemoteState()
+  watchPlan()
 })
