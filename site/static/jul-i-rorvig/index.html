@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jul i Rørvig 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="splash-overlay" class="splash-overlay hidden" role="dialog" aria-modal="true" aria-label="Introduktionsvideo til Jul i Rørvig 2027">
+    <div class="splash-stage">
+      <video id="splash-video" class="splash-video" playsinline preload="metadata">
+        <source src="intro.mp4" type="video/mp4">
+      </video>
+      <div id="splash-fallback" class="splash-fallback hidden">
+        <p class="splash-fallback-eyebrow">RØRVIG · JUL 2027</p>
+        <h2 class="splash-fallback-title">Jul i Rørvig 2027</h2>
+        <p class="splash-fallback-note">Gem introvideoen som <code>intro.mp4</code> i samme mappe som <code>index.html</code> for at afspille den her.</p>
+      </div>
+      <div class="splash-controls">
+        <button type="button" id="splash-mute-btn" class="splash-pill">Slå lyd til</button>
+        <button type="button" id="splash-skip-btn" class="splash-pill splash-pill-primary">Spring over →</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#top" class="brand">Jul i Rørvig 2027</a>
+      <nav class="topnav" aria-label="Sektioner">
+        <a href="#program">Program</a>
+        <a href="#ansvar">Ansvar</a>
+        <a href="#menu">Menu</a>
+        <a href="#sovepladser">Sovepladser</a>
+        <a href="#huskeliste">Huskeliste</a>
+      </nav>
+      <div class="topbar-actions">
+        <span id="sync-status" class="sync-badge" title="Synkroniseringsstatus">Lokal lagring</span>
+        <button type="button" id="replay-intro-btn" class="btn-secondary">Afspil intro</button>
+        <button type="button" id="print-btn" class="btn-primary">Print plan</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <section class="hero">
+      <p class="eyebrow">RØRVIG · 23.–26. DECEMBER 2027</p>
+      <h1 class="hero-title">Jul i Rørvig</h1>
+      <p class="hero-subtitle">13 personer · Søskendeholdet (Simon, Tobias, Nynne &amp; Frederik) står for de 95 %, så Ida og Torben kan nyde julen i ro og mag.</p>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 01 · PROGRAM & TIDSPLAN -->
+    <section id="program" class="section">
+      <div class="section-header">
+        <div>
+          <p class="section-index">01 · PROGRAM</p>
+          <h2 class="section-title">Tidsplan 23.–26. december</h2>
+        </div>
+        <p class="section-lead">Overblik over ankomst, ovnens tre stegeetaper juleaften samt eftermiddagens og aftenens gang.</p>
+      </div>
+
+      <div class="schedule-grid">
+        <article class="card">
+          <div class="card-head">
+            <span class="day-tag">Lillejuleaften</span>
+            <h3 class="card-title">23. december</h3>
+          </div>
+          <ul class="timeline-list">
+            <li><span class="time">Ankomst</span><span>Nynne &amp; Frederik</span></li>
+            <li><span class="time">Ankomst</span><span>Malin, Lise &amp; Sebastian</span></li>
+            <li><span class="time">Ankomst</span><span>Tobias, Sigurd &amp; Karl</span></li>
+            <li><span class="time">Forberedelse</span><span>Nynne henter juletræ — træet pyntes klar til i morgen</span></li>
+            <li><span class="time">Evt.</span><span>Ænderne kan forsteges dagen før, hvis det passer bedst</span></li>
+          </ul>
+        </article>
+
+        <article class="card card-featured">
+          <div class="card-head">
+            <span class="day-tag">Juleaftensdag</span>
+            <h3 class="card-title">24. december</h3>
+          </div>
+
+          <div class="oven-box">
+            <p class="oven-title">Ovn- &amp; stegeplan i 3 etaper</p>
+            <ol class="oven-steps">
+              <li><strong>Kl. 13:00 (eller dagen før):</strong> De 2 ænder + andebryst sættes i ovnen. Når anden er mør, tages den ud og skæres op.</li>
+              <li><strong>Eftermiddag:</strong> Flæskestegen sættes i ovnen et par timer, til sværen er sprød og stegen er færdig.</li>
+              <li><strong>Til sidst før 18:15:</strong> Andestykkerne sættes med ind i ovnen i andefedt, så alt er rygende varmt samtidig.</li>
+            </ol>
+          </div>
+
+          <ul class="timeline-list">
+            <li><span class="time">13:15</span><span>Simon, Eigil &amp; Emmy ankommer — <strong>julefrokost (ikke sild!)</strong></span></li>
+            <li><span class="time">17:30</span><span>Alle går tur til vandet (stegeholdet: Torben, Tobias, Simon &amp; Frederik holder skansen hjemme)</span></li>
+            <li><span class="time">18:00</span><span>Julemanden kommer?</span></li>
+            <li><span class="time">18:15</span><span>Julemiddag</span></li>
+            <li><span class="time">19:15 maks</span><span>Rydde op i fællesskab</span></li>
+            <li><span class="time">Aften</span><span>Dække op til dessert &amp; spise risalamande (mandelgave!)</span></li>
+            <li><span class="time">Aften</span><span>Tænde juletræet</span></li>
+            <li><span class="time">Aften</span><span>Danse om træet</span></li>
+            <li><span class="time">Aften</span><span>Gaver (inkl. Gnau)</span></li>
+            <li><span class="time">Nat</span><span>Godnat og drøm godt</span></li>
+          </ul>
+
+          <div class="sub-checklist">
+            <div class="sub-checklist-head">
+              <h4 class="sub-checklist-title">Eftermiddagens opgaver (24. dec)</h4>
+              <span class="count-pill" data-count-for="afternoon">0 / 0</span>
+            </div>
+            <ul class="checklist" data-list="afternoon"></ul>
+            <form class="add-form" data-add-for="afternoon">
+              <input type="text" placeholder="Tilføj opgave til eftermiddagen..." aria-label="Tilføj opgave til eftermiddagen">
+              <button type="submit">Tilføj</button>
+            </form>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="day-tag">1. juledag</span>
+            <h3 class="card-title">25. december</h3>
+          </div>
+          <ul class="timeline-list">
+            <li><span class="time">Formiddag</span><span>Langsom morgen og gåtur i Rørvig</span></li>
+            <li><span class="time">Borddækning</span><span>Malin &amp; Emmy dækker bord</span></li>
+            <li><span class="time">Måltider</span><span>Rester fra juleaften (and, flæskesteg og frokostbord)</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <span class="day-tag">2. juledag</span>
+            <h3 class="card-title">26. december</h3>
+          </div>
+          <ul class="timeline-list">
+            <li><span class="time">Afrejse</span><span>Alle tager hjem (mod København &amp; Sverige)</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 02 · ANSVARSFORDELING -->
+    <section id="ansvar" class="section">
+      <div class="section-header">
+        <div>
+          <p class="section-index">02 · ANSVAR</p>
+          <h2 class="section-title">Ansvarsfordeling</h2>
+        </div>
+        <p class="section-lead">Kryds af løbende — og tilføj nye punkter direkte på hvert hold.</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Simon</h3>
+              <p class="card-subtitle">Drikkevarer, frokost &amp; natmad</p>
+            </div>
+            <span class="count-pill" data-count-for="simon">0 / 0</span>
+          </div>
+          <ul class="checklist" data-list="simon"></ul>
+          <form class="add-form" data-add-for="simon">
+            <input type="text" placeholder="Tilføj punkt til Simon..." aria-label="Tilføj punkt til Simon">
+            <button type="submit">Tilføj</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Tobias</h3>
+              <p class="card-subtitle">Hovedrettens fundament</p>
+            </div>
+            <span class="count-pill" data-count-for="tobias">0 / 0</span>
+          </div>
+          <ul class="checklist" data-list="tobias"></ul>
+          <form class="add-form" data-add-for="tobias">
+            <input type="text" placeholder="Tilføj punkt til Tobias..." aria-label="Tilføj punkt til Tobias">
+            <button type="submit">Tilføj</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Nynne &amp; Frederik</h3>
+              <p class="card-subtitle">Juletræ, dessert &amp; rødvin</p>
+            </div>
+            <span class="count-pill" data-count-for="nynne">0 / 0</span>
+          </div>
+          <ul class="checklist" data-list="nynne"></ul>
+          <form class="add-form" data-add-for="nynne">
+            <input type="text" placeholder="Tilføj punkt til Nynne & Frederik..." aria-label="Tilføj punkt til Nynne og Frederik">
+            <button type="submit">Tilføj</button>
+          </form>
+        </article>
+
+        <article class="card card-muted">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Ida &amp; Torben</h3>
+              <p class="card-subtitle">Værter &amp; hygge — de sidste 5 %</p>
+            </div>
+            <span class="count-pill" data-count-for="ida">0 / 0</span>
+          </div>
+          <ul class="checklist" data-list="ida"></ul>
+          <form class="add-form" data-add-for="ida">
+            <input type="text" placeholder="Tilføj punkt til Ida & Torben..." aria-label="Tilføj punkt til Ida og Torben">
+            <button type="submit">Tilføj</button>
+          </form>
+        </article>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 03 · MENU -->
+    <section id="menu" class="section">
+      <div class="section-header">
+        <div>
+          <p class="section-index">03 · MENU</p>
+          <h2 class="section-title">Mad &amp; drikke</h2>
+        </div>
+        <p class="section-lead">Alt på bordet gennem juledagene — fra frokost uden sild til natmad.</p>
+      </div>
+
+      <div class="menu-grid">
+        <article class="card">
+          <p class="menu-tag">Formiddag &amp; eftermiddag</p>
+          <h3 class="card-title">Hygge &amp; juletræ</h3>
+          <ul class="plain-list">
+            <li>Gløgg</li>
+            <li>Slik og nødder</li>
+            <li>Spiseæbler</li>
+            <li>Saft, øl &amp; sodavand</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="menu-tag">24. dec kl. 13:15</p>
+          <h3 class="card-title">Julefrokost (ikke sild!)</h3>
+          <ul class="plain-list">
+            <li>Idas laks</li>
+            <li>Leverpostej</li>
+            <li>Æg &amp; tun</li>
+            <li>Rødkål</li>
+            <li>Rugbrød &amp; smør</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="menu-tag">24. dec kl. 18:15</p>
+          <h3 class="card-title">Julemiddag &amp; dessert</h3>
+          <ul class="plain-list">
+            <li>2 ænder + ekstra andebryst</li>
+            <li>Flæskesteg</li>
+            <li>Brunede &amp; hvide kartofler</li>
+            <li>Sovs &amp; fond</li>
+            <li>Rødkål &amp; appelsinsalat</li>
+            <li>Rødvin</li>
+            <li>Risalamande med piskefløde (mandelgave!)</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="menu-tag">Sen aften</p>
+          <h3 class="card-title">Natmad</h3>
+          <ul class="plain-list">
+            <li>Leverpostej</li>
+            <li>Spegepølse</li>
+            <li>Skæreost</li>
+            <li>Rugbrød</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 04 · SOVEPLADSER -->
+    <section id="sovepladser" class="section">
+      <div class="section-header">
+        <div>
+          <p class="section-index">04 · PLANTEGNING</p>
+          <h2 class="section-title">Sovepladser (13 i alt)</h2>
+        </div>
+        <p class="section-lead">Fordeling på tværs af Hovedhuset (inkl. hems i stuen), Anneks og Bageste Anneks.</p>
+      </div>
+
+      <div class="floorplan-grid">
+        <article class="building building-main">
+          <div class="building-head">
+            <h3 class="building-title">Hovedhuset</h3>
+            <span class="capacity-badge">7 pladser</span>
+          </div>
+          <div class="rooms-grid">
+            <div class="room">
+              <span class="room-label">Værelse 1</span>
+              <p class="room-occupants">Ida &amp; Torben</p>
+              <span class="room-beds">2 pladser</span>
+            </div>
+            <div class="room">
+              <span class="room-label">Værelse 2</span>
+              <p class="room-occupants">Nynne &amp; Frederik</p>
+              <span class="room-beds">2 pladser</span>
+            </div>
+            <div class="room">
+              <span class="room-label">Værelse 3</span>
+              <p class="room-occupants">Sebastian &amp; Malin</p>
+              <span class="room-beds">2 pladser</span>
+            </div>
+            <div class="room room-loft">
+              <span class="room-label">Stuen · Hems</span>
+              <p class="room-occupants">Simon / Tobias</p>
+              <span class="room-beds">1 plads (øvre plan i stuen)</span>
+            </div>
+          </div>
+        </article>
+
+        <div class="annex-column">
+          <article class="building">
+            <div class="building-head">
+              <h3 class="building-title">Anneks</h3>
+              <span class="capacity-badge">2 pladser</span>
+            </div>
+            <div class="room">
+              <span class="room-label">Soverum</span>
+              <p class="room-occupants">Lise &amp; Emmy</p>
+              <span class="room-beds">2 pladser</span>
+            </div>
+          </article>
+
+          <article class="building">
+            <div class="building-head">
+              <h3 class="building-title">Bageste Anneks</h3>
+              <span class="capacity-badge">4 pladser</span>
+            </div>
+            <div class="room">
+              <span class="room-label">Soverum</span>
+              <p class="room-occupants">Tobias / Simon, Karl, Sigurd &amp; Eigil</p>
+              <span class="room-beds">4 pladser (fordeles med hemsen i stuen)</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 05 · FÆLLES HUSKELISTE -->
+    <section id="huskeliste" class="section">
+      <div class="section-header">
+        <div>
+          <p class="section-index">05 · PAKKELISTE</p>
+          <h2 class="section-title">Fælles huskeliste</h2>
+        </div>
+        <p class="section-lead">Det, alle selv medbringer til Rørvig.</p>
+      </div>
+
+      <article class="card card-narrow">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Husk at pakke</h3>
+            <p class="card-subtitle">Gælder alle deltagere</p>
+          </div>
+          <span class="count-pill" data-count-for="packing">0 / 0</span>
+        </div>
+        <ul class="checklist" data-list="packing"></ul>
+        <form class="add-form" data-add-for="packing">
+          <input type="text" placeholder="Tilføj punkt til huskelisten..." aria-label="Tilføj punkt til huskelisten">
+          <button type="submit">Tilføj</button>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>Jul i Rørvig 2027 · 13 personer</span>
+      <button type="button" id="reset-btn" class="btn-text">Nulstil tjeklister til standard</button>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
