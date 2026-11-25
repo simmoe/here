@@ -7,19 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <div id="splash-overlay" class="splash-overlay hidden" role="dialog" aria-modal="true" aria-label="Introduktionsvideo til Jul i Rørvig 2027">
     <div class="splash-stage">
-      <video id="splash-video" class="splash-video" playsinline preload="metadata">
-        <source src="intro.mp4" type="video/mp4">
-      </video>
-      <div id="splash-fallback" class="splash-fallback hidden">
-        <p class="splash-fallback-eyebrow">RØRVIG · JUL 2027</p>
-        <h2 class="splash-fallback-title">Jul i Rørvig 2027</h2>
-        <p class="splash-fallback-note">Gem introvideoen som <code>intro.mp4</code> i samme mappe som <code>index.html</code> for at afspille den her.</p>
-      </div>
+      <video id="splash-video" class="splash-video" playsinline preload="auto" src="intro.mp4?v=1"></video>
       <div class="splash-controls">
         <button type="button" id="splash-mute-btn" class="splash-pill">Slå lyd til</button>
         <button type="button" id="splash-skip-btn" class="splash-pill splash-pill-primary">Spring over →</button>
@@ -388,6 +381,6 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ const CONFIG = {
   syncMode: 'local',
   googleScriptUrl: '',
   storageKey: 'jul_rorvig_2027_state_v1',
-  splashSeenKey: 'jul_rorvig_2027_splash_seen'
+  splashSeenKey: 'jul_rorvig_2027_splash_seen_v2'
 }
 
 const DEFAULT_STATE = {
@@ -198,14 +198,11 @@ function initForms() {
 function initSplashVideo() {
   const overlay = document.getElementById('splash-overlay')
   const video = document.getElementById('splash-video')
-  const fallback = document.getElementById('splash-fallback')
   const muteBtn = document.getElementById('splash-mute-btn')
   const skipBtn = document.getElementById('splash-skip-btn')
   const replayBtn = document.getElementById('replay-intro-btn')
 
   if (!overlay || !video) return
-
-  let videoAvailable = true
 
   function closeSplash() {
     localStorage.setItem(CONFIG.splashSeenKey, '1')
@@ -222,47 +219,21 @@ function initSplashVideo() {
     muteBtn.textContent = video.muted ? 'Slå lyd til' : 'Lyd fra'
   }
 
-  function openSplash({ withSound, autoCloseIfMissing }) {
+  function openSplash({ withSound }) {
     overlay.classList.remove('hidden', 'is-fading')
-    video.currentTime = 0
+    video.classList.remove('hidden')
+    try { video.currentTime = 0 } catch (err) {}
     video.muted = !withSound
     updateMuteLabel()
-
-    if (!videoAvailable) {
-      if (autoCloseIfMissing) {
-        closeSplash()
-        return
-      }
-      video.classList.add('hidden')
-      fallback.classList.remove('hidden')
-      if (muteBtn) muteBtn.classList.add('hidden')
-      return
-    }
-
-    video.classList.remove('hidden')
-    fallback.classList.add('hidden')
-    if (muteBtn) muteBtn.classList.remove('hidden')
-
     const playPromise = video.play()
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {
         video.muted = true
         updateMuteLabel()
-        video.play().catch(() => {
-          if (autoCloseIfMissing) closeSplash()
-        })
+        video.play().catch(() => {})
       })
     }
   }
-
-  video.addEventListener('error', () => {
-    videoAvailable = false
-    if (!overlay.classList.contains('hidden')) {
-      video.classList.add('hidden')
-      fallback.classList.remove('hidden')
-      if (muteBtn) muteBtn.classList.add('hidden')
-    }
-  })
 
   video.addEventListener('ended', closeSplash)
 
@@ -279,13 +250,13 @@ function initSplashVideo() {
 
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
-      openSplash({ withSound: true, autoCloseIfMissing: false })
+      openSplash({ withSound: true })
     })
   }
 
   const alreadySeen = localStorage.getItem(CONFIG.splashSeenKey) === '1'
   if (!alreadySeen) {
-    openSplash({ withSound: false, autoCloseIfMissing: true })
+    openSplash({ withSound: false })
   }
 }
 
