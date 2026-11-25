@@ -20,7 +20,8 @@ const DEFAULT_STATE = {
     { id: 'af-8', text: 'Lægge julegaver under træet', done: false }
   ],
   simon: [
-    { id: 'si-1', text: 'Frokost (leverpostej, æg, tun, rugbrød — ikke sild!)', done: false },
+    { id: 'si-1', text: 'Frokost (leverpostej, æg, tun, rugbrød)', done: false },
+    { id: 'si-8', text: 'Sild og dild', done: false },
     { id: 'si-2', text: 'Natmad (leverpostej, spegepølse, skæreost, rugbrød)', done: false },
     { id: 'si-3', text: 'Rødkål', done: false },
     { id: 'si-4', text: 'Piskefløde', done: false },
@@ -64,7 +65,21 @@ function loadLocalState() {
     const raw = localStorage.getItem(CONFIG.storageKey)
     if (!raw) return cloneDefaultState()
     const parsed = JSON.parse(raw)
-    return { ...cloneDefaultState(), ...parsed }
+    const base = cloneDefaultState()
+    const merged = { ...base, ...parsed }
+    for (const key of Object.keys(base)) {
+      if (!Array.isArray(base[key]) || !Array.isArray(parsed[key])) continue
+      const saved = new Map(parsed[key].filter((item) => item && item.id).map((item) => [item.id, item]))
+      const ids = new Set(base[key].map((item) => item.id))
+      merged[key] = [
+        ...base[key].map((item) => {
+          const prev = saved.get(item.id)
+          return prev ? { ...item, done: !!prev.done } : item
+        }),
+        ...parsed[key].filter((item) => item && !ids.has(item.id))
+      ]
+    }
+    return merged
   } catch (err) {
     return cloneDefaultState()
   }
